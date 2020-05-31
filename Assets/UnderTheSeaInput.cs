@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Under-the-Sea.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Data/Under-the-Sea.inputactions'
 
 using System;
 using System.Collections;
@@ -23,7 +23,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""3828502b-328b-45b6-941f-4627393f7803"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """"
                 },
                 {
@@ -51,6 +51,17 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch;Keyboard&Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -183,17 +194,6 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
-                    ""path"": ""<Pointer>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse;Touch"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
