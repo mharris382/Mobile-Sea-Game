@@ -99,6 +99,12 @@ public class PlayerMoveController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        var direction = context.ReadValue<Vector2>();
+        if (! _isMoving &&  direction != Vector2.zero)
+        {
+            var dir = CalculateDirection(Vector2.zero, direction);
+            StartLerp(dir);
+        }
     }
 
 
