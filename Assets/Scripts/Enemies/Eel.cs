@@ -53,6 +53,7 @@ public class Eel : MonoBehaviour
         var curr = transform.forward;
         var target = (_currentTarget.position - transform.position).normalized;
         transform.forward = Vector3.SmoothDamp(curr, target, ref _dampRotation, rotateSmoothing);
+        
     }
 
     private bool WasTargetReached()
