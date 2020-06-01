@@ -25,6 +25,14 @@ namespace enemies
         private void Awake()
         {
             this._waypoints = new Waypoints(this.waypoints, transform);
+            GameManager.OnPlayerHiddenChanged += isHidden =>
+            {
+                if (isHidden && _currentTarget.CompareTag("Player"))
+                {
+                    Debug.Log("Eel is chasing player, but player hid");
+                    _currentTarget = null;
+                }
+            };
         }
 
 
@@ -46,6 +54,32 @@ namespace enemies
             }
         }
 
+        private void MoveTowardsTarget()
+        {
+            var targetPos = _currentTarget.position;
+            var curPos = transform.position;
+            transform.position = Vector3.SmoothDamp(curPos, targetPos, ref _smoothDampVelocity, smoothing, maxMoveSpeed,
+                Time.deltaTime);
+        }
+
+        
+        //TODO: fix the rotation math so that eel doesn't flip 
+        private void RotateTowardsTarget()
+        {
+            var curr = transform.forward;
+            var target = (_currentTarget.position - transform.position).normalized;
+            transform.forward = Vector3.SmoothDamp(curr, target, ref _dampRotation, rotateSmoothing);
+
+        }
+
+        private bool WasTargetReached()
+        {
+            var dist = (_currentTarget.position - transform.position).sqrMagnitude;
+            return (dist < (0.125f * 0.125f));
+        }
+
+        
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player") && !GameManager.Instance.IsPlayerHidden)
@@ -61,31 +95,8 @@ namespace enemies
                 _currentTarget = null;
             }
         }
-
-        private void MoveTowardsTarget()
-        {
-            var targetPos = _currentTarget.position;
-            var curPos = transform.position;
-            transform.position = Vector3.SmoothDamp(curPos, targetPos, ref _smoothDampVelocity, smoothing, maxMoveSpeed,
-                Time.deltaTime);
-        }
-
-        private void RotateTowardsTarget()
-        {
-            //var cRot = transform.rotation;
-            //var tRot = Quaternion.LookRotation(_currentTarget.position, Vector3.forward);
-            //transform.rotation = Quaternion.Slerp(cRot, tRot, Time.deltaTime * rotateSpeed);
-            var curr = transform.forward;
-            var target = (_currentTarget.position - transform.position).normalized;
-            transform.forward = Vector3.SmoothDamp(curr, target, ref _dampRotation, rotateSmoothing);
-
-        }
-
-        private bool WasTargetReached()
-        {
-            var dist = (_currentTarget.position - transform.position).sqrMagnitude;
-            return (dist < (0.125f * 0.125f));
-        }
+        
+        
 
         [Obsolete("Moved functionality into waypoints")]
         public void NextWp()

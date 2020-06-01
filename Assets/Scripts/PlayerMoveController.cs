@@ -99,7 +99,6 @@ public class PlayerMoveController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("OnMove called");
     }
 
 
