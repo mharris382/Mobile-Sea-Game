@@ -15,13 +15,14 @@ namespace enemies
         public float smoothing = 0.1f;
         public float rotateSmoothing = 0.1f;
         public Transform[] waypoints;
-        public int disruptDistance = 1;
+        public float disruptDistance = 1;
 
-        
-      
+
         private Transform _currentTarget;
+
         private IWaypointProvider _waypoints;
-        
+        private IWaypointProvider _disruptedWaypoint;
+        private IWaypointProvider CurrentWaypoint => _disruptedWaypoint ?? _waypoints;
 
         private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method
         private Vector3 _dampRotation;
@@ -30,18 +31,15 @@ namespace enemies
         //TODO: Refactor disruption code into a seprate class
         private Transform _disruptedTarget;
         private bool _disrupted = false;
-        
+
         [System.Obsolete("Now uses _waypoints")]
         private int _index = 0;
-        
-        
-        
+
+
         private void Awake()
         {
             this._waypoints = new Waypoints(this.waypoints, transform);
             
-            
-
 
             GameManager.OnPlayerHiddenChanged += isHidden =>
             {
@@ -52,7 +50,11 @@ namespace enemies
                 }
             };
             
-            InitDisruption();
+            var disruptedWaypoint = new DisruptedMovement(transform, ref disruptDistance);
+            GameManager.OnDisruptorChanged += isDisrupted =>
+            {
+                _disruptedWaypoint = isDisrupted ? disruptedWaypoint : null;
+            };
         }
 
 
@@ -71,7 +73,7 @@ namespace enemies
                 //TODO: Refactor disruption code
                 if (_disrupted)
                     MoveDisruptedTarget();
-                
+
                 //Reset the target so that a new target will be found
                 _currentTarget = null;
             }
@@ -85,25 +87,11 @@ namespace enemies
             return _disrupted ? _disruptedTarget : this._waypoints.GetCurrentWaypoint();
         }
 
-        
-        #region [Disruption Code]
-        
-        
-        //TODO: Refactor disruption code into a separate class
-        private void InitDisruption()
-        {
-            _disruptedTarget = new GameObject("Disrupted Target").transform;
-            // _disruptedTarget.hideFlags = HideFlags.HideInHierarchy;
 
-            GameManager.OnDisruptorChanged += isDisrupted =>
-            {
-                _disrupted = isDisrupted;
-                if (isDisrupted)
-                {
-                    _disruptedTarget.position = transform.position;
-                }
-            };
-        }
+        #region [Disruption Code]
+
+        //TODO: Refactor disruption code into a separate class
+
 
         private void MoveDisruptedTarget()
         {
@@ -112,10 +100,11 @@ namespace enemies
                 _disruptedTarget.position = _waypoints.GetCurrentWaypoint().position;
                 return;
             }
+
             int x = RandomInt();
             int y = RandomInt();
             var direction = new Vector2(x, y);
-            
+
             Vector2 pos = _disruptedTarget.transform.position;
             pos += (direction * disruptDistance);
             _disruptedTarget.position = pos;
@@ -124,14 +113,12 @@ namespace enemies
 
         private static int RandomInt()
         {
-            return Mathf.RoundToInt( UnityEngine.Random.Range(-1, 2));
+            return Mathf.RoundToInt(UnityEngine.Random.Range(-1, 2));
         }
-        
 
         #endregion
 
-        
-        
+
         private void MoveTowardsTarget()
         {
             var targetPos = _currentTarget.position;
@@ -149,7 +136,7 @@ namespace enemies
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSmoothing * Time.deltaTime);
             //transform.forward = Vector3.SmoothDamp(curr, targetDirection, ref _dampRotation, rotateSmoothing);
         }
-        
+
 
         private bool WasTargetReached()
         {
@@ -170,7 +157,7 @@ namespace enemies
                 _currentTarget = null;
             }
         }
-        
+
 
         private void OnTriggerExit2D(Collider2D other)
         {
