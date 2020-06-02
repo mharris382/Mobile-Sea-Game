@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Utilities
+namespace Core
 {
     public class ObservedValue<T>
     {

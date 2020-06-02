@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Core;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
@@ -19,7 +20,7 @@ namespace enemies
         
       
         private Transform _currentTarget;
-        private Waypoints _waypoints;
+        private IWaypointProvider _waypoints;
         
 
         private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method

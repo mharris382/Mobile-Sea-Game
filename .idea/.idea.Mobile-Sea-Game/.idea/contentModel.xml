@@ -13,15 +13,16 @@
             <e p="ObservedValue.cs" t="Include" />
           </e>
           <e p="Cover.cs" t="Include" />
+          <e p="Diver" t="Include">
+            <e p="DiverMoveController.cs" t="Include" />
+          </e>
           <e p="Enemies" t="Include">
             <e p="Eel.cs" t="Include" />
             <e p="Waypoints.cs" t="Include" />
           </e>
           <e p="Player Abilities" t="Include">
-            <e p="Disruptable.cs" t="Include" />
             <e p="FishDisruptor.cs" t="Include" />
           </e>
-          <e p="PlayerMoveController.cs" t="Include" />
           <e p="SnapToDirectionProcessor.cs" t="Include" />
         </e>
         <e p="UnderTheSeaInput.cs" t="Include" />
