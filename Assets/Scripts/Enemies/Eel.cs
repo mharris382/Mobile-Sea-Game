@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 namespace enemies
 {
@@ -12,19 +14,34 @@ namespace enemies
         public float smoothing = 0.1f;
         public float rotateSmoothing = 0.1f;
         public Transform[] waypoints;
+        public int disruptDistance = 1;
 
-
-        private int _index = 0;
+        
+      
         private Transform _currentTarget;
+        private Waypoints _waypoints;
+        
 
         private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method
         private Vector3 _dampRotation;
-        private Waypoints _waypoints;
 
 
+        //TODO: Refactor disruption code into a seprate class
+        private Transform _disruptedTarget;
+        private bool _disrupted = false;
+        
+        [System.Obsolete("Now uses _waypoints")]
+        private int _index = 0;
+        
+        
+        
         private void Awake()
         {
             this._waypoints = new Waypoints(this.waypoints, transform);
+            
+            
+
+
             GameManager.OnPlayerHiddenChanged += isHidden =>
             {
                 Debug.Log("Eel is chasing player, but player hid. ");
@@ -33,6 +50,8 @@ namespace enemies
                     _currentTarget = null;
                 }
             };
+            
+            InitDisruption();
         }
 
 
@@ -40,7 +59,7 @@ namespace enemies
         {
             //should only be null when stopped chasing a target and waypoint hasn't been set yet
             if (_currentTarget == null)
-                _currentTarget = this._waypoints.GetCurrentWaypoint();
+                _currentTarget = GetTarget();
 
 
             RotateTowardsTarget();
@@ -48,11 +67,70 @@ namespace enemies
 
             if (WasTargetReached())
             {
+                //TODO: Refactor disruption code
+                if (_disrupted)
+                    MoveDisruptedTarget();
+                
                 //Reset the target so that a new target will be found
                 _currentTarget = null;
             }
         }
 
+
+        //Can override to implement the black eels (immune to disruptions)
+
+        protected virtual Transform GetTarget()
+        {
+            return _disrupted ? _disruptedTarget : this._waypoints.GetCurrentWaypoint();
+        }
+
+        
+        #region [Disruption Code]
+        
+        
+        //TODO: Refactor disruption code into a separate class
+        private void InitDisruption()
+        {
+            _disruptedTarget = new GameObject("Disrupted Target").transform;
+            // _disruptedTarget.hideFlags = HideFlags.HideInHierarchy;
+
+            GameManager.OnDisruptorChanged += isDisrupted =>
+            {
+                _disrupted = isDisrupted;
+                if (isDisrupted)
+                {
+                    _disruptedTarget.position = transform.position;
+                }
+            };
+        }
+
+        private void MoveDisruptedTarget()
+        {
+            if (_disrupted == false)
+            {
+                _disruptedTarget.position = _waypoints.GetCurrentWaypoint().position;
+                return;
+            }
+            int x = RandomInt();
+            int y = RandomInt();
+            var direction = new Vector2(x, y);
+            
+            Vector2 pos = _disruptedTarget.transform.position;
+            pos += (direction * disruptDistance);
+            _disruptedTarget.position = pos;
+            _currentTarget = _disruptedTarget;
+        }
+
+        private static int RandomInt()
+        {
+            return Mathf.RoundToInt( UnityEngine.Random.Range(-1, 2));
+        }
+        
+
+        #endregion
+
+        
+        
         private void MoveTowardsTarget()
         {
             var targetPos = _currentTarget.position;
@@ -62,13 +140,15 @@ namespace enemies
         }
 
 
-        //TODO: fix the rotation math so that eel doesn't flip 
         private void RotateTowardsTarget()
         {
             var curr = transform.forward;
-            var target = (_currentTarget.position - transform.position).normalized;
-            transform.forward = Vector3.SmoothDamp(curr, target, ref _dampRotation, rotateSmoothing);
+            var targetDirection = (_currentTarget.position - transform.position).normalized;
+            var targetRotation = Quaternion.LookRotation(targetDirection, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSmoothing * Time.deltaTime);
+            //transform.forward = Vector3.SmoothDamp(curr, targetDirection, ref _dampRotation, rotateSmoothing);
         }
+        
 
         private bool WasTargetReached()
         {
@@ -83,11 +163,13 @@ namespace enemies
             {
                 _currentTarget = other.transform;
             }
-            else if (other.CompareTag("Player") && _currentTarget == other.transform && GameManager.Instance.IsPlayerHidden)
+            else if (other.CompareTag("Player") && _currentTarget == other.transform &&
+                     GameManager.Instance.IsPlayerHidden)
             {
                 _currentTarget = null;
             }
         }
+        
 
         private void OnTriggerExit2D(Collider2D other)
         {
@@ -97,6 +179,8 @@ namespace enemies
             }
         }
 
+
+        #region Obsolete Functions
 
         [Obsolete("Moved functionality into waypoints")]
         public void NextWp()
@@ -119,5 +203,7 @@ namespace enemies
             Debug.Assert(wp != null, "Waypoint is null", this);
             return wp;
         }
+
+        #endregion
     }
 }
