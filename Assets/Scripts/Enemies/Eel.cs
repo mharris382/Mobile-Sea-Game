@@ -44,7 +44,7 @@ namespace enemies
             GameManager.OnPlayerHiddenChanged += isHidden =>
             {
                 Debug.Log("Eel is chasing player, but player hid. ");
-                if (isHidden && _currentTarget.CompareTag("Player"))
+                if (isHidden && _currentTarget != null && _currentTarget.CompareTag("Player"))
                 {
                     _currentTarget = null;
                 }

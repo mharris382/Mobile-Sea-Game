@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Water-SpriteLit
+  m_Shader: {fileID: -6465566751694194690, guid: 0848c30e35bb8c742b31ba57c05fe06b,
+    type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_238AA4E7:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_6A98C62B_Out_0:
+        m_Texture: {fileID: 2800000, guid: 8ad801183be5b3840a3958f7a030e11e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_EBEA7409: 5
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - Color_468D8BAA: {r: 0.3551294, g: 0.702, b: 0.6909882, a: 0.3411765}
+    - Color_6FE2EB83: {r: 0.296856, g: 0.4803086, b: 0.589, a: 0.9803922}
+    - Color_778761CB: {r: 0.3551294, g: 0.702, b: 0.6909882, a: 0.3411765}
+    - Color_9F4F200F: {r: 0.3551294, g: 0.702, b: 0.6909882, a: 0.3411765}
+    - Color_B6B9A45E: {r: 0.296856, g: 0.4803086, b: 0.589, a: 0.9803922}
+    - Color_BB8E4667: {r: 1.410649, g: 0.6055144, b: 0.6898217, a: 1}
+    - Vector2_2F95EDFE: {r: 0.15, g: 0, b: 0, a: 0}
+    - Vector2_6F1E3094: {r: 0.15, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
