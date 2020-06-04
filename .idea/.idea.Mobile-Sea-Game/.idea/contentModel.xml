@@ -6,7 +6,6 @@
     <e p="D:\Unity Projects\Git\Mobile-Sea-Game" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="Level.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Core" t="Include">
             <e p="ExtensionMethods.cs" t="Include" />
@@ -23,6 +22,7 @@
             <e p="Eel.cs" t="Include" />
             <e p="Waypoints.cs" t="Include" />
           </e>
+          <e p="Level.cs" t="Include" />
           <e p="Player Abilities" t="Include">
             <e p="FishDisruptor.cs" t="Include" />
           </e>
