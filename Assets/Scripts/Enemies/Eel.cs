@@ -69,7 +69,7 @@ namespace enemies
 
             RotateTowardsTarget();
             MoveTowardsTarget();
-            WasDiverEaten();
+            if (WasDiverEaten()) return;
             if (WasTargetReached())
             {
                 //TODO: Refactor disruption code
