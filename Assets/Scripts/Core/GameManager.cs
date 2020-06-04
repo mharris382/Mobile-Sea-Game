@@ -10,6 +10,7 @@ namespace Core
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
+        public static int Treasure { get; private set; }
         
         [SerializeField] private GameObject diverPrefab;
         
@@ -20,7 +21,8 @@ namespace Core
         private GameObject _diverGO;
         
         public Level CurrentLevel => _levelLayout ? _levelLayout : (_levelLayout = FindObjectOfType<Level>());
-        
+
+        public IntUnityEvent OnLootPickup;
         
         public bool IsPlayerHidden
         {
@@ -43,6 +45,8 @@ namespace Core
             {
                 Instance = this;
                 DontDestroyOnLoad(this);
+
+                OnLootPickup = new IntUnityEvent();
                 
                 //TODO: find and store the diver's gameObject inside Awake
                 
@@ -93,5 +97,16 @@ namespace Core
             _diverGO.SetActive(false);
             Invoke("ResetLevel", 3);
         }
+
+        public void PickupLoot(int value)
+        {
+            Treasure += value;
+            OnLootPickup?.Invoke(Treasure);
+        }
+    }
+
+    public class IntUnityEvent : UnityEvent<int>
+    {
+        
     }
 }
