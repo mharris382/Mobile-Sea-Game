@@ -96,6 +96,7 @@ namespace Core
             //TODO: disable the diver's gameObject so that the player can no longer control them
             _diverGO.SetActive(false);
             Invoke("ResetLevel", 3);
+            SceneManager.LoadScene("Testing Scene");
         }
 
         public void PickupLoot(int value)
