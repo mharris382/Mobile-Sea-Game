@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Core;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
@@ -19,13 +20,15 @@ namespace enemies
 
 
         private Transform _currentTarget;
-
+        
+        //TODO: implement a helper class for using strategy pattern to change the behaviour 
         private IWaypointProvider _waypoints;
         private IWaypointProvider _disruptedWaypoint;
         private IWaypointProvider CurrentWaypoint => _disruptedWaypoint ?? _waypoints;
 
         private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method
         private Vector3 _dampRotation;
+        private CheckForDiverHit _checkHitDiver;
 
 
         //TODO: Refactor disruption code into a seprate class
@@ -39,11 +42,10 @@ namespace enemies
         private void Awake()
         {
             this._waypoints = new Waypoints(this.waypoints, transform);
-            
+            this._checkHitDiver = new CheckForDiverHit(transform, 0.125f);
 
             GameManager.OnPlayerHiddenChanged += isHidden =>
             {
-                Debug.Log("Eel is chasing player, but player hid. ");
                 if (isHidden && _currentTarget != null && _currentTarget.CompareTag("Player"))
                 {
                     _currentTarget = null;
@@ -67,7 +69,7 @@ namespace enemies
 
             RotateTowardsTarget();
             MoveTowardsTarget();
-
+            WasDiverEaten();
             if (WasTargetReached())
             {
                 //TODO: Refactor disruption code
@@ -118,6 +120,23 @@ namespace enemies
 
         #endregion
 
+
+        private bool IsTargetingDiver()
+        {
+            return _currentTarget != null && _currentTarget.CompareTag("Player");
+        }
+
+        private bool WasDiverEaten()
+        {
+            if (!IsTargetingDiver()) return false;
+            var hitDiver = _checkHitDiver.IsDiverInRadius();
+            if (hitDiver)
+            {
+                var deathMessage = "Diver was eaten by an eel!";
+                GameManager.Instance.EatDiver(deathMessage);
+            }
+            return hitDiver;
+        }
 
         private void MoveTowardsTarget()
         {

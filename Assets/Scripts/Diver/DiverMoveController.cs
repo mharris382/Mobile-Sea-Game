@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -63,6 +64,7 @@ namespace Diver
             if (_currLerp.timePassed >= 1)
                 _isMoving = false;
         }
+        
 
         private void StartLerp(Vector2 direction)
         {
@@ -71,14 +73,28 @@ namespace Diver
             //curPos.x = Mathf.RoundToInt(curPos.x); 
             //curPos.y = Mathf.RoundToInt(curPos.y);
 
-            var moveX =  Vector3.right * direction.x * moveDistance;
-            var moveY =  Vector3.up * direction.y * moveDistance;
+            var moveX =  Vector3.right * (direction.x * moveDistance);
+            var moveY =  Vector3.up * (direction.y * moveDistance);
             var endPos = curPos + moveX + moveY;
+            
+            ClampPositionToLevel(ref endPos);
 
             _currLerp = new MoveData(curPos.RoundToInt(), endPos.RoundToInt());
             _isMoving = true;
         }
+        
+        
 
+        
+        private void ClampPositionToLevel(ref Vector3 position)
+        {
+            var rect = GameManager.Instance.CurrentLevel.GetLevelRect();
+            
+            position.x = Mathf.Clamp(position.x, rect.xMin, rect.xMax);
+            position.y = Mathf.Clamp(position.y, rect.yMin, rect.yMax);
+        }
+        
+        
 
         /// <summary>
         /// Calculates a direction vector using 4 directions
@@ -97,6 +113,8 @@ namespace Diver
             //return delta;
             return new SnapToDirectionProcessor().Process(delta, null);
         }
+        
+        
 
 
         public void OnMove(InputAction.CallbackContext context)
@@ -108,9 +126,5 @@ namespace Diver
                 StartLerp(dir);
             }
         }
-
-
-
-
     }
 }

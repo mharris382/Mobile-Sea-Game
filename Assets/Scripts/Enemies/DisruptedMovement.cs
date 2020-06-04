@@ -51,6 +51,7 @@ namespace enemies
             return Mathf.RoundToInt( UnityEngine.Random.Range(-1, 2));
         }
 
+        //TODO: finish refactoring disrupted movement
         public Transform GetCurrentWaypoint()
         {
             throw new NotImplementedException();

@@ -10,4 +10,26 @@ public static class ExtensionMethods
     {
         return new Vector2Int(Mathf.RoundToInt(vec2.x), Mathf.RoundToInt(vec2.y));
     }
+
+    public static Color WithAlpha(this Color color, float alpha)
+    {
+        color.a = alpha;
+        return color;
+    }
+
+  
+}
+
+
+public static class StringExtensions
+{
+    public static string InBold(this string msg)
+    {
+        return $"<b>{msg}</b>";
+    }
+
+    public static string InItalics(this string msg)
+    {
+        return $"<i>{msg}</i";
+    }
 }
