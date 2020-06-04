@@ -5,7 +5,7 @@ using UnityEngine;
 namespace enemies
 {
     [Serializable]
-    public class Waypoints
+    public class Waypoints : IWaypointProvider
     {
         public List<Transform> waypoints;
         private Transform transform;
@@ -29,13 +29,17 @@ namespace enemies
         {
             var wp = waypoints[_index];
             var dist = (wp.position - transform.position).sqrMagnitude;
-            if ((dist < (0.125f * 0.125f)))
-            {
-                NextWp();
-                wp = waypoints[_index];
-            }
-
+            if (!(dist < (0.125f * 0.125f))) return wp;
+            
+            NextWp();
+            wp = waypoints[_index];
+            
             return wp;
         }
+    }
+
+    public interface IWaypointProvider
+    {
+        Transform GetCurrentWaypoint();
     }
 }

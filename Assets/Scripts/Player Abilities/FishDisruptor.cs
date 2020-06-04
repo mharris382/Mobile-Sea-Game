@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using enemies;
+﻿using System.Collections;
+using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace playerAbilities
+namespace Player_Abilities
 {
     public class FishDisruptor : MonoBehaviour
     {
