@@ -37,7 +37,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": "Gamepad;Touch;Keyboard&Mouse",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -155,7 +155,7 @@
                 {
                     "name": "",
                     "id": "1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8",
-                    "path": "<XRController>/{Primary2DAxis}",
+                    "path": "<AndroidGamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
@@ -175,15 +175,59 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "6f76bb8a-ac8a-47b5-b988-2d651765516d",
-                    "path": "<Touchscreen>/primaryTouch/delta",
+                    "name": "2D Vector",
+                    "id": "1b5cda58-37f6-426d-91a7-d6a230bc339e",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Touch",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "05e5f42f-4b6e-4aa0-99af-40a92652b99c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "ff16979e-bb40-40cf-8931-bc2e4a89e8d5",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "07d8ded3-efd8-4499-bc11-09a89b34f32c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "99de56dd-584c-4d23-9b99-da417618e9db",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
