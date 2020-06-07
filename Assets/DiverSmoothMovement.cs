@@ -20,6 +20,11 @@ namespace Diver
             _rb = GetComponent<Rigidbody2D>();
         }
 
+        private void Start()
+                 {
+                     QualitySettings.vSyncCount = 0;
+                 }
+
         private void FixedUpdate()
         {
             _rb.velocity = _moveDirection * moveSpeed;

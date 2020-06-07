@@ -64,6 +64,8 @@ namespace Core
 
         private void Start()
         {
+            if (Application.isMobilePlatform)
+                QualitySettings.vSyncCount = 0;
             ResetLevel();
         }
 
