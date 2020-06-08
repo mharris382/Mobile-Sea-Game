@@ -13,7 +13,9 @@ namespace Core
         public static int Treasure { get; private set; }
         
         [SerializeField] private GameObject diverPrefab;
-        
+        //TODO: change this to an int (build index)
+        public int currentScene = 0;
+
         private ObservedValue<bool> _isPlayerHidden;
         private ObservedValue<bool> _isDisruptorActive;
         
@@ -38,6 +40,8 @@ namespace Core
 
         public static event Action<bool> OnPlayerHiddenChanged;
         public static event Action<bool> OnDisruptorChanged;
+        public static event Action<string> OnPlayerKilled;
+        public static event Action OnLevelReset;
     
         private void Awake()
         {
@@ -72,33 +76,47 @@ namespace Core
 
         public void ResetLevel()
         {
-            //TODO: Reload the actual scene
             
             _isPlayerHidden.Value = false;
             _isDisruptorActive.Value = false;
-            if(_diverGO != null)
-                GameObject.Destroy(_diverGO);
-            _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
-            
-        }
 
+
+            SceneManager.LoadScene(currentScene);
+
+            if (_diverGO != null) GameObject.Destroy(_diverGO);
+            _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
+            Debug.Log(_diverGO);
+            DontDestroyOnLoad(_diverGO);
+           // SceneManager.MoveGameObjectToScene(_diverGO, SceneManager.GetActiveScene());
+
+
+            //OnLevelReset?.Invoke();
+
+        }
+        IEnumerator loadScene()
+        {
+            yield return SceneManager.LoadSceneAsync(currentScene);
+            if (_diverGO != null) GameObject.Destroy(_diverGO);
+            _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
+        }
 
         public void EatDiver(string deathMessage = null)
         {
-            if (deathMessage != null)
-            {
-                //TODO: display a death message to the player
-                Debug.Log(deathMessage.InBold());
-            }
-            
+            //Notify listeners that player was killed
+            deathMessage = String.IsNullOrEmpty(deathMessage) ? "Diver was killed!" : deathMessage;
+            OnPlayerKilled?.Invoke(deathMessage);
+
             //hide diver now that they have been eaten
             _isPlayerHidden.Value = true;
-            
-            
-            //TODO: disable the diver's gameObject so that the player can no longer control them
+
             _diverGO.SetActive(false);
-            Invoke("ResetLevel", 3);
-            SceneManager.LoadScene("Testing Scene");
+
+#if UNITY_EDITOR
+            if(FindObjectOfType<GameOverScreen>() == null)
+            {
+                Debug.LogError("No GameOverScreen is in the scene, the scene will not be reset!");
+            }
+#endif
         }
 
         public void PickupLoot(int value)
