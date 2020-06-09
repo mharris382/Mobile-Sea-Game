@@ -42,12 +42,18 @@ TagManager:
   - name: BG
     uniqueID: 272277493
     locked: 0
+  - name: Midground
+    uniqueID: 1350388361
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Holes
+    uniqueID: 2309073115
     locked: 0
   - name: Hiding Spots
     uniqueID: 2678646161
     locked: 0
   - name: FG
     uniqueID: 2303487285
-     locked: 0
+    locked: 0
