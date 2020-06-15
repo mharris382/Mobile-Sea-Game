@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -13,16 +14,16 @@ namespace Core
         public static int Treasure { get; private set; }
         
         [SerializeField] private GameObject diverPrefab;
-        //TODO: change this to an int (build index)
-        public int currentScene = 0;
-
+        [SerializeField] private int currentScene = 0;
+        
+        
+        
         private ObservedValue<bool> _isPlayerHidden;
         private ObservedValue<bool> _isDisruptorActive;
         
         private Level _levelLayout;
         private GameObject _diverGO;
         
-        public Level CurrentLevel => _levelLayout ? _levelLayout : (_levelLayout = FindObjectOfType<Level>());
 
         public IntUnityEvent OnLootPickup;
         
@@ -37,7 +38,11 @@ namespace Core
             get => _isDisruptorActive.Value;
             set => _isDisruptorActive.Value = value;
         }
+        
+        
+        public Level CurrentLevel => _levelLayout ? _levelLayout : (_levelLayout = FindObjectOfType<Level>());
 
+        
         public static event Action<bool> OnPlayerHiddenChanged;
         public static event Action<bool> OnDisruptorChanged;
         public static event Action<string> OnPlayerKilled;
@@ -68,6 +73,7 @@ namespace Core
 
         private void Start()
         {
+          
             if (Application.isMobilePlatform)
                 QualitySettings.vSyncCount = 0;
             ResetLevel();
@@ -81,24 +87,35 @@ namespace Core
             _isDisruptorActive.Value = false;
 
 
+            StartCoroutine(loadScene());
+            return;
             SceneManager.LoadScene(currentScene);
-
+            
             if (_diverGO != null) GameObject.Destroy(_diverGO);
             _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
-            Debug.Log(_diverGO);
-            DontDestroyOnLoad(_diverGO);
+
+            
            // SceneManager.MoveGameObjectToScene(_diverGO, SceneManager.GetActiveScene());
 
 
             //OnLevelReset?.Invoke();
 
         }
+
+        private void InitDiverCamera()
+        {
+            var vcam = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
+            vcam.Follow = _diverGO.transform;
+        }
+
         IEnumerator loadScene()
         {
             yield return SceneManager.LoadSceneAsync(currentScene);
             if (_diverGO != null) GameObject.Destroy(_diverGO);
             _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
+            InitDiverCamera();
         }
+        
 
         public void EatDiver(string deathMessage = null)
         {
@@ -119,12 +136,27 @@ namespace Core
 #endif
         }
 
+        
+        
         public void PickupLoot(int value)
         {
             Treasure += value;
             OnLootPickup?.Invoke(Treasure);
         }
+        
+        
+        
+        public interface IDiverCamera
+        {
+            void FollowNewDiver(GameObject diverGameObject);
+        }
+        
+       
     }
+
+
+
+    
 
     public class IntUnityEvent : UnityEvent<int>
     {
