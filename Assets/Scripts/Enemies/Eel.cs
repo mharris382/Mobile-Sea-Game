@@ -133,7 +133,7 @@ namespace enemies
             if (hitDiver)
             {
                 var deathMessage = "Diver was eaten by an eel!";
-                GameManager.Instance.EatDiver(deathMessage);
+                GameManager.Instance.KillDiver(deathMessage);
             }
             return hitDiver;
         }
@@ -162,6 +162,8 @@ namespace enemies
             var dist = (_currentTarget.position - transform.position).sqrMagnitude;
             return (dist < (0.125f * 0.125f));
         }
+        
+        
 
 
         private void OnTriggerStay2D(Collider2D other)
