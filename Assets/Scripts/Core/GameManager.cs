@@ -117,7 +117,7 @@ namespace Core
         }
         
 
-        public void EatDiver(string deathMessage = null)
+        public void KillDiver(string deathMessage = null)
         {
             //Notify listeners that player was killed
             deathMessage = String.IsNullOrEmpty(deathMessage) ? "Diver was killed!" : deathMessage;
