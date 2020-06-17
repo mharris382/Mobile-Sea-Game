@@ -39,21 +39,30 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: BG
+  - name: Decor-BG
     uniqueID: 272277493
     locked: 0
-  - name: Midground
-    uniqueID: 1350388361
+  - name: S-Hiding-BG
+    uniqueID: 3601965463
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Holes
+  - name: Diver
     uniqueID: 2309073115
     locked: 0
-  - name: Hiding Spots
+  - name: Enemies
+    uniqueID: 412340153
+    locked: 0
+  - name: Ground
+    uniqueID: 1350388361
+    locked: 0
+  - name: S-Hiding-FG
     uniqueID: 2678646161
     locked: 0
-  - name: FG
+  - name: Pickups
+    uniqueID: 1431908131
+    locked: 0
+  - name: Decor-FG
     uniqueID: 2303487285
     locked: 0

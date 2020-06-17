@@ -12,14 +12,15 @@ namespace enemies
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class Eel : MonoBehaviour
     {
-        public float maxMoveSpeed = 2;
+        public float maxMoveSpeed = 5;
         public float smoothing = 0.1f;
         public float rotateSmoothing = 0.1f;
         public Transform[] waypoints;
         public float disruptDistance = 1;
 
-
+        [SerializeField] private float chaseMoveSpeed = 9;
         private Transform _currentTarget;
+        private float _currMoveSpeed;
         
         //TODO: implement a helper class for using strategy pattern to change the behaviour 
         private IWaypointProvider _waypoints;
@@ -43,6 +44,7 @@ namespace enemies
         {
             this._waypoints = new Waypoints(this.waypoints, transform);
             this._checkHitDiver = new CheckForDiverHit(transform, 0.125f);
+            _currMoveSpeed = maxMoveSpeed;
 
             GameManager.OnPlayerHiddenChanged += isHidden =>
             {
@@ -142,7 +144,7 @@ namespace enemies
         {
             var targetPos = _currentTarget.position;
             var curPos = transform.position;
-            transform.position = Vector3.SmoothDamp(curPos, targetPos, ref _smoothDampVelocity, smoothing, maxMoveSpeed,
+            transform.position = Vector3.SmoothDamp(curPos, targetPos, ref _smoothDampVelocity, smoothing, _currMoveSpeed,
                 Time.deltaTime);
         }
 
@@ -171,11 +173,13 @@ namespace enemies
             if (other.CompareTag("Player") && !GameManager.Instance.IsPlayerHidden)
             {
                 _currentTarget = other.transform;
+                _currMoveSpeed = chaseMoveSpeed;
             }
             else if (other.CompareTag("Player") && _currentTarget == other.transform &&
                      GameManager.Instance.IsPlayerHidden)
             {
                 _currentTarget = null;
+                _currMoveSpeed = maxMoveSpeed;
             }
         }
 
@@ -185,6 +189,7 @@ namespace enemies
             if (other.CompareTag("Player") && (_currentTarget == other.transform))
             {
                 _currentTarget = null;
+                _currMoveSpeed = maxMoveSpeed;
             }
         }
 
