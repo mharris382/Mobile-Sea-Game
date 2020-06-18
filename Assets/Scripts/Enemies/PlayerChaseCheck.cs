@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System;
+using Core;
 using UnityEngine;
 
 namespace enemies
@@ -6,13 +7,15 @@ namespace enemies
     public class PlayerChaseCheck : MonoBehaviour
     {
         private CheckForDiverHit _checkHitDiver;
-        private Eel eel;
+        private IEel eel;
         [SerializeField] private string deathMessage = "Diver was eaten by an eel!";
         private void Awake()
         {
             this._checkHitDiver = new CheckForDiverHit(transform, 0.125f);
-            this.eel = GetComponent<Eel>();
-        } 
+            this.eel = GetComponent<IEel>();
+        }
+
+       
 
         private void Update()
         {
@@ -24,13 +27,18 @@ namespace enemies
 
         private bool WasDiverKilled()
         {
-            if (!eel.IsTargetingDiver()) return false;
+            if (!IsEelTargetingDiver()) return false;
             var hitDiver = _checkHitDiver.IsDiverInRadius();
             if (hitDiver)
             {
                 GameManager.Instance.KillDiver(deathMessage);
             }
             return hitDiver;
+        }
+
+        private bool IsEelTargetingDiver()
+        {
+            return eel.CurrentTarget != null && eel.CurrentTarget.CompareTag("Player");
         }
 
         private void OnTriggerStay2D(Collider2D other)

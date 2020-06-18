@@ -1,7 +1,12 @@
-﻿namespace Core
+﻿using UnityEngine;
+
+namespace Core
 {
-    public class Chase
+    public interface IChaseTarget
     {
+        Transform transform { get; }
+        
+        Rigidbody2D rigidbody2D { get; }
         
     }
 }

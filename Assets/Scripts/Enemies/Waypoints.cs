@@ -66,6 +66,14 @@ namespace enemies
             
             return wp;
         }
+
+        public Transform GetNextWaypoint()
+        { 
+            var wp = waypoints[_index];
+            NextWp();
+            wp = waypoints[_index];
+            return wp;
+        }
     }
 
     public interface IWaypointProvider

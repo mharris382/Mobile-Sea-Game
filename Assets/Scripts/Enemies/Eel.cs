@@ -11,7 +11,7 @@ namespace enemies
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     [RequireComponent(typeof(PlayerChaseCheck))]
-    public class Eel : MonoBehaviour
+    public class Eel : MonoBehaviour, IEel
     {
         public float maxMoveSpeed = 5;
         public float smoothing = 0.1f;
@@ -37,10 +37,10 @@ namespace enemies
         private IWaypointProvider _waypoints;
         private IWaypointProvider _disruptedWaypoint;
 
-
-
-        private IWaypointProvider CurrentWaypoint => _disruptedWaypoint ?? _waypoints;
-
+        private IWaypointProvider CurrentWaypoint
+        {
+            get { return _disruptedWaypoint ?? _waypoints; }
+        }
 
 
         private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method
@@ -66,6 +66,7 @@ namespace enemies
             this._checkHitDiver = new CheckForDiverHit(transform, 0.125f);
             _currMoveSpeed = maxMoveSpeed;
 
+            
             GameManager.OnPlayerHiddenChanged += isHidden =>
             {
                 if (isHidden && _currentTarget != null && _currentTarget.CompareTag("Player"))
@@ -74,30 +75,25 @@ namespace enemies
                 }
             };
             
-            var disruptedWaypoint = new DisruptedMovement(transform, ref disruptDistance);
-            GameManager.OnDisruptorChanged += isDisrupted =>
-            {
-                _disruptedWaypoint = isDisrupted ? disruptedWaypoint : null;
-            };
+            // var disruptedWaypoint = new DisruptedMovement(transform, ref disruptDistance);
+            // GameManager.OnDisruptorChanged += isDisrupted =>
+            // {
+            //     _disruptedWaypoint = isDisrupted ? disruptedWaypoint : null;
+            // };
         }
 
 
         private void Update()
         {
             //should only be null when stopped chasing a target and waypoint hasn't been set yet
-            if (_currentTarget == null)
-                _currentTarget = GetTarget();
+            if (_currentTarget == null) _currentTarget = CurrentWaypoint.GetCurrentWaypoint();
 
 
-            RotateTowardsTarget();
-            MoveTowardsTarget();
-            //if (WasDiverEaten()) return;
+            HandleMovement();
+
+
             if (WasTargetReached())
             {
-                //TODO: Refactor disruption code
-                if (_disrupted)
-                    MoveDisruptedTarget();
-
                 //Reset the target so that a new target will be found
                 _currentTarget = null;
             }
@@ -106,16 +102,30 @@ namespace enemies
 
         //Can override to implement the black eels (immune to disruptions)
 
-        protected virtual Transform GetTarget()
+
+        public bool IsTargetingDiver()
         {
-            return _disrupted ? _disruptedTarget : this._waypoints.GetCurrentWaypoint();
+            return _currentTarget != null && _currentTarget.CompareTag("Player");
         }
 
+        private bool WasTargetReached()
+        {
+            var dist = (_currentTarget.position - transform.position).sqrMagnitude;
+            return (dist < (0.125f * 0.125f));
+        }
+        
+        
+        #region [REFACTOR]
+
+        private void HandleMovement()
+        {
+            RotateTowardsTarget();
+            MoveTowardsTarget();
+        }
 
         #region [Disruption Code]
 
         //TODO: Refactor disruption code into a separate class
-
 
         private void MoveDisruptedTarget()
         {
@@ -143,14 +153,7 @@ namespace enemies
         #endregion
 
 
-        public bool IsTargetingDiver()
-        {
-            return _currentTarget != null && _currentTarget.CompareTag("Player");
-        }
-
-
-      
-
+        //TODO: Move to NavAgent class
 
         private void MoveTowardsTarget()
         {
@@ -166,6 +169,7 @@ namespace enemies
                 Time.deltaTime);
         }
 
+        //TODO: Move to NavAgent class
 
         private void RotateTowardsTarget()
         {
@@ -176,19 +180,12 @@ namespace enemies
             //transform.forward = Vector3.SmoothDamp(curr, targetDirection, ref _dampRotation, rotateSmoothing);
         }
 
+   
 
-        private bool WasTargetReached()
-        {
-            var dist = (_currentTarget.position - transform.position).sqrMagnitude;
-            return (dist < (0.125f * 0.125f));
-        }
-
-
-
+        #endregion
 
 
         #region Obsolete Functions
-
 
         [System.Obsolete("Moved functionality to PlayerChaseHandler")]
         private bool WasDiverEaten()
@@ -218,6 +215,7 @@ namespace enemies
                 StopChasing();
             }
         }
+
         [Obsolete("Moved functionality into PlayerChaseHandler")]
         private void OnTriggerExit2D(Collider2D other)
         {
@@ -226,6 +224,12 @@ namespace enemies
             {
                 StopChasing();
             }
+        }
+
+        [System.Obsolete("Replaced with CurrentWaypoint.GetCurrentWaypoint()")]
+        protected virtual Transform GetTarget()
+        {
+            return _disrupted ? _disruptedTarget : this._waypoints.GetCurrentWaypoint();
         }
 
         [Obsolete("Moved functionality into waypoints")]
@@ -262,7 +266,7 @@ namespace enemies
             _currMoveSpeed = maxMoveSpeed;
         }
 
-        internal void StartChasing(Transform transform)
+        public void StartChasing(Transform transform)
         {
             if (transform.CompareTag("Player") == false) return;
             _isChasingPlayer = true;
@@ -274,4 +278,32 @@ namespace enemies
         
 
     }
+
+
+    // public class NavAgent : MonoBehaviour
+    // {
+    //     public float moveSpeed;
+    //     public float smoothing = 0.1f;
+    //     public bool enableRotation;
+    //     public float rotateSmoothing = 0.1f;
+    //
+    //
+    //     public float MoveSpeed
+    //     {
+    //         get => moveSpeed;
+    //         set => moveSpeed = value;
+    //     }
+    //     
+    //     
+    //     public Vector2 Destination { get; set; }
+    //
+    //
+    //     private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method
+    //     private Vector3 _dampRotation;
+    //     
+    //     private void Awake()
+    //     {
+    //         Destination = transform.position;
+    //     }
+    // }
 }
