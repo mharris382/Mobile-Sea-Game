@@ -10,6 +10,7 @@ using Random = Unity.Mathematics.Random;
 namespace enemies
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
+    [RequireComponent(typeof(PlayerChaseHandler))]
     public class Eel : MonoBehaviour
     {
         public float maxMoveSpeed = 5;
@@ -17,27 +18,46 @@ namespace enemies
         public float rotateSmoothing = 0.1f;
         public Transform[] waypoints;
         public float disruptDistance = 1;
-
+        [Header("ChaseSettings")]
         [SerializeField] private float chaseMoveSpeed = 9;
+        [SerializeField] private float chaseMultiplier = 4;
+
         private Transform _currentTarget;
+        public Transform CurrentTarget
+        {
+            get => _currentTarget;
+            private set => _currentTarget = value;
+        }
+
+        private bool _isChasingPlayer;
+
         private float _currMoveSpeed;
         
         //TODO: implement a helper class for using strategy pattern to change the behaviour 
         private IWaypointProvider _waypoints;
         private IWaypointProvider _disruptedWaypoint;
+
+
+
         private IWaypointProvider CurrentWaypoint => _disruptedWaypoint ?? _waypoints;
+
+
 
         private Vector3 _smoothDampVelocity; //variable used for unity's smooth damp method
         private Vector3 _dampRotation;
-        private CheckForDiverHit _checkHitDiver;
+
+
+
+        [System.Obsolete("Now uses _waypoints")]         private CheckForDiverHit _checkHitDiver;
+        [System.Obsolete("Moved Functionality to PlayerChaseHandler")]        private int _index = 0;
+
+
 
 
         //TODO: Refactor disruption code into a seprate class
         private Transform _disruptedTarget;
         private bool _disrupted = false;
 
-        [System.Obsolete("Now uses _waypoints")]
-        private int _index = 0;
 
 
         private void Awake()
@@ -71,7 +91,7 @@ namespace enemies
 
             RotateTowardsTarget();
             MoveTowardsTarget();
-            if (WasDiverEaten()) return;
+            //if (WasDiverEaten()) return;
             if (WasTargetReached())
             {
                 //TODO: Refactor disruption code
@@ -123,26 +143,24 @@ namespace enemies
         #endregion
 
 
-        private bool IsTargetingDiver()
+        public bool IsTargetingDiver()
         {
             return _currentTarget != null && _currentTarget.CompareTag("Player");
         }
 
-        private bool WasDiverEaten()
-        {
-            if (!IsTargetingDiver()) return false;
-            var hitDiver = _checkHitDiver.IsDiverInRadius();
-            if (hitDiver)
-            {
-                var deathMessage = "Diver was eaten by an eel!";
-                GameManager.Instance.KillDiver(deathMessage);
-            }
-            return hitDiver;
-        }
+
+      
+
 
         private void MoveTowardsTarget()
         {
             var targetPos = _currentTarget.position;
+            //TODO: Refactor the pursue adjustments to be handled elsewhere
+            if (IsTargetingDiver())
+            {
+                var rb = _currentTarget.GetComponent<Rigidbody2D>();
+                targetPos += (Vector3)(rb.velocity * Time.deltaTime * chaseMultiplier);
+            }
             var curPos = transform.position;
             transform.position = Vector3.SmoothDamp(curPos, targetPos, ref _smoothDampVelocity, smoothing, _currMoveSpeed,
                 Time.deltaTime);
@@ -164,37 +182,51 @@ namespace enemies
             var dist = (_currentTarget.position - transform.position).sqrMagnitude;
             return (dist < (0.125f * 0.125f));
         }
-        
-        
 
 
+
+
+
+        #region Obsolete Functions
+
+
+        [System.Obsolete("Moved functionality to PlayerChaseHandler")]
+        private bool WasDiverEaten()
+        {
+            if (!IsTargetingDiver()) return false;
+            var hitDiver = _checkHitDiver.IsDiverInRadius();
+            if (hitDiver)
+            {
+                var deathMessage = "Diver was eaten by an eel!";
+                GameManager.Instance.KillDiver(deathMessage);
+            }
+            return hitDiver;
+        }
+
+
+        [Obsolete("Moved functionality into PlayerChaseHandler")]
         private void OnTriggerStay2D(Collider2D other)
         {
+            return;
             if (other.CompareTag("Player") && !GameManager.Instance.IsPlayerHidden)
             {
-                _currentTarget = other.transform;
-                _currMoveSpeed = chaseMoveSpeed;
+                StartChasing(other.transform);
             }
             else if (other.CompareTag("Player") && _currentTarget == other.transform &&
                      GameManager.Instance.IsPlayerHidden)
             {
-                _currentTarget = null;
-                _currMoveSpeed = maxMoveSpeed;
+                StopChasing();
             }
         }
-
-
+        [Obsolete("Moved functionality into PlayerChaseHandler")]
         private void OnTriggerExit2D(Collider2D other)
         {
+            return;
             if (other.CompareTag("Player") && (_currentTarget == other.transform))
             {
-                _currentTarget = null;
-                _currMoveSpeed = maxMoveSpeed;
+                StopChasing();
             }
         }
-
-
-        #region Obsolete Functions
 
         [Obsolete("Moved functionality into waypoints")]
         public void NextWp()
@@ -218,6 +250,28 @@ namespace enemies
             return wp;
         }
 
+
+
         #endregion
+
+
+        public void StopChasing()
+        {
+            _isChasingPlayer = false;
+            _currentTarget = null;
+            _currMoveSpeed = maxMoveSpeed;
+        }
+
+        internal void StartChasing(Transform transform)
+        {
+            if (transform.CompareTag("Player") == false) return;
+            _isChasingPlayer = true;
+            _currentTarget = transform;
+            _currMoveSpeed = chaseMoveSpeed;
+        }
+
+
+        
+
     }
 }

@@ -23,7 +23,8 @@ namespace Core
         
         private Level _levelLayout;
         private GameObject _diverGO;
-        
+
+        public GameObject CurrentDiver => _diverGO;
 
         public IntUnityEvent OnLootPickup;
         
