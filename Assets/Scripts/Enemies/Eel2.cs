@@ -1,5 +1,6 @@
 ﻿using System;
 using Core;
+
 using PolyNav;
 using UnityEngine;
 
@@ -69,6 +70,12 @@ namespace enemies
             this._chaseTarget = transform.GetComponent<IChaseTarget>();
             this._currentWaypoint = transform;
             _navAgent.CurrentMoveSpeed = chaseMoveSpeed;
+        }
+
+
+        private void OnDrawGizmosSelected()
+        {
+            (new enemies.editor.WaypointsGizmos()).DrawWaypoints(this.waypoints, Color.red);
         }
     }
 }
