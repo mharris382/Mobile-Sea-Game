@@ -42,8 +42,11 @@ TagManager:
   - name: Decor-BG
     uniqueID: 272277493
     locked: 0
+  - name: Midground
+    uniqueID: 1350388361
+    locked: 0
   - name: S-Hiding-BG
-    uniqueID: 3601965463
+    uniqueID: 3918685401
     locked: 0
   - name: Default
     uniqueID: 0
