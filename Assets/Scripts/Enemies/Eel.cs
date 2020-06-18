@@ -10,7 +10,7 @@ using Random = Unity.Mathematics.Random;
 namespace enemies
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    [RequireComponent(typeof(PlayerChaseHandler))]
+    [RequireComponent(typeof(PlayerChaseCheck))]
     public class Eel : MonoBehaviour
     {
         public float maxMoveSpeed = 5;

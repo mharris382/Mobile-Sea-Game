@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace enemies
 {
-    public class PlayerChaseHandler : MonoBehaviour
+    public class PlayerChaseCheck : MonoBehaviour
     {
         private CheckForDiverHit _checkHitDiver;
         private Eel eel;
@@ -12,7 +12,7 @@ namespace enemies
         {
             this._checkHitDiver = new CheckForDiverHit(transform, 0.125f);
             this.eel = GetComponent<Eel>();
-        }
+        } 
 
         private void Update()
         {
