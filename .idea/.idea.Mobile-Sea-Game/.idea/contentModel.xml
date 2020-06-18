@@ -25,6 +25,8 @@
             <e p="CheckForDiverHit.cs" t="Include" />
             <e p="DisruptedMovement.cs" t="Include" />
             <e p="Eel.cs" t="Include" />
+            <e p="PlayerChaseCheck.cs" t="Include" />
+            <e p="WaitPoint.cs" t="Include" />
             <e p="Waypoints.cs" t="Include" />
           </e>
           <e p="Loot" t="Include">
