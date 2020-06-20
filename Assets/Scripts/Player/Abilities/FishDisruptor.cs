@@ -3,7 +3,7 @@ using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player_Abilities
+namespace Player.Abilities
 {
     public class FishDisruptor : MonoBehaviour
     {

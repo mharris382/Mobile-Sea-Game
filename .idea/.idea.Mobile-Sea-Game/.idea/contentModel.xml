@@ -73,12 +73,18 @@
             <e p="LootCounter.cs" t="Include" />
           </e>
           <e p="OnScreenStickCustom.cs" t="Include" />
-          <e p="Player Abilities" t="Include">
-            <e p="FishDisruptor.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="Abilities" t="Include">
+              <e p="FishDisruptor.cs" t="Include" />
+            </e>
+            <e p="PlayerController.cs" t="Include" />
+            <e p="Sub" t="Include">
+              <e p="SubController.cs" t="Include" />
+            </e>
           </e>
           <e p="SnapToDirectionProcessor.cs" t="Include" />
-          <e p="Sub" t="Include">
-            <e p="SubController.cs" t="Include" />
+          <e p="Utilities" t="Include">
+            <e p="NavigationAgent.cs" t="Include" />
           </e>
         </e>
         <e p="Text" t="Include">

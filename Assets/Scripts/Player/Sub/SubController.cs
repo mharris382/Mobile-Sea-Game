@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PolyNav;
 using UnityEngine;
 
 public class SubController : MonoBehaviour
 {
 
+    public PolyNav.PolyNav2D _map;
     public Transform moveToTarget;
 
     public float maxHorizontalSpeed = 15f;
@@ -27,6 +29,24 @@ public class SubController : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sr;
 
+    private List<Vector2> _activePath;
+    private Vector2 _primeGoal;
+    private int _requests;
+
+    public bool pathPending => _requests > 0 && !hasPath;
+    
+    public bool hasPath => _activePath != null && _activePath.Count > 0;
+    
+    public Vector2 primeGoal => _primeGoal;
+
+    public Vector2 nextPoint => hasPath ? _activePath[0] : position;
+
+    public Vector2 position => transform.position;
+
+    public PolyNav2D map
+    {
+        get { return _map ?? (_map = FindObjectOfType<PolyNav2D>()); }
+    }
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -38,13 +58,15 @@ public class SubController : MonoBehaviour
     {
         if(moveToTarget != null)
         {
-            _targetPostion = moveToTarget.position;
+           SetDestination(moveToTarget.position);
         }
     }
 
 
     private void FixedUpdate()
     {
+        if (hasPath == false) return;
+        
         var targetPos = _changingDirections ? (transform.position + _moveVelocity) : this._targetPostion;
 
         var targetX = _targetPostion.x;
@@ -60,6 +82,40 @@ public class SubController : MonoBehaviour
         _rb.position = new Vector2(newX, newY);
 
 
+    }
+
+
+    public void SetDestination(Vector2 goal)
+    {
+        if(map == null)
+            return;
+
+        if ((primeGoal - goal).sqrMagnitude < Mathf.Epsilon)
+        {
+            return;
+        }
+
+        _primeGoal = goal;
+
+        if (!map.PointIsValid(primeGoal))
+        {
+            SetDestination(map.GetCloserEdgePoint(primeGoal));
+            return;
+        }
+
+        _requests++;
+        map.FindPath(this.position, primeGoal, SetPath);
+    }
+
+
+    void SetPath(Vector2[] path)
+    {
+        if(_requests==0)
+            return;
+        if(path == null || path.Length == 0)
+            return;
+        
+        _requests--;
     }
 
     private void CheckForDirectionChange(float xDir)
@@ -82,4 +138,9 @@ public class SubController : MonoBehaviour
     //{
     //    _changingDirections = false;
     //}
+}
+
+
+namespace Utilities
+{
 }
