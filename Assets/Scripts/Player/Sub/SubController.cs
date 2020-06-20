@@ -1,146 +1,111 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using PolyNav;
 using UnityEngine;
+using Utilities;
 
-public class SubController : MonoBehaviour
+namespace Player.Sub
 {
-
-    public PolyNav.PolyNav2D _map;
-    public Transform moveToTarget;
-
-    public float maxHorizontalSpeed = 15f;
-    public float maxDescentSpeed = 5f;
-    [Range(0,1)]
-    public float horizontalSmoothing = 0.1f;
-    [Range(0, 1)]
-    public float descentSmoothing = 0.5f;
-
-    //public float changeDirectionTime = 0.25f;
-
-
-    private bool _changingDirections;
-
-    private Vector3 _targetPostion;
-    private Vector3 _moveVelocity;
-
-
-    private Rigidbody2D _rb;
-    private SpriteRenderer _sr;
-
-    private List<Vector2> _activePath;
-    private Vector2 _primeGoal;
-    private int _requests;
-
-    public bool pathPending => _requests > 0 && !hasPath;
-    
-    public bool hasPath => _activePath != null && _activePath.Count > 0;
-    
-    public Vector2 primeGoal => _primeGoal;
-
-    public Vector2 nextPoint => hasPath ? _activePath[0] : position;
-
-    public Vector2 position => transform.position;
-
-    public PolyNav2D map
+    public class SubController : MonoBehaviour
     {
-        get { return _map ?? (_map = FindObjectOfType<PolyNav2D>()); }
-    }
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-        _sr = GetComponent<SpriteRenderer>();
-        _targetPostion = transform.position;
-    }
+        public PolyNav.PolyNav2D _map;
+        public SubConfig _config;
+        public Transform moveToTarget;
 
-    private void Update()
-    {
-        if(moveToTarget != null)
+        private float maxHorizontalSpeed => _config.maxHorizontalSpeed;
+        private float maxDescentSpeed => _config.maxDescentSpeed;
+        private float horizontalSmoothing => _config.horizontalSmoothing;
+        private float descentSmoothing => _config.descentSmoothing;
+
+        //public float changeDirectionTime = 0.25f;
+
+
+        private bool _changingDirections;
+
+        private Vector3 _targetPostion;
+        private Vector3 _moveVelocity;
+
+
+        private Rigidbody2D _rb;
+        private SpriteRenderer _sr;
+
+        private List<Vector2> _activePath;
+        private Vector2 _primeGoal;
+        private int _requests;
+        private Pathfinder _pathfinder;
+
+        private void Awake()
         {
-           SetDestination(moveToTarget.position);
-        }
-    }
-
-
-    private void FixedUpdate()
-    {
-        if (hasPath == false) return;
-        
-        var targetPos = _changingDirections ? (transform.position + _moveVelocity) : this._targetPostion;
-
-        var targetX = _targetPostion.x;
-        var curX = transform.position.x;
-        var xDir = curX - targetX;
-        CheckForDirectionChange(xDir);
-        var newX = Mathf.SmoothDamp(curX, targetX, ref _moveVelocity.x, horizontalSmoothing, maxHorizontalSpeed);
-
-        var curY = transform.position.y;
-        var targetY = _targetPostion.y;
-        var newY = Mathf.SmoothDamp(curY, targetY, ref _moveVelocity.y, descentSmoothing, maxDescentSpeed);
-
-        _rb.position = new Vector2(newX, newY);
-
-
-    }
-
-
-    public void SetDestination(Vector2 goal)
-    {
-        if(map == null)
-            return;
-
-        if ((primeGoal - goal).sqrMagnitude < Mathf.Epsilon)
-        {
-            return;
+            // _pathfinder = new Pathfinder(_map, transform, true);
+            _rb = GetComponent<Rigidbody2D>();
+            _sr = GetComponent<SpriteRenderer>();
+            _targetPostion = transform.position;
         }
 
-        _primeGoal = goal;
-
-        if (!map.PointIsValid(primeGoal))
+        private void Update()
         {
-            SetDestination(map.GetCloserEdgePoint(primeGoal));
-            return;
+            if (moveToTarget != null && _pathfinder!= null)
+            {
+                _pathfinder.SetDestination(moveToTarget.position, true);
+            }
         }
 
-        _requests++;
-        map.FindPath(this.position, primeGoal, SetPath);
-    }
 
+        private void FixedUpdate()
+        {
+            if (_pathfinder.hasPath == false) return;
 
-    void SetPath(Vector2[] path)
-    {
-        if(_requests==0)
-            return;
-        if(path == null || path.Length == 0)
-            return;
-        
-        _requests--;
-    }
+            var targetPos = _changingDirections
+                ? (Vector2) (transform.position + _moveVelocity)
+                : _pathfinder.GetNextPoint();
 
-    private void CheckForDirectionChange(float xDir)
-    {
-        bool lastDir = _sr.flipX;
-        _sr.flipX = xDir > 0;
-        //if (_sr.flipX != lastDir)
+            var targetX = _targetPostion.x;
+            var curX = transform.position.x;
+            var xDir = curX - targetX;
+            CheckForDirectionChange(xDir);
+            var newX = Mathf.SmoothDamp(curX, targetX, ref _moveVelocity.x, horizontalSmoothing, maxHorizontalSpeed);
+
+            var curY = transform.position.y;
+            var targetY = _targetPostion.y;
+            var newY = Mathf.SmoothDamp(curY, targetY, ref _moveVelocity.y, descentSmoothing, maxDescentSpeed);
+
+            _rb.position = new Vector2(newX, newY);
+        }
+
+        public void SetConfig(SubConfig config)
+        {
+            this._config = config;
+        }
+
+        public void SetMap(PolyNav2D map)
+        {
+            this._map = map;
+            _pathfinder = new Pathfinder(map, transform, true);
+        }
+
+        public void SetTarget(Transform moveTarget)
+        {
+            this.moveToTarget = moveTarget;
+        }
+
+        private void CheckForDirectionChange(float xDir)
+        {
+            bool lastDir = _sr.flipX;
+            _sr.flipX = xDir > 0;
+            //if (_sr.flipX != lastDir)
+            //{
+            //    FlipDirections();
+            //}
+        }
+
+        //private void FlipDirections()
         //{
-        //    FlipDirections();
+        //    _changingDirections = true;
+        //    Invoke("CompleteFlip", changeDirectionTime);
+        //}
+
+        //private void CompleteFlip()
+        //{
+        //    _changingDirections = false;
         //}
     }
-
-    //private void FlipDirections()
-    //{
-    //    _changingDirections = true;
-    //    Invoke("CompleteFlip", changeDirectionTime);
-    //}
-
-    //private void CompleteFlip()
-    //{
-    //    _changingDirections = false;
-    //}
-}
-
-
-namespace Utilities
-{
 }

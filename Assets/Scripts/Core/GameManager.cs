@@ -12,22 +12,21 @@ namespace Core
     {
         public static GameManager Instance { get; private set; }
         public static int Treasure { get; private set; }
-        
+
         [SerializeField] private GameObject diverPrefab;
         [SerializeField] private int currentScene = 0;
-        
-        
-        
+
+
         private ObservedValue<bool> _isPlayerHidden;
         private ObservedValue<bool> _isDisruptorActive;
-        
+
         private Level _levelLayout;
         private GameObject _diverGO;
 
         public GameObject CurrentDiver => _diverGO;
 
         public IntUnityEvent OnLootPickup;
-        
+
         public bool IsPlayerHidden
         {
             get => _isPlayerHidden.Value;
@@ -39,16 +38,16 @@ namespace Core
             get => _isDisruptorActive.Value;
             set => _isDisruptorActive.Value = value;
         }
-        
-        
+
+
         public Level CurrentLevel => _levelLayout ? _levelLayout : (_levelLayout = FindObjectOfType<Level>());
 
         //TODO: Refactor this setup for dummy divers
         public static event Action<bool> OnPlayerHiddenChanged;
         public static event Action<bool> OnDisruptorChanged;
         public static event Action<string> OnPlayerKilled;
-        public static event Action OnLevelReset;
-    
+        public static event Action<Level> OnLevelLoad;
+
         private void Awake()
         {
             if (Instance == null)
@@ -57,12 +56,12 @@ namespace Core
                 DontDestroyOnLoad(this);
 
                 OnLootPickup = new IntUnityEvent();
-                
+
                 //TODO: find and store the diver's gameObject inside Awake
-                
+
                 _isPlayerHidden = new ObservedValue<bool>(false);
                 _isDisruptorActive = new ObservedValue<bool>(false);
-                _isDisruptorActive.OnValueChanged += b => OnDisruptorChanged?.Invoke(b) ;
+                _isDisruptorActive.OnValueChanged += b => OnDisruptorChanged?.Invoke(b);
                 _isPlayerHidden.OnValueChanged += b => OnPlayerHiddenChanged?.Invoke(b);
                 _levelLayout = GameObject.FindObjectOfType<Level>();
             }
@@ -74,7 +73,6 @@ namespace Core
 
         private void Start()
         {
-          
             if (Application.isMobilePlatform)
                 QualitySettings.vSyncCount = 0;
             ResetLevel();
@@ -83,7 +81,6 @@ namespace Core
 
         public void ResetLevel()
         {
-            
             _isPlayerHidden.Value = false;
             _isDisruptorActive.Value = false;
 
@@ -91,16 +88,15 @@ namespace Core
             StartCoroutine(loadScene());
             return;
             SceneManager.LoadScene(currentScene);
-            
+
             if (_diverGO != null) GameObject.Destroy(_diverGO);
             _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
 
-            
-           // SceneManager.MoveGameObjectToScene(_diverGO, SceneManager.GetActiveScene());
+
+            // SceneManager.MoveGameObjectToScene(_diverGO, SceneManager.GetActiveScene());
 
 
             //OnLevelReset?.Invoke();
-
         }
 
         private void InitDiverCamera()
@@ -112,13 +108,20 @@ namespace Core
         IEnumerator loadScene()
         {
             yield return SceneManager.LoadSceneAsync(currentScene);
-            if (_diverGO != null) GameObject.Destroy(_diverGO);
-            _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
-            InitDiverCamera();
-        }
-        
 
-        public void KillDiver(string deathMessage = null )
+
+            _levelLayout = FindObjectOfType<Level>();
+            if (_levelLayout == null)
+                Debug.LogWarning("GameManager loaded into a scene without a Level Object");
+            OnLevelLoad?.Invoke(_levelLayout);
+            // if (_diverGO != null) GameObject.Destroy(_diverGO);
+            // _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
+            //
+            // InitDiverCamera();
+        }
+
+
+        public void KillDiver(string deathMessage = null)
         {
             //Notify listeners that player was killed
             deathMessage = String.IsNullOrEmpty(deathMessage) ? "Diver was killed!" : deathMessage;
@@ -130,7 +133,7 @@ namespace Core
             _diverGO.SetActive(false);
 
 #if UNITY_EDITOR
-            if(FindObjectOfType<GameOverScreen>() == null)
+            if (FindObjectOfType<GameOverScreen>() == null)
             {
                 Debug.LogError("No GameOverScreen is in the scene, the scene will not be reset!");
             }
@@ -144,33 +147,26 @@ namespace Core
                 Debug.Log("It wasn't the real diver that was killed!".InBold());
                 return;
             }
+
             KillDiver(deathMessage);
         }
 
-        
-        
+
         public void PickupLoot(int value)
         {
             Treasure += value;
             OnLootPickup?.Invoke(Treasure);
         }
-        
-        
-        
+
+
         public interface IDiverCamera
         {
             void FollowNewDiver(GameObject diverGameObject);
         }
-        
-       
     }
 
 
-
-    
-
     public class IntUnityEvent : UnityEvent<int>
     {
-        
     }
 }

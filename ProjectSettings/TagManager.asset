@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cover
+  - SubNavMap
   layers:
   - Default
   - TransparentFX

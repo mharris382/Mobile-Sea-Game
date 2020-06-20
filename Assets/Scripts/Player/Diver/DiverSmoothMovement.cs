@@ -11,10 +11,18 @@ namespace Diver
     public class DiverSmoothMovement : MonoBehaviour, IChaseTarget
     {
         [Min(0)] public float moveSpeed = 2;
-
+        public DiverConfig config;
+        public float MoveSpeed => config == null ? moveSpeed : config.moveSpeed;
+        
         private Vector2 _moveDirection = Vector2.zero;
         private Rigidbody2D _rigidbody2D;
-
+        
+        public Rigidbody2D rigidbody2D
+        {
+            get => _rigidbody2D;
+            set => _rigidbody2D = value;
+        }
+        
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -27,7 +35,7 @@ namespace Diver
 
         private void FixedUpdate()
         {
-            _rigidbody2D.velocity = _moveDirection * moveSpeed;
+            _rigidbody2D.velocity = _moveDirection * MoveSpeed;
             Vector3 currPosition = transform.position;
             ClampPositionToLevel(ref currPosition);
             transform.position = currPosition;
@@ -54,12 +62,14 @@ namespace Diver
             _moveDirection = movement;
         }
 
-        public Rigidbody2D rigidbody2D
+        public void SetConfig(DiverConfig config)
         {
-            get => _rigidbody2D;
-            set => _rigidbody2D = value;
+            this.config = config;
         }
     }
+
+
+   
 }
 
 namespace UnityEngine.InputSystem.OnScreen
