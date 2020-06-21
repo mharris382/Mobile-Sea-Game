@@ -5,6 +5,7 @@
     <e p="C:\Users\Admin\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Mobile-Sea-Game.1362979027.00" t="ExcludeRecursive" />
     <e p="D:\Unity Projects\Git\Mobile-Sea-Game" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
@@ -41,11 +42,15 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="Core" t="Include">
+            <e p="Editor" t="Include">
+              <e p="WaypointTool.cs" t="Include" />
+            </e>
             <e p="ExtensionMethods.cs" t="Include" />
             <e p="GameManager.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="IChaseTarget.cs" t="Include" />
             </e>
+            <e p="IWaypoints.cs" t="Include" />
             <e p="Level.cs" t="Include" />
             <e p="ObservedValue.cs" t="Include" />
             <e p="View" t="Include">
@@ -72,19 +77,12 @@
             <e p="Loot.cs" t="Include" />
             <e p="LootCounter.cs" t="Include" />
           </e>
-          <e p="OnScreenStickCustom.cs" t="Include" />
-          <e p="Player" t="Include">
-            <e p="Abilities" t="Include">
-              <e p="FishDisruptor.cs" t="Include" />
-            </e>
-            <e p="PlayerController.cs" t="Include" />
-            <e p="Sub" t="Include">
-              <e p="SubController.cs" t="Include" />
-            </e>
+          <e p="Player Abilities" t="Include">
+            <e p="FishDisruptor.cs" t="Include" />
           </e>
           <e p="SnapToDirectionProcessor.cs" t="Include" />
-          <e p="Utilities" t="Include">
-            <e p="NavigationAgent.cs" t="Include" />
+          <e p="Sub" t="Include">
+            <e p="SubController.cs" t="Include" />
           </e>
           <e p="Utilities" t="Include">
             <e p="Pathfinder.cs" t="Include" />

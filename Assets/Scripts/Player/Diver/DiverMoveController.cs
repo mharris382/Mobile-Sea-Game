@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
-namespace Diver
+namespace Player.Diver
 {
     public class DiverMoveController : MonoBehaviour
     {

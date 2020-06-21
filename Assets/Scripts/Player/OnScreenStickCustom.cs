@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.Serialization;
+using Player.Diver;
 
 namespace UnityEngine.InputSystem.OnScreen
 {
@@ -83,5 +84,9 @@ namespace UnityEngine.InputSystem.OnScreen
             ((RectTransform)transform).anchoredPosition = m_StartPos;
             _diver.OnMove_OnScreen(Vector2.zero);
         }
+    }
+
+    public class DiverSmoothMovement
+    {
     }
 }

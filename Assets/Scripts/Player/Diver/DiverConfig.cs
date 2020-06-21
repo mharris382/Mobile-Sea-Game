@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Diver
+namespace Player.Diver
 {
     [CreateAssetMenu(menuName = "Data/DiverConfig")]
     public class DiverConfig : ScriptableObject

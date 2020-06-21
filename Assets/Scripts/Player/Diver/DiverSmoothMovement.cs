@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
 
-namespace Diver
+namespace Player.Diver
 {
     public class DiverSmoothMovement : MonoBehaviour, IChaseTarget
     {
