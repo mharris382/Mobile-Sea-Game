@@ -7,7 +7,7 @@ using UnityEngine;
 namespace enemies
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public class Eel2 : MonoBehaviour, IEel
+    public class Eel2 : MonoBehaviour, IEel, IWaypoints
     {
         public Transform[] waypoints;
         public float normalMoveSpeed = 5;
@@ -23,6 +23,12 @@ namespace enemies
         private IChaseTarget _chaseTarget;
         private Transform _currentWaypoint;
 
+        
+        public Transform[] WaypointTransforms
+        {
+            get => waypoints;
+            set => waypoints = value;
+        }
 
         private IWaypointProvider CurrentWaypoint => _waypoints;
 
