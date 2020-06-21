@@ -86,6 +86,9 @@
           <e p="Utilities" t="Include">
             <e p="NavigationAgent.cs" t="Include" />
           </e>
+          <e p="Utilities" t="Include">
+            <e p="Pathfinder.cs" t="Include" />
+          </e>
         </e>
         <e p="Text" t="Include">
           <e p="ReadMe.txt" t="Include" />
