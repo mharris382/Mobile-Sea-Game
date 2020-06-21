@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using UnityEditor;
 using UnityEngine;
 
 namespace enemies
@@ -66,10 +67,48 @@ namespace enemies
             
             return wp;
         }
+
+        public Transform GetNextWaypoint()
+        { 
+            var wp = waypoints[_index];
+            NextWp();
+            wp = waypoints[_index];
+            return wp;
+        }
     }
 
     public interface IWaypointProvider
     {
         Transform GetCurrentWaypoint();
+    }
+    
+    
+}
+
+namespace enemies.editor
+{
+    public class WaypointsGizmos
+    {
+        public void DrawWaypoints(Transform[] waypoints, Color color)
+        {
+            Gizmos.color = color;
+            for (int i = 0; i < waypoints.Length; i++)
+            {
+                var last = i == 0 ? waypoints[waypoints.Length - 1] : waypoints[i - 1];
+                var cur = waypoints[i];
+                Gizmos.DrawLine(last.position, cur.position);
+#if UNITY_EDITOR
+                Gizmos.DrawSphere(cur.position, 0.065f * HandleUtility.GetHandleSize(cur.position));
+                var waitpoint = cur.GetComponent<WaitPoint>();
+                if (waitpoint != null)
+                {
+                    Handles.color = color.WithAlpha(1);
+                    var labelPosition = cur.position - Vector3.up;
+                    Handles.Label(labelPosition, $"Wait for {waitpoint.waitTime}s");
+                }
+                Handles.Label(cur.position, cur.name);
+#endif
+            }
+        }
     }
 }

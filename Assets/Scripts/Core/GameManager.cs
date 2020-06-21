@@ -43,7 +43,7 @@ namespace Core
         
         public Level CurrentLevel => _levelLayout ? _levelLayout : (_levelLayout = FindObjectOfType<Level>());
 
-        
+        //TODO: Refactor this setup for dummy divers
         public static event Action<bool> OnPlayerHiddenChanged;
         public static event Action<bool> OnDisruptorChanged;
         public static event Action<string> OnPlayerKilled;
@@ -118,7 +118,7 @@ namespace Core
         }
         
 
-        public void KillDiver(string deathMessage = null)
+        public void KillDiver(string deathMessage = null )
         {
             //Notify listeners that player was killed
             deathMessage = String.IsNullOrEmpty(deathMessage) ? "Diver was killed!" : deathMessage;
@@ -135,6 +135,16 @@ namespace Core
                 Debug.LogError("No GameOverScreen is in the scene, the scene will not be reset!");
             }
 #endif
+        }
+
+        public void KillDiver(GameObject diverToKill, string deathMessage = null)
+        {
+            if (diverToKill != null && diverToKill != _diverGO)
+            {
+                Debug.Log("It wasn't the real diver that was killed!".InBold());
+                return;
+            }
+            KillDiver(deathMessage);
         }
 
         

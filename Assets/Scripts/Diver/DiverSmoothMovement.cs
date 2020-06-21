@@ -8,26 +8,26 @@ using UnityEngine.InputSystem.OnScreen;
 
 namespace Diver
 {
-    public class DiverSmoothMovement : MonoBehaviour
+    public class DiverSmoothMovement : MonoBehaviour, IChaseTarget
     {
         [Min(0)] public float moveSpeed = 2;
 
         private Vector2 _moveDirection = Vector2.zero;
-        private Rigidbody2D _rb;
+        private Rigidbody2D _rigidbody2D;
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         private void Start()
-                 {
-                     QualitySettings.vSyncCount = 0;
-                 }
+        {
+            QualitySettings.vSyncCount = 0;
+        }
 
         private void FixedUpdate()
         {
-            _rb.velocity = _moveDirection * moveSpeed;
+            _rigidbody2D.velocity = _moveDirection * moveSpeed;
             Vector3 currPosition = transform.position;
             ClampPositionToLevel(ref currPosition);
             transform.position = currPosition;
@@ -52,6 +52,12 @@ namespace Diver
         public void OnMove_OnScreen(Vector2 movement)
         {
             _moveDirection = movement;
+        }
+
+        public Rigidbody2D rigidbody2D
+        {
+            get => _rigidbody2D;
+            set => _rigidbody2D = value;
         }
     }
 }

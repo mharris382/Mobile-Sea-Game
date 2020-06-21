@@ -4,12 +4,48 @@
     <e p="C:\Users\Admin\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Admin\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Mobile-Sea-Game.1362979027.00" t="ExcludeRecursive" />
     <e p="D:\Unity Projects\Git\Mobile-Sea-Game" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="KillDiverOnCollision.cs" t="Include" />
+        <e p="Plugins" t="Include">
+          <e p="ParadoxNotion" t="Include">
+            <e p="PolyNav2D" t="Include">
+              <e p="DEMO" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="ChangeSpeedOnDepth.cs" t="Include" />
+                  <e p="ClickToMove.cs" t="Include" />
+                  <e p="CustomMapProvider.cs" t="Include" />
+                  <e p="DirectionChecker.cs" t="Include" />
+                  <e p="FollowTarget.cs" t="Include" />
+                  <e p="PatrolRandomWaypoints.cs" t="Include" />
+                  <e p="PatrolWaypoints.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="Editor" t="Include">
+                  <e p="PolyNav2DInspector.cs" t="Include" />
+                  <e p="PolyNavObstacleInspector.cs" t="Include" />
+                </e>
+                <e p="Runtime" t="Include">
+                  <e p="AStar.cs" t="Include" />
+                  <e p="Heap.cs" t="Include" />
+                  <e p="PolyNav2D.cs" t="Include" />
+                  <e p="PolyNavAgent.cs" t="Include" />
+                  <e p="PolyNavObstacle.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
         <e p="Scripts" t="Include">
           <e p="Core" t="Include">
             <e p="ExtensionMethods.cs" t="Include" />
             <e p="GameManager.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="IChaseTarget.cs" t="Include" />
+            </e>
             <e p="Level.cs" t="Include" />
             <e p="ObservedValue.cs" t="Include" />
             <e p="View" t="Include">
@@ -25,6 +61,9 @@
             <e p="CheckForDiverHit.cs" t="Include" />
             <e p="DisruptedMovement.cs" t="Include" />
             <e p="Eel.cs" t="Include" />
+            <e p="Eel2.cs" t="Include" />
+            <e p="EelMover.cs" t="Include" />
+            <e p="IEel.cs" t="Include" />
             <e p="PlayerChaseCheck.cs" t="Include" />
             <e p="WaitPoint.cs" t="Include" />
             <e p="Waypoints.cs" t="Include" />
@@ -40,6 +79,9 @@
           <e p="SnapToDirectionProcessor.cs" t="Include" />
           <e p="Sub" t="Include">
             <e p="SubController.cs" t="Include" />
+          </e>
+          <e p="Utilities" t="Include">
+            <e p="Pathfinder.cs" t="Include" />
           </e>
         </e>
         <e p="Text" t="Include">

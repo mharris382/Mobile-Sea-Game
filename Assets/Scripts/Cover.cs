@@ -7,7 +7,7 @@ using UnityEngine;
 public class Cover : MonoBehaviour
 {
     private static HashSet<Cover> _activeCovers = new HashSet<Cover>();
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
