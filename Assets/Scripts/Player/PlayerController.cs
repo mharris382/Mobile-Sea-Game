@@ -1,7 +1,7 @@
 ﻿using System;
 using Cinemachine;
 using Core;
-using Diver;
+using Player.Diver;
 using Player.Sub;
 using PolyNav;
 using UnityEngine;

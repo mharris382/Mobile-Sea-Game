@@ -1,5 +1,4 @@
-﻿using Diver;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.Serialization;
 using Player.Diver;
@@ -86,7 +85,5 @@ namespace UnityEngine.InputSystem.OnScreen
         }
     }
 
-    public class DiverSmoothMovement
-    {
-    }
+    
 }
