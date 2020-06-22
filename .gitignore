@@ -62,3 +62,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 /[Ee]xternal/
+/[Aa]ssets/Samples/*
+/[Aa]ssets/Samples.meta
+/[Aa]ssets/StreamingAssets/2DAnimationSampleAssetBundles/*
+/[Aa]ssets/StreamingAssets/2DAnimationSampleAssetBundles.meta
