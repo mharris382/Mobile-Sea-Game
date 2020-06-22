@@ -15,9 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Testing Scene.unity
     guid: a563e09c8818b9944bb426d541edf8c2
   - enabled: 1
-    path: Assets/Scenes/PlayerManager Test.unity
-    guid: a00167b56318de841b474a5e46c58be2
-  - enabled: 1
     path: Assets/Scenes/Prototype Challenge Scene.unity
     guid: fcf2e5b154dcbd64cb95c9d169702977
+  - enabled: 1
+    path: Assets/Scenes/PlayerManager Test.unity
+    guid: a00167b56318de841b474a5e46c58be2
   m_configObjects: {}

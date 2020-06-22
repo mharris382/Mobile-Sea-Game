@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Core;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class KillDiverOnCollision : MonoBehaviour
 {
 

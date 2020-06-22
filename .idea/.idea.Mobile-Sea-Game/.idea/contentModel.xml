@@ -39,6 +39,7 @@
             </e>
           </e>
         </e>
+        <e p="Rope.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Core" t="Include">
             <e p="ExtensionMethods.cs" t="Include" />

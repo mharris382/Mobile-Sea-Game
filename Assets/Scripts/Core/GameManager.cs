@@ -114,6 +114,9 @@ namespace Core
             if (_levelLayout == null)
                 Debug.LogWarning("GameManager loaded into a scene without a Level Object");
             OnLevelLoad?.Invoke(_levelLayout);
+            if (_diverGO == null)
+                _diverGO = GameObject.FindGameObjectWithTag("Player");
+            _diverGO.transform.position = _levelLayout.diverSpawnPosition;
             // if (_diverGO != null) GameObject.Destroy(_diverGO);
             // _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
             //
