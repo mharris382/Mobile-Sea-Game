@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="sunken-ship.svg">
+   sodipodi:docname="sunken-ship.svg"
+   inkscape:export-filename="A:\UnityProjects_Cloned\Mobile-Sea-Game\Assets\Art\Sunken Ship\ship-bg_normal-grayscale.png"
+   inkscape:export-xdpi="98.303993"
+   inkscape:export-ydpi="98.303993">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="611.46741"
-     inkscape:cy="521.02524"
+     inkscape:zoom="0.5"
+     inkscape:cx="113.60647"
+     inkscape:cy="405.14606"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:snap-smooth-nodes="true"
      showborder="true"
@@ -68,29 +71,53 @@
        id="rect817"
        width="264.58334"
        height="264.58334"
-       x="0"
-       y="32.416626" />
+       x="-4.8333372e-006"
+       y="349.91663" />
+    <rect
+       y="32.416634"
+       x="5.1666784e-006"
+       height="264.58334"
+       width="264.58334"
+       id="rect839"
+       style="opacity:1;fill:#212121;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="fill:none;stroke:#161616;stroke-width:2.64583325;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 5.1666784e-6,230.85413 H 264.58334 v 0"
+       id="path849"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Beams">
     <rect
-       transform="translate(0,-32.416633)"
        style="opacity:1;fill:#ececec;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect823"
        width="26.458334"
        height="264.58334"
-       x="0"
-       y="32.416626" />
+       x="-4.8333372e-006"
+       y="317.5" />
     <rect
-       transform="translate(0,-32.416633)"
        style="opacity:1;fill:#ececec;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect825"
        width="26.458332"
        height="264.58334"
        x="132.29167"
-       y="32.416626" />
+       y="317.5" />
+    <rect
+       y="2.6432288e-006"
+       x="5.1666784e-006"
+       height="264.58334"
+       width="26.458334"
+       id="rect841"
+       style="opacity:1;fill:#3f3f3f;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="2.6432288e-006"
+       x="132.29166"
+       height="264.58334"
+       width="26.458332"
+       id="rect843"
+       style="opacity:1;fill:#3f3f3f;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -98,20 +125,32 @@
      inkscape:label="Rope">
     <path
        style="fill:none;stroke:#cbcbcb;stroke-width:6.61458302;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M -8.6666678e-6,119.06249 C 3.5955976,118.53874 54.849248,132.65308 79.374992,132.29165 c 24.525748,-0.36142 61.241598,-13.49009 66.145848,-13.22916 18.50849,0.98475 60.14887,14.01729 79.375,13.22916 19.22613,-0.78812 33.69764,-12.82647 39.68749,-13.22916"
+       d="M -1.3500005e-5,436.5625 C 3.5955928,436.03875 54.849243,450.15309 79.374987,449.79166 c 24.525753,-0.36142 61.241603,-13.49009 66.145853,-13.22916 18.50849,0.98475 60.14887,14.01729 79.375,13.22916 19.22613,-0.78812 33.69764,-12.82647 39.68749,-13.22916"
        id="path828"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="czszc" />
+    <path
+       sodipodi:nodetypes="czszc"
+       inkscape:connector-curvature="0"
+       id="path845"
+       d="M -1.4833322e-5,119.06249 C 3.5955952,118.53874 54.849245,132.65308 79.374985,132.29165 c 24.525755,-0.36142 61.241605,-13.49009 66.145855,-13.22916 18.50849,0.98475 60.14887,14.01729 79.375,13.22916 19.22613,-0.78812 33.69764,-12.82647 39.68749,-13.22916"
+       style="fill:none;stroke:#7a7a7a;stroke-width:6.61458302;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Bolt">
     <circle
-       style="opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:#dadada;stroke-width:3.96874995;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.39687499,0.39687499;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:#dadada;stroke-width:3.96875;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.39687499, 0.39687499;stroke-dashoffset:0;stroke-opacity:1"
        id="path830"
        cx="211.66666"
-       cy="66.145828"
+       cy="383.64584"
        r="13.229166" />
+    <circle
+       r="13.229166"
+       cy="66.145844"
+       cx="211.66664"
+       id="circle847"
+       style="opacity:1;fill:#545454;fill-opacity:1;stroke:#353535;stroke-width:3.96875;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.39687499, 0.39687499;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill" />
   </g>
 </svg>
