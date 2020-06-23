@@ -3,7 +3,7 @@
   <component name="ContentModelUserStore">
     <attachedFolders />
     <explicitIncludes>
-      <Path>$USER_HOME$/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.postprocessing@2.1.7</Path>
+      <Path>Assets</Path>
       <Path>Library/PackageCache/com.unity.2d.animation@3.2.2</Path>
       <Path>Library/PackageCache/com.unity.2d.common@2.0.2</Path>
       <Path>Library/PackageCache/com.unity.2d.path@2.0.4</Path>
@@ -25,6 +25,7 @@
       <Path>Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0-preview</Path>
       <Path>Library/PackageCache/com.unity.platforms.android@0.4.0-preview.5</Path>
       <Path>Library/PackageCache/com.unity.platforms@0.4.0-preview.5</Path>
+      <Path>Library/PackageCache/com.unity.postprocessing@2.2.2</Path>
       <Path>Library/PackageCache/com.unity.properties.ui@1.3.0-preview</Path>
       <Path>Library/PackageCache/com.unity.properties@1.3.0-preview</Path>
       <Path>Library/PackageCache/com.unity.render-pipelines.core@7.4.1</Path>
@@ -45,7 +46,9 @@
     <explicitExcludes>
       <Path>.git</Path>
       <Path>.idea</Path>
+      <Path>.vs</Path>
       <Path>Builds</Path>
+      <Path>External</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
       <Path>Temp</Path>

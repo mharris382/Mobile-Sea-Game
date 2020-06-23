@@ -16,7 +16,7 @@ namespace Core
         [SerializeField] private GameObject diverPrefab;
         [SerializeField] private int currentScene = 0;
 
-
+        public bool dontLoadScene = true;
         private ObservedValue<bool> _isPlayerHidden;
         private ObservedValue<bool> _isDisruptorActive;
 
@@ -75,6 +75,7 @@ namespace Core
         {
             if (Application.isMobilePlatform)
                 QualitySettings.vSyncCount = 0;
+            if(!dontLoadScene)
             ResetLevel();
         }
 
