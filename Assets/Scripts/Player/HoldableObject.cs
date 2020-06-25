@@ -9,7 +9,18 @@ namespace Player
 
         public bool CanBePickedUpBy(Holder holder)
         {
-            throw new System.NotImplementedException();
+            return isHeld == false;
+        }
+
+        private bool isHeld = false;
+        public void Pickup(Holder holder)
+        {
+            isHeld = true;
+        }
+
+        public void Release()
+        {
+            isHeld = false;
         }
 
         private void Awake()

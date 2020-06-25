@@ -8,6 +8,11 @@
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="Art" t="Include">
+          <e p="Shaders" t="Include">
+            <e p="NewSurfaceShader.shader" t="Include" />
+          </e>
+        </e>
         <e p="KillDiverOnCollision.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="ParadoxNotion" t="Include">
@@ -39,7 +44,6 @@
             </e>
           </e>
         </e>
-        <e p="Rope.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Core" t="Include">
             <e p="ExtensionMethods.cs" t="Include" />
@@ -49,6 +53,12 @@
             </e>
             <e p="Level.cs" t="Include" />
             <e p="ObservedValue.cs" t="Include" />
+            <e p="State" t="Include">
+              <e p="EntityStateMachineBase.cs" t="Include" />
+              <e p="IState.cs" t="Include" />
+              <e p="StateMachine.cs" t="Include" />
+              <e p="StateTransition.cs" t="Include" />
+            </e>
             <e p="View" t="Include">
               <e p="GameOverScreen.cs" t="Include" />
             </e>
@@ -78,6 +88,13 @@
               <e p="DiverMoveController.cs" t="Include" />
               <e p="DiverSmoothMovement.cs" t="Include" />
             </e>
+            <e p="DiverHeavyMovement.cs" t="Include" />
+            <e p="HoldableObject.cs" t="Include" />
+            <e p="Holder.cs" t="Include" />
+            <e p="HookController.cs" t="Include" />
+            <e p="IHoldable.cs" t="Include" />
+            <e p="IInteractable.cs" t="Include" />
+            <e p="InteractionTrigger.cs" t="Include" />
             <e p="OnScreenStickCustom.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="Sub" t="Include">
@@ -86,10 +103,16 @@
             </e>
           </e>
           <e p="SnapToDirectionProcessor.cs" t="Include" />
+          <e p="UI" t="Include">
+            <e p="MenuWindow.cs" t="Include" />
+            <e p="VolumeSlider.cs" t="Include" />
+          </e>
           <e p="Utilities" t="Include">
+            <e p="CoroutineHandler.cs" t="Include" />
             <e p="Pathfinder.cs" t="Include" />
           </e>
         </e>
+        <e p="SpriteShapeShadowCaster.cs" t="Include" />
         <e p="Text" t="Include">
           <e p="ReadMe.txt" t="Include" />
         </e>

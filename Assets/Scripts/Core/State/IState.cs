@@ -9,7 +9,5 @@ namespace Core.State
         void Tick();
         void FixedTick();
     }
-
-    
 }
 

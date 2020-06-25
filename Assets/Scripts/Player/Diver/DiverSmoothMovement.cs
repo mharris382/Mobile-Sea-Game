@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using Core.State;
+using enemies;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
@@ -43,21 +44,17 @@ namespace Player.Diver
             {
                 var vel = _rigidbody2D.velocity;
                 vel=  Vector2.SmoothDamp(vel, Vector2.zero, ref slowingVelocity, 0.05f, moveSpeed);
+                RaycastHit2D hit;
+                if ((hit = CheckForCollision(vel.magnitude)) && Vector2.Dot(hit.normal, vel.normalized) > 0.25f) vel = Vector2.zero;
+                
                 _rigidbody2D.velocity = vel;
                 return;
             }
             var speed = MoveSpeed;
             if (moveDirection != Vector2.zero && rigidbody2D.isKinematic)
             {
-                var hit = Physics2D.Raycast(transform.position, _moveDirection, speed * Time.fixedDeltaTime, diverCollisionLayers);
-                Debug.DrawRay(transform.position, _moveDirection * (speed * Time.fixedDeltaTime), hit ? Color.red : Color.green);
-                if (hit)
-                {
-                    moveDirection = Vector2.zero;
-                    //var ortho = new Vector2(hit.normal.y, hit.normal.x).normalized;
-                    //speed = Vector2.Dot(moveDirection * speed, ortho);
-                    //moveDirection = ortho * Mathf.Sign(speed);
-                }
+                var hit = CheckForCollision(speed);
+                if(hit)moveDirection = Vector2.zero;
             }
 
             _rigidbody2D.velocity = moveDirection * speed;
@@ -66,6 +63,15 @@ namespace Player.Diver
             transform.position = currPosition;
             // currPosition += _moveDirection * moveSpeed * Time.deltaTime;
             // transform.position = currPosition;
+        }
+
+        private RaycastHit2D CheckForCollision(float speed)
+        {
+            Vector2 moveDirection;
+            var hit = Physics2D.Raycast(transform.position, _moveDirection, speed * Time.fixedDeltaTime, diverCollisionLayers);
+            Debug.DrawRay(transform.position, _moveDirection * (speed * Time.fixedDeltaTime), hit ? Color.red : Color.green);
+
+            return hit;
         }
 
         private void ClampPositionToLevel(ref Vector3 position)

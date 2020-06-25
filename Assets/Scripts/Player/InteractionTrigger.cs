@@ -17,6 +17,8 @@ namespace Player
             if (interactableCache.TryGetValue(collision, out interactables) == false)
             {
                 interactableCache.Add(collision, collision.GetComponents<IInteractable>());
+                _inRangeInteractions.Add(collision);
+                return;
             }
             if (interactables != null && interactables.Length > 0)
             {
@@ -38,21 +40,9 @@ namespace Player
             }
         }
 
-        public List<T> GetInRangeInteractables<T> () where T : IInteractable
+        public List<T> GetInRangeInteractables<T> () where T : class, IInteractable
         {
-           return _inRangeInteractions.Select(item =>
-            {
-                if (ColliderCache<T>.interactableCache.ContainsKey(item))
-                {
-                    return ColliderCache<T>.interactableCache[item];
-                }
-                else
-                {
-                    var interactable = interactableCache[item].FirstOrDefault(t => t is T);
-                    ColliderCache<T>.interactableCache.Add(item, (T)interactable);
-                    return (T)interactable;
-                }
-            }).Where(t => t != null).ToList();
+           return _inRangeInteractions.SelectMany(item => interactableCache[item]).Select(t => t as T).Where(t => t != null).ToList();
            
         }
 

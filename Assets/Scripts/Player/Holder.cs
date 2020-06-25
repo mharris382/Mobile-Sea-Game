@@ -68,7 +68,8 @@ namespace Player
                 this.m_heldBody = heldBody;
                 this.maxDistance = maxDistance;
             }
-            public bool CanBeAttached() => Vector2.Distance(TargetPoint, m_heldBody.position) < maxDistance;
+
+            public bool CanBeAttached() => !isAttached;// Vector2.Distance(TargetPoint, m_heldBody.position) < maxDistance;
             public void Attach()
             {
                 if (isAttached)
@@ -206,6 +207,8 @@ namespace Player
 
 
         }
+
+       
     }
 
 
