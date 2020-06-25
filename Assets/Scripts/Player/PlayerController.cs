@@ -60,8 +60,7 @@ namespace Player
             IState normalMovement = diverMovement;
             
             _fsm.AddTransition(heavyMovement, normalMovement, () => _isHoldingObject == false);
-            //TODO: update the transition so that it takes the weight of the object held into account before switching to heavy movement or if the object has a kinematic rigidbody2d
-            _fsm.AddTransition(normalMovement, heavyMovement, () => _isHoldingObject == true);
+            _fsm.AddTransition(normalMovement, heavyMovement, () => _isHoldingObject && objHolder.HeldObject.rigidbody2D.isKinematic == false);
             _fsm.SetState(normalMovement);
             moveAction.performed += (diverMovement as IListenForMoveInput).OnMove;
         }

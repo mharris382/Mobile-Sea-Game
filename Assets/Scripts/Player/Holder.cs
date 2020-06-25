@@ -11,7 +11,12 @@ namespace Player
 
         public new Rigidbody2D rigidbody2D { get; private set; }
 
-        
+        public IHoldable HeldObject
+        {
+            get { return _heldObject; }
+            set { _heldObject = value; }
+        }
+
 
         private void Awake()
         {
