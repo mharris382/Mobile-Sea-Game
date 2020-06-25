@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Core.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
 
 namespace Player.Diver
 {
-    public class DiverSmoothMovement : MonoBehaviour, IChaseTarget
+    public class DiverSmoothMovement : MonoBehaviour, IChaseTarget, IState, IListenForMoveInput
     {
         [Min(0)] public float moveSpeed = 2;
         public DiverConfig config;
@@ -34,9 +35,17 @@ namespace Player.Diver
             QualitySettings.vSyncCount = 0;
         }
 
+        private Vector2 slowingVelocity;
         private void FixedUpdate()
         {
             var moveDirection = _moveDirection;
+            if (_moveDirection.sqrMagnitude < Mathf.Epsilon)
+            {
+                var vel = _rigidbody2D.velocity;
+                vel=  Vector2.SmoothDamp(vel, Vector2.zero, ref slowingVelocity, 0.05f, moveSpeed);
+                _rigidbody2D.velocity = vel;
+                return;
+            }
             var speed = MoveSpeed;
             if (moveDirection != Vector2.zero && rigidbody2D.isKinematic)
             {
@@ -82,6 +91,32 @@ namespace Player.Diver
         {
             this.config = config;
         }
+
+        #region [IState]
+        
+        public IEnumerator OnStateEnter()
+        {
+            enabled = true;
+            yield break;
+        }
+
+        public IEnumerator OnStateExit()
+        {
+            enabled = false;
+            yield break;
+        }
+
+        public void Tick()
+        {
+            
+        }
+
+        public void FixedTick()
+        {
+            
+        }
+
+        #endregion
     }
 }
 
