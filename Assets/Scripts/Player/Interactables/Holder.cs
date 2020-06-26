@@ -18,6 +18,12 @@ namespace Player
             set { _heldObject = value; }
         }
 
+        public bool IsHoldingObject
+        {
+            get { return HeldObject != null; }
+            
+        }
+
 
         private void Awake()
         {
@@ -42,7 +48,8 @@ namespace Player
             _holderJoint = jointHolder;
             jointHolder.TargetPoint = transform.position;
             jointHolder.Attach();
-
+            _heldObject = objectToHold;
+            _heldObject.OnPickedUp(this);
             return true;
 
         }
@@ -51,7 +58,8 @@ namespace Player
         {
             if(_heldObject != null)
             {
-                //TODO: notify object that it was released
+                _heldObject.OnReleased();
+                _heldObject = null;
             }
             if(_holderJoint != null)
             {

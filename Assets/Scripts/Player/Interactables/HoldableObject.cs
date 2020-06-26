@@ -13,12 +13,12 @@ namespace Player
         }
 
         private bool isHeld = false;
-        public void Pickup(Holder holder)
+        public void OnPickedUp(Holder holder)
         {
             isHeld = true;
         }
 
-        public void Release()
+        public void OnReleased()
         {
             isHeld = false;
         }

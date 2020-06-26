@@ -5,8 +5,8 @@
         bool CanBePickedUpBy(Holder holder);
 
 
-        void Pickup(Holder holder);
-        void Release();
+        void OnPickedUp(Holder holder);
+        void OnReleased();
     }
 
 }

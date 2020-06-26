@@ -20,6 +20,8 @@ namespace Player.Diver
         private Vector2 _moveDirection = Vector2.zero;
         private Rigidbody2D _rigidbody2D;
 
+        public Vector2 MoveDirection => _moveDirection;
+
         public Rigidbody2D rigidbody2D
         {
             get => _rigidbody2D;
