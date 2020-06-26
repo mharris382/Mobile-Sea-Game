@@ -45,7 +45,7 @@ namespace Player.Diver
                 var vel = _rigidbody2D.velocity;
                 vel=  Vector2.SmoothDamp(vel, Vector2.zero, ref slowingVelocity, 0.05f, moveSpeed);
                 RaycastHit2D hit;
-                if ((hit = CheckForCollision(vel.magnitude)) && Vector2.Dot(hit.normal, vel.normalized) > 0.25f) vel = Vector2.zero;
+                //if ((hit = CheckForCollision(vel.magnitude)) && Vector2.Dot(hit.normal, vel.normalized) > 0.25f) vel = Vector2.zero;
                 
                 _rigidbody2D.velocity = vel;
                 return;

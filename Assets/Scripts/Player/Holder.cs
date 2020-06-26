@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 namespace Player
 {
@@ -60,7 +61,7 @@ namespace Player
         }
         public abstract class JointHolderBase : IDisposable
         {
-            protected readonly Rigidbody2D m_heldBody;
+            protected readonly Rigidbody2D _heldBody;
             public bool isAttached { get; private set; } = false;
             public bool isDisposed { get; private set; } = false;
 
@@ -70,7 +71,7 @@ namespace Player
 
             public JointHolderBase(Rigidbody2D heldBody, float maxDistance)
             {
-                this.m_heldBody = heldBody;
+                this._heldBody = heldBody;
                 this.maxDistance = maxDistance;
             }
 
@@ -117,7 +118,7 @@ namespace Player
             }
             protected override void _Attach()
             {
-                m_targetJoint = m_heldBody.gameObject.AddComponent<TargetJoint2D>();
+                m_targetJoint = _heldBody.gameObject.AddComponent<TargetJoint2D>();
                 IsActive = true;
                 m_targetJoint.target = m_startTargetPoint;
                 m_targetJoint.autoConfigureTarget = false;
@@ -133,12 +134,12 @@ namespace Player
                 get => m_targetJoint.target;
                 set => m_targetJoint.target = value;
             }
-            public float Length => (m_targetJoint.target - m_heldBody.position).magnitude;
+            public float Length => (m_targetJoint.target - _heldBody.position).magnitude;
             public bool IsActive { get; private set; }
 
             public void SetTargetPoint(Vector2 value)
             {
-                var delta = m_heldBody.position - value;
+                var delta = _heldBody.position - value;
                 delta = Vector2.ClampMagnitude(delta, maxLength);
                 m_targetJoint.target += delta;
             }
@@ -186,7 +187,7 @@ namespace Player
             }
             protected override void _Attach()
             {
-                this.joint = m_heldBody.gameObject.AddComponent<SpringJoint2D>();
+                this.joint = _heldBody.gameObject.AddComponent<SpringJoint2D>();
                 joint.autoConfigureDistance = false;
                 joint.connectedBody = m_holderBody;
                 joint.distance = m_distance;
@@ -213,7 +214,62 @@ namespace Player
 
         }
 
-       
+       public class FixedJointHolder : JointHolderBase
+       {
+           private readonly Rigidbody2D _holder;
+           private readonly Transform _attachPoint;
+           private readonly  Transform _detachedParent;
+           private readonly bool _alwaysKinematic;
+           private Collider2D[] _heldColliders;
+           private Collider2D[] _holderColliders;
+
+           public FixedJointHolder(Rigidbody2D heldBody, Rigidbody2D holder, Transform attachPoint, float maxDistance) : base(heldBody, maxDistance)
+           {
+               _holder = holder;
+               _attachPoint = attachPoint;
+               _detachedParent = heldBody.transform.parent;
+               _alwaysKinematic = heldBody.isKinematic;
+               _holderColliders = _holder.GetComponents<Collider2D>().Where(t => !t.isTrigger).ToArray();
+               _heldColliders = _heldBody.GetComponents<Collider2D>().Where(t => !t.isTrigger).ToArray();
+           }
+
+           public override Vector2 TargetPoint
+           {
+               get => _attachPoint.position;
+               set =>  _attachPoint.position = value;
+           }
+
+           protected override void _Attach()
+           {
+               _heldBody.MovePosition(_attachPoint.position);
+               _heldBody.transform.parent = _attachPoint;
+
+               
+               SetCollisionsIgnored(true);
+               
+           }
+
+           private void SetCollisionsIgnored(bool ignore)
+           {
+               foreach (var holderCollider in _holderColliders)
+               {
+                   foreach (var heldCollider in _heldColliders)
+                   {
+                       Physics2D.IgnoreCollision(holderCollider, heldCollider, ignore);
+                   }
+               }
+           }
+
+           public override event Action OnJointBroke;
+           
+           protected override void _Dispose()
+           {
+               _heldBody.isKinematic = _alwaysKinematic;
+               _heldBody.transform.parent = _detachedParent;
+               OnJointBroke?.Invoke();
+               SetCollisionsIgnored(false);
+           }
+       }
     }
 
 
