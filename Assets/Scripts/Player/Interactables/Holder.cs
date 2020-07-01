@@ -57,12 +57,13 @@ namespace Player
             jointHolder.Attach();
             
             jointHolder.TargetPoint = transform.position;
-            _heldObject.OnPickedUp(this);
+            
             
             
             
             _holderJoint = jointHolder;
             _heldObject = objectToHold;
+            _heldObject.OnPickedUp(this);
             heldRigidbody = objectToHold.rigidbody2D;
             
             return true;
