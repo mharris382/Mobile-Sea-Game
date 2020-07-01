@@ -73,6 +73,15 @@ namespace Player
         {
             isBeingHeld = false;
             OnHookReleased?.Invoke();
+            
+            IHoldable[] inRangeHoldables = diverInteractTrigger.GetInRangeInteractables<IHoldable>()
+                .Where(t => t != this && t.CanBePickedUpBy(hookHolder)).ToArray();
+            var toPickup = inRangeHoldables.FirstOrDefault(t => hookHolder.TryHoldObject(t, new Holder.TargetJointHolder(t.rigidbody2D, this.transform.position )));
+            if (toPickup == null)
+                return;
+            
+            OnObjectHooked?.Invoke(toPickup);
+            
         }
 
 

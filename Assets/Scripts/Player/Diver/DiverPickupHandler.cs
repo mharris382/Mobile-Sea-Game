@@ -37,10 +37,7 @@ namespace Player.Diver
         public void OnInteract(IHoldable[] validHoldables)
         {
             //if holding the hook, pass the valid holdables to the hook as well
-            if (isDiverHoldingHook)
-            {
-                TryAttachHook(validHoldables.Where(t => t != holder.HeldObject).ToArray());
-            }
+            
             if (holder.IsHoldingObject)
             {
                 DropHeldObjects();

@@ -123,7 +123,7 @@ namespace Player
             private TargetJoint2D m_targetJoint;
 
             public override event Action OnJointBroke;
-
+            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint): this(heldBody, startTargetPoint, Vector2.Distance(heldBody.position, startTargetPoint)){}
             public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint, float maxLength) : this(heldBody, startTargetPoint, maxLength, 4f, 1) { }
             public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint, float maxLength, float frequency, float dampening) : base(heldBody, maxLength)
             {
