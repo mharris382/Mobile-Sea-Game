@@ -401,7 +401,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""41417e94-3098-4eb0-990b-453ed5ad64fe"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",

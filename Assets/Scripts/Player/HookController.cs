@@ -10,7 +10,6 @@ namespace Player
     {
       
         public Hook hook;
-        public LineRenderer cableRenderer;
         public Rigidbody2D diver;
         public new Camera camera;
 
@@ -37,7 +36,6 @@ namespace Player
             var surfacePoint = new Vector2(spawnPoint.x, 0);
             
             
-            cableRenderer.gameObject.SetActive(true);
             hook.gameObject.SetActive(true);
             
         }
@@ -71,7 +69,7 @@ namespace Player
     }
 
 
-    [Serializable]
+   [Serializable]
     public class HookConfig
     {
         

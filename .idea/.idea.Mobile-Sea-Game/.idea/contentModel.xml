@@ -13,6 +13,7 @@
             <e p="NewSurfaceShader.shader" t="Include" />
           </e>
         </e>
+        <e p="HookLineRenderer.cs" t="Include" />
         <e p="KillDiverOnCollision.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="ParadoxNotion" t="Include">
@@ -85,16 +86,24 @@
             </e>
             <e p="Diver" t="Include">
               <e p="DiverConfig.cs" t="Include" />
+              <e p="DiverFlashlight.cs" t="Include" />
+              <e p="DiverHeavyMovement.cs" t="Include" />
               <e p="DiverMoveController.cs" t="Include" />
+              <e p="DiverPickupHandler.cs" t="Include" />
               <e p="DiverSmoothMovement.cs" t="Include" />
             </e>
-            <e p="DiverHeavyMovement.cs" t="Include" />
-            <e p="HoldableObject.cs" t="Include" />
-            <e p="Holder.cs" t="Include" />
+            <e p="Hook.cs" t="Include" />
             <e p="HookController.cs" t="Include" />
-            <e p="IHoldable.cs" t="Include" />
-            <e p="IInteractable.cs" t="Include" />
-            <e p="InteractionTrigger.cs" t="Include" />
+            <e p="HookPickupHandler.cs" t="Include" />
+            <e p="IListenForMoveInput.cs" t="Include" />
+            <e p="Interactables" t="Include">
+              <e p="HoldableObject.cs" t="Include" />
+              <e p="Holder.cs" t="Include" />
+              <e p="IHoldable.cs" t="Include" />
+              <e p="IInteractable.cs" t="Include" />
+              <e p="InteractionTrigger.cs" t="Include" />
+              <e p="TreasureChestPickup.cs" t="Include" />
+            </e>
             <e p="OnScreenStickCustom.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="Sub" t="Include">

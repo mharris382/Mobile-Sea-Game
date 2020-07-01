@@ -8,6 +8,7 @@ using Player.Sub;
 using PolyNav;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.Serialization;
 using static Player.Holder;
 
@@ -21,21 +22,22 @@ namespace Player
         public InteractionTrigger trigger;
         public Transform fixedAttachPoint;
         public float diverGrabDistance = 1;
-        [FormerlySerializedAs("isHoldingObject")] [SerializeField] bool _isHoldingObject;
         
         
+        
+
+        public DiverPickupHandler DiverPickupHandler;
         private StateMachine _diverFsm;
         private Holder objHolder;
 
         public bool isHoldingObject
         {
-            get => _isHoldingObject;
-            set => _isHoldingObject = value;
+            get => objHolder.IsHoldingObject;
         }
 
         private void Awake()
         {
-            this.objHolder = GetComponent<Holder>();
+            this.objHolder = GetComponent<Holder>() ?? diverMovement.GetComponent<Holder>();
             _diverFsm = new StateMachine();
             
             var moveAction = input.actions["move"];
@@ -62,8 +64,8 @@ namespace Player
             IState heavyMovement = new DiverHeavyMovement(diverMovement.GetComponent<Rigidbody2D>(), objHolder, heavyMoveConfig);
             IState normalMovement = diverMovement;
             
-            _diverFsm.AddTransition(heavyMovement, normalMovement, () => _isHoldingObject == false);
-            _diverFsm.AddTransition(normalMovement, heavyMovement, () => _isHoldingObject && (objHolder.HeldObject != null) && (objHolder.HeldObject.rigidbody2D.isKinematic == false));
+            _diverFsm.AddTransition(heavyMovement, normalMovement, () => isHoldingObject == false);
+            _diverFsm.AddTransition(normalMovement, heavyMovement, () => isHoldingObject && (objHolder.HeldObject != null) && (objHolder.HeldObject is IHeavyHoldable));
             
             
             _diverFsm.SetState(normalMovement);
@@ -75,10 +77,7 @@ namespace Player
         {
             _diverFsm.Tick();
             var holdable = trigger.GetInRangeInteractables<IHoldable>().OrderBy(t => Vector2.Distance(t.rigidbody2D.position, diverMovement.rigidbody2D.position)).FirstOrDefault();
-            if (holdable != null)
-            {
-                Debug.Log($"Available Holdable {holdable.name}!");
-            }
+            
         }
 
         private void FixedUpdate() => _diverFsm.FixedTick();
@@ -105,22 +104,28 @@ namespace Player
         //TODO: Refactor the pickup code into separate class
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (_isHoldingObject)
+
+
+            if (context.performed == false) return;
+            
+            if (isHoldingObject)
             {
-                _isHoldingObject = false;
-                objHolder.ReleaseObject();
+                DiverPickupHandler.DropHeldObjects();
             }
             else
             {
+                DiverPickupHandler.OnInteract(trigger.GetInRangeInteractables<IHoldable>().ToArray());
                 IHoldable holdable = trigger.GetInRangeInteractables<IHoldable>().FirstOrDefault(t => t.CanBePickedUpBy(objHolder));
-                
                 if (holdable != null  && objHolder.TryHoldObject(holdable,  GetHoldJoint(holdable.rigidbody2D)))
                 {
-                    _isHoldingObject = true;
+                    //_isHoldingObject = true;
                     return;
                 }
             }
         }
+        
+        [System.Obsolete("Moved to DiverPickupHandler")]
+        
         private JointHolderBase GetHoldJoint(Rigidbody2D holdable)
         {
             float distance = Vector2.Distance(diverMovement.rigidbody2D.position, holdable.position);
@@ -131,11 +136,5 @@ namespace Player
 
             return holdJoint;
         }
-    }
-
-
-    public interface IListenForMoveInput
-    {
-        void OnMove(InputAction.CallbackContext context);
     }
 }

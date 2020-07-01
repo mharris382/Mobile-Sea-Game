@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 namespace Player
 {
-    public class Holder : MonoBehaviour
+    public class Holder : MonoBehaviour, IHolder
     {
 
         private IHoldable _heldObject;
@@ -24,16 +24,25 @@ namespace Player
             
         }
 
+        public Rigidbody2D heldRigidbody;
+
 
         private void Awake()
         {
             rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
+        private void Update()
+        {
+            if (IsHoldingObject)
+            {
+                Debug.DrawLine(transform.position, HeldObject.rigidbody2D.position, Color.red);
+            }
+        }
 
         public bool TryHoldObject(IHoldable objectToHold, JointHolderBase jointHolder)
         {
-            
+            if (!enabled) return false;
             ReleaseObject();
             
 
@@ -44,7 +53,7 @@ namespace Player
             //if joint says no then don't attach
             if (!jointHolder.CanBeAttached())
                 return false;
-            
+            heldRigidbody = objectToHold.rigidbody2D;
             _holderJoint = jointHolder;
             jointHolder.TargetPoint = transform.position;
             jointHolder.Attach();
@@ -280,6 +289,11 @@ namespace Player
        }
     }
 
-
-
+    public interface IHolder
+    {
+        IHoldable HeldObject { get; set; }
+        bool IsHoldingObject { get; }
+        bool TryHoldObject(IHoldable objectToHold, Holder.JointHolderBase jointHolder);
+        void ReleaseObject();
+    }
 }
