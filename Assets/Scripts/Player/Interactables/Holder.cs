@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 namespace Player
 {
     public class Holder : MonoBehaviour, IHolder
     {
-
         private IHoldable _heldObject;
         private IDisposable _holderJoint;
 
@@ -21,7 +22,6 @@ namespace Player
         public bool IsHoldingObject
         {
             get { return HeldObject != null; }
-            
         }
 
         public Rigidbody2D heldRigidbody;
@@ -44,7 +44,7 @@ namespace Player
         {
             if (!enabled) return false;
             ReleaseObject();
-            
+
 
             //if object says no then don't attach
             if (!objectToHold.CanBePickedUpBy(this))
@@ -53,29 +53,36 @@ namespace Player
             //if joint says no then don't attach
             if (!jointHolder.CanBeAttached())
                 return false;
-            heldRigidbody = objectToHold.rigidbody2D;
-            _holderJoint = jointHolder;
-            jointHolder.TargetPoint = transform.position;
+            
             jointHolder.Attach();
-            _heldObject = objectToHold;
+            
+            jointHolder.TargetPoint = transform.position;
             _heldObject.OnPickedUp(this);
+            
+            
+            
+            _holderJoint = jointHolder;
+            _heldObject = objectToHold;
+            heldRigidbody = objectToHold.rigidbody2D;
+            
             return true;
-
         }
 
         public void ReleaseObject()
         {
-            if(_heldObject != null)
+            if (_heldObject != null)
             {
                 _heldObject.OnReleased();
                 _heldObject = null;
             }
-            if(_holderJoint != null)
+
+            if (_holderJoint != null)
             {
                 _holderJoint.Dispose();
                 _holderJoint = null;
             }
         }
+
         public abstract class JointHolderBase : IDisposable
         {
             protected readonly Rigidbody2D _heldBody;
@@ -85,6 +92,7 @@ namespace Player
             public float maxDistance { get; }
             public abstract Vector2 TargetPoint { get; set; }
 
+            static Dictionary<Rigidbody2D, IDisposable> activeHeldObjects = new Dictionary<Rigidbody2D, IDisposable>();
 
             public JointHolderBase(Rigidbody2D heldBody, float maxDistance)
             {
@@ -92,25 +100,44 @@ namespace Player
                 this.maxDistance = maxDistance;
             }
 
-            public bool CanBeAttached() => !isAttached;// Vector2.Distance(TargetPoint, m_heldBody.position) < maxDistance;
+            public bool CanBeAttached() =>
+                !isAttached; // Vector2.Distance(TargetPoint, m_heldBody.position) < maxDistance;
+
             public void Attach()
             {
+                if (activeHeldObjects.ContainsKey(_heldBody))
+                {
+                    if (activeHeldObjects[_heldBody] == this)
+                        return;
+
+                    activeHeldObjects[_heldBody].Dispose();
+                    activeHeldObjects.Remove(_heldBody);
+                }
+
                 if (isAttached)
                     return;
 
+                activeHeldObjects.Add(_heldBody, this);
                 isAttached = true;
+                isDisposed = false;
                 _Attach();
             }
+
             protected abstract void _Attach();
 
 
             public abstract event Action OnJointBroke;
+
             public void Dispose()
             {
                 isAttached = false;
+                if (isDisposed) return;
                 isDisposed = true;
+                if (activeHeldObjects.ContainsKey(_heldBody))
+                    activeHeldObjects.Remove(_heldBody);
                 _Dispose();
             }
+
             protected abstract void _Dispose();
         }
 
@@ -123,9 +150,19 @@ namespace Player
             private TargetJoint2D m_targetJoint;
 
             public override event Action OnJointBroke;
-            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint): this(heldBody, startTargetPoint, Vector2.Distance(heldBody.position, startTargetPoint)){}
-            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint, float maxLength) : this(heldBody, startTargetPoint, maxLength, 4f, 1) { }
-            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint, float maxLength, float frequency, float dampening) : base(heldBody, maxLength)
+
+            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint) : this(heldBody, startTargetPoint,
+                Vector2.Distance(heldBody.position, startTargetPoint))
+            {
+            }
+
+            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint, float maxLength) : this(heldBody,
+                startTargetPoint, maxLength, 4f, 1)
+            {
+            }
+
+            public TargetJointHolder(Rigidbody2D heldBody, Vector2 startTargetPoint, float maxLength, float frequency,
+                float dampening) : base(heldBody, maxLength)
             {
                 m_startTargetPoint = startTargetPoint;
 
@@ -133,6 +170,7 @@ namespace Player
                 m_frequency = frequency;
                 m_dampening = dampening;
             }
+
             protected override void _Attach()
             {
                 m_targetJoint = _heldBody.gameObject.AddComponent<TargetJoint2D>();
@@ -142,15 +180,18 @@ namespace Player
                 m_targetJoint.frequency = m_frequency;
                 m_targetJoint.dampingRatio = m_dampening;
             }
+
             public void Detach()
             {
                 Destroy(m_targetJoint);
             }
+
             public override Vector2 TargetPoint
             {
                 get => m_targetJoint.target;
                 set => m_targetJoint.target = value;
             }
+
             public float Length => (m_targetJoint.target - _heldBody.position).magnitude;
             public bool IsActive { get; private set; }
 
@@ -167,8 +208,6 @@ namespace Player
                 Detach();
                 OnJointBroke?.Invoke();
             }
-
-            
         }
 
         public class SpringJointHolder : JointHolderBase
@@ -180,8 +219,13 @@ namespace Player
             private SpringJoint2D joint;
             private bool disposed = false;
 
-            public SpringJointHolder(Rigidbody2D heldBody, Rigidbody2D holderBody, float distance) : this(heldBody, holderBody, distance, 2.5f, 1) { }
-            public SpringJointHolder(Rigidbody2D heldBody, Rigidbody2D holderBody, float distance, float frequency, float dampening) : base(heldBody, distance)
+            public SpringJointHolder(Rigidbody2D heldBody, Rigidbody2D holderBody, float distance) : this(heldBody,
+                holderBody, distance, 2.5f, 1)
+            {
+            }
+
+            public SpringJointHolder(Rigidbody2D heldBody, Rigidbody2D holderBody, float distance, float frequency,
+                float dampening) : base(heldBody, distance)
             {
                 disposed = true;
                 m_holderBody = holderBody;
@@ -199,9 +243,11 @@ namespace Player
                         OnJointBroke?.Invoke();
                         _Dispose();
                     }
+
                     yield return null;
                 }
             }
+
             protected override void _Attach()
             {
                 this.joint = _heldBody.gameObject.AddComponent<SpringJoint2D>();
@@ -212,12 +258,12 @@ namespace Player
                 joint.frequency = m_frequency;
                 Core.GameManager.Instance.StartCoroutine(CheckForBroken());
             }
+
             public override Vector2 TargetPoint
             {
                 get => m_holderBody.position;
                 set => m_holderBody.MovePosition(value);
             }
-
 
 
             public override event Action OnJointBroke;
@@ -227,66 +273,64 @@ namespace Player
                 if (this.joint != null)
                     GameObject.Destroy(this.joint);
             }
-
-
         }
 
-       public class FixedJointHolder : JointHolderBase
-       {
-           private readonly Rigidbody2D _holder;
-           private readonly Transform _attachPoint;
-           private readonly  Transform _detachedParent;
-           private readonly bool _alwaysKinematic;
-           private Collider2D[] _heldColliders;
-           private Collider2D[] _holderColliders;
+        public class FixedJointHolder : JointHolderBase
+        {
+            private readonly Rigidbody2D _holder;
+            private readonly Transform _attachPoint;
+            private readonly Transform _detachedParent;
+            private readonly bool _alwaysKinematic;
+            private Collider2D[] _heldColliders;
+            private Collider2D[] _holderColliders;
 
-           public FixedJointHolder(Rigidbody2D heldBody, Rigidbody2D holder, Transform attachPoint, float maxDistance) : base(heldBody, maxDistance)
-           {
-               _holder = holder;
-               _attachPoint = attachPoint;
-               _detachedParent = heldBody.transform.parent;
-               _alwaysKinematic = heldBody.isKinematic;
-               _holderColliders = _holder.GetComponents<Collider2D>().Where(t => !t.isTrigger).ToArray();
-               _heldColliders = _heldBody.GetComponents<Collider2D>().Where(t => !t.isTrigger).ToArray();
-           }
+            public FixedJointHolder(Rigidbody2D heldBody, Rigidbody2D holder, Transform attachPoint, float maxDistance)
+                : base(heldBody, maxDistance)
+            {
+                _holder = holder;
+                _attachPoint = attachPoint;
+                _detachedParent = heldBody.transform.parent;
+                _alwaysKinematic = heldBody.isKinematic;
+                _holderColliders = _holder.GetComponents<Collider2D>().Where(t => !t.isTrigger).ToArray();
+                _heldColliders = _heldBody.GetComponents<Collider2D>().Where(t => !t.isTrigger).ToArray();
+            }
 
-           public override Vector2 TargetPoint
-           {
-               get => _attachPoint.position;
-               set =>  _attachPoint.position = value;
-           }
+            public override Vector2 TargetPoint
+            {
+                get => _attachPoint.position;
+                set => _attachPoint.position = value;
+            }
 
-           protected override void _Attach()
-           {
-               _heldBody.MovePosition(_attachPoint.position);
-               _heldBody.transform.parent = _attachPoint;
+            protected override void _Attach()
+            {
+                _heldBody.MovePosition(_attachPoint.position);
+                _heldBody.transform.parent = _attachPoint;
 
-               
-               SetCollisionsIgnored(true);
-               
-           }
 
-           private void SetCollisionsIgnored(bool ignore)
-           {
-               foreach (var holderCollider in _holderColliders)
-               {
-                   foreach (var heldCollider in _heldColliders)
-                   {
-                       Physics2D.IgnoreCollision(holderCollider, heldCollider, ignore);
-                   }
-               }
-           }
+                SetCollisionsIgnored(true);
+            }
 
-           public override event Action OnJointBroke;
-           
-           protected override void _Dispose()
-           {
-               _heldBody.isKinematic = _alwaysKinematic;
-               _heldBody.transform.parent = _detachedParent;
-               OnJointBroke?.Invoke();
-               SetCollisionsIgnored(false);
-           }
-       }
+            private void SetCollisionsIgnored(bool ignore)
+            {
+                foreach (var holderCollider in _holderColliders)
+                {
+                    foreach (var heldCollider in _heldColliders)
+                    {
+                        Physics2D.IgnoreCollision(holderCollider, heldCollider, ignore);
+                    }
+                }
+            }
+
+            public override event Action OnJointBroke;
+
+            protected override void _Dispose()
+            {
+                _heldBody.isKinematic = _alwaysKinematic;
+                _heldBody.transform.parent = _detachedParent;
+                OnJointBroke?.Invoke();
+                SetCollisionsIgnored(false);
+            }
+        }
     }
 
     public interface IHolder
