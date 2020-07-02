@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Anenome_2
+  m_Name: Anenome_3
   m_Shader: {fileID: -6465566751694194690, guid: 26e88f3a40526984ba255c2aa4d693f4,
     type: 3}
   m_ShaderKeywords: 
@@ -35,4 +35,4 @@ Material:
     - Vector1_F25E2E6D: 1
     - Vector1_F8373AA: 0.25
     m_Colors:
-    - Vector2_7D469B22: {r: -1.12, g: 0, b: 0, a: 0}
+    - Vector2_7D469B22: {r: 0.5, g: 0.5, b: 0, a: 0}
