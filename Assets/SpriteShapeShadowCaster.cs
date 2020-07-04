@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.InputSystem;
 
 public class SpriteShapeShadowCaster : MonoBehaviour
 {
@@ -35,5 +36,12 @@ public class SpriteShapeShadowCaster : MonoBehaviour
             if(pc == null) pc = GetComponent<PolygonCollider2D>();
             SetShapePathFromCollider();
         }
+    }
+    
+    
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        context.ReadValue<Vector2>();
+        var curRot = transform.rotation;
     }
 }

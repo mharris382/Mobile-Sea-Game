@@ -46,7 +46,6 @@ namespace Player.Diver
             {
                 var vel = _rigidbody2D.velocity;
                 vel=  Vector2.SmoothDamp(vel, Vector2.zero, ref slowingVelocity, 0.05f, moveSpeed);
-                RaycastHit2D hit;
                 //if ((hit = CheckForCollision(vel.magnitude)) && Vector2.Dot(hit.normal, vel.normalized) > 0.25f) vel = Vector2.zero;
                 
                 _rigidbody2D.velocity = vel;
@@ -87,6 +86,11 @@ namespace Player.Diver
         // Start is called before the first frame update
         public void OnMove(InputAction.CallbackContext context)
         {
+            var inputDirection = context.ReadValue<Vector2>().normalized;
+            if (Vector2.Dot(inputDirection, _moveDirection) < -0.25f)
+            {
+                _rigidbody2D.velocity /= 4;
+            }
             _moveDirection = context.ReadValue<Vector2>().normalized;
         }
 
@@ -118,6 +122,9 @@ namespace Player.Diver
         {
             
         }
+
+        private Vector2 _currentMoveDirection;
+        private Vector2 _lastNonSlowingDirection;
 
         public void FixedTick()
         {

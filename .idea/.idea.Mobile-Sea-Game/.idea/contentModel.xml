@@ -4,8 +4,6 @@
     <e p="C:\Users\Admin\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Admin\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Mobile-Sea-Game.1362979027.00" t="ExcludeRecursive" />
     <e p="D:\Unity Projects\Git\Mobile-Sea-Game" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
-      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Art" t="Include">
@@ -13,7 +11,9 @@
             <e p="NewSurfaceShader.shader" t="Include" />
           </e>
         </e>
-        <e p="KillDiverOnCollision.cs" t="Include" />
+        <e p="Data" t="Include">
+          <e p="CustomFile.hlsl" t="Include" />
+        </e>
         <e p="Plugins" t="Include">
           <e p="ParadoxNotion" t="Include">
             <e p="PolyNav2D" t="Include">
@@ -26,16 +26,19 @@
                   <e p="FollowTarget.cs" t="Include" />
                   <e p="PatrolRandomWaypoints.cs" t="Include" />
                   <e p="PatrolWaypoints.cs" t="Include" />
+                  <e p="PolyNav2D.Demo.asmdef" t="Include" />
                 </e>
               </e>
               <e p="Scripts" t="Include">
                 <e p="Editor" t="Include">
+                  <e p="PolyNav2D.Editor.asmdef" t="Include" />
                   <e p="PolyNav2DInspector.cs" t="Include" />
                   <e p="PolyNavObstacleInspector.cs" t="Include" />
                 </e>
                 <e p="Runtime" t="Include">
                   <e p="AStar.cs" t="Include" />
                   <e p="Heap.cs" t="Include" />
+                  <e p="PolyNav2D.asmdef" t="Include" />
                   <e p="PolyNav2D.cs" t="Include" />
                   <e p="PolyNavAgent.cs" t="Include" />
                   <e p="PolyNavObstacle.cs" t="Include" />
@@ -71,10 +74,12 @@
             <e p="Eel2.cs" t="Include" />
             <e p="EelMover.cs" t="Include" />
             <e p="IEel.cs" t="Include" />
+            <e p="KillDiverOnCollision.cs" t="Include" />
             <e p="PlayerChaseCheck.cs" t="Include" />
             <e p="WaitPoint.cs" t="Include" />
             <e p="Waypoints.cs" t="Include" />
           </e>
+          <e p="Game.asmdef" t="Include" />
           <e p="Loot" t="Include">
             <e p="Loot.cs" t="Include" />
             <e p="LootCounter.cs" t="Include" />
@@ -85,24 +90,38 @@
             </e>
             <e p="Diver" t="Include">
               <e p="DiverConfig.cs" t="Include" />
+              <e p="DiverFlashlight.cs" t="Include" />
+              <e p="DiverHeavyMovement.cs" t="Include" />
+              <e p="DiverHideEvents.cs" t="Include" />
               <e p="DiverMoveController.cs" t="Include" />
+              <e p="DiverPickupHandler.cs" t="Include" />
               <e p="DiverSmoothMovement.cs" t="Include" />
             </e>
-            <e p="DiverHeavyMovement.cs" t="Include" />
-            <e p="HoldableObject.cs" t="Include" />
-            <e p="Holder.cs" t="Include" />
-            <e p="HookController.cs" t="Include" />
-            <e p="IHoldable.cs" t="Include" />
-            <e p="IInteractable.cs" t="Include" />
-            <e p="InteractionTrigger.cs" t="Include" />
-            <e p="OnScreenStickCustom.cs" t="Include" />
+            <e p="Hook" t="Include">
+              <e p="Hook.cs" t="Include" />
+              <e p="HookController.cs" t="Include" />
+              <e p="HookLineRenderer.cs" t="Include" />
+              <e p="HookPickupHandler.cs" t="Include" />
+            </e>
+            <e p="IListenForMoveInput.cs" t="Include" />
+            <e p="Input" t="Include">
+              <e p="OnScreenStickCustom.cs" t="Include" />
+              <e p="SnapToDirectionProcessor.cs" t="Include" />
+            </e>
+            <e p="Interactables" t="Include">
+              <e p="HoldableObject.cs" t="Include" />
+              <e p="Holder.cs" t="Include" />
+              <e p="IHoldable.cs" t="Include" />
+              <e p="IInteractable.cs" t="Include" />
+              <e p="InteractionTrigger.cs" t="Include" />
+              <e p="TreasureChestPickup.cs" t="Include" />
+            </e>
             <e p="PlayerController.cs" t="Include" />
             <e p="Sub" t="Include">
               <e p="SubConfig.cs" t="Include" />
               <e p="SubController.cs" t="Include" />
             </e>
           </e>
-          <e p="SnapToDirectionProcessor.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="MenuWindow.cs" t="Include" />
             <e p="VolumeSlider.cs" t="Include" />
@@ -146,9 +165,13 @@
         </e>
         <e p="UnderTheSeaInput.cs" t="Include" />
       </e>
+      <e p="game.csproj" t="IncludeRecursive" />
       <e p="Mobile-Sea-Game.sln" t="IncludeFlat" />
+      <e p="NAME.csproj" t="IncludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
+      <e p="PolyNav2D.csproj" t="IncludeRecursive" />
+      <e p="PolyNav2D.Editor.csproj" t="IncludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
     </e>
   </component>

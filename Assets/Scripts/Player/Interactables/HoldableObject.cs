@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
@@ -13,12 +14,12 @@ namespace Player
         }
 
         private bool isHeld = false;
-        public void OnPickedUp(Holder holder)
+        public virtual void OnPickedUp(Holder holder)
         {
             isHeld = true;
         }
 
-        public void OnReleased()
+        public virtual void OnReleased()
         {
             isHeld = false;
         }
@@ -28,5 +29,4 @@ namespace Player
             this._rb = GetComponent<Rigidbody2D>();
         }
     }
-
 }
