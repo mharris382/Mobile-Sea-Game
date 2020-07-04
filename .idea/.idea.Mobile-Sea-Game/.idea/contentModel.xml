@@ -13,8 +13,9 @@
             <e p="NewSurfaceShader.shader" t="Include" />
           </e>
         </e>
-        <e p="HookLineRenderer.cs" t="Include" />
-        <e p="KillDiverOnCollision.cs" t="Include" />
+        <e p="Data" t="Include">
+          <e p="CustomFile.hlsl" t="Include" />
+        </e>
         <e p="ParadoxNotion" t="Include">
           <e p="CanvasCore" t="Include">
             <e p="Common" t="Include">
@@ -679,6 +680,7 @@
             <e p="Eel2.cs" t="Include" />
             <e p="EelMover.cs" t="Include" />
             <e p="IEel.cs" t="Include" />
+            <e p="KillDiverOnCollision.cs" t="Include" />
             <e p="PlayerChaseCheck.cs" t="Include" />
             <e p="WaitPoint.cs" t="Include" />
             <e p="Waypoints.cs" t="Include" />
@@ -695,13 +697,17 @@
               <e p="DiverConfig.cs" t="Include" />
               <e p="DiverFlashlight.cs" t="Include" />
               <e p="DiverHeavyMovement.cs" t="Include" />
+              <e p="DiverHideEvents.cs" t="Include" />
               <e p="DiverMoveController.cs" t="Include" />
               <e p="DiverPickupHandler.cs" t="Include" />
               <e p="DiverSmoothMovement.cs" t="Include" />
             </e>
-            <e p="Hook.cs" t="Include" />
-            <e p="HookController.cs" t="Include" />
-            <e p="HookPickupHandler.cs" t="Include" />
+            <e p="Hook" t="Include">
+              <e p="Hook.cs" t="Include" />
+              <e p="HookController.cs" t="Include" />
+              <e p="HookLineRenderer.cs" t="Include" />
+              <e p="HookPickupHandler.cs" t="Include" />
+            </e>
             <e p="IListenForMoveInput.cs" t="Include" />
             <e p="Interactables" t="Include">
               <e p="HoldableObject.cs" t="Include" />
