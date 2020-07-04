@@ -103,7 +103,7 @@ namespace Core
         private void InitDiverCamera()
         {
             var vcam = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
-            vcam.Follow = _diverGO.transform;
+            vcam.m_Follow = _diverGO.transform;
         }
 
         IEnumerator loadScene()

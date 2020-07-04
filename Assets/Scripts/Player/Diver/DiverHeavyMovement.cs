@@ -14,7 +14,6 @@ namespace Player
             public float jumpForce = 1000;
             public float moveSpeed = 10;
             public float jumpResetTime = 0.5f;
-            public bool testing = true;
         }
         private readonly Rigidbody2D _rb;
         private readonly Holder _objHolder;
@@ -32,13 +31,11 @@ namespace Player
         public IEnumerator OnStateEnter()
         {
             _rb.isKinematic = false;
-            if (_config.testing) _rb.mass = 2.5f;
             yield break;
         }
 
         public IEnumerator OnStateExit()
         {
-            if (_config.testing) _rb.mass = 2f;
             yield break;
         }
 

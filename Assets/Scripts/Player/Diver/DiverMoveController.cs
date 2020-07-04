@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 namespace Player.Diver
 {
+    [System.Obsolete("Replaced by DiverSmoothMovement")]
     public class DiverMoveController : MonoBehaviour
     {
 

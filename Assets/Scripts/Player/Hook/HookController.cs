@@ -41,37 +41,9 @@ namespace Player
         }
 
 
-        void CanDropToPoint(Vector2 position)
-        {
-            var surface = new Vector2(position.x, 0);
-            
-        }
-        
-        
-        // void OnPathToDiver(Vector2[] path)
-        // {
-        //     if (path == null || path.Length == 0)
-        //     {
-        //         WithdrawHook();
-        //         return;
-        //     }
-        // }
-        public void WithdrawHook()
-        {
-            withdrawingHook = true;
-        }
-
-        public void IsSurfaceOnScreen()
-        {
-            var screenSize = new Vector2(Screen.width/2f, Screen.height/2f);
-            
-        }
+       
+       
     }
 
 
-   [Serializable]
-    public class HookConfig
-    {
-        
-    }
 }

@@ -18,6 +18,8 @@ namespace Player.Diver
         
         private bool isDiverHoldingHook => holder.IsHoldingObject && holder.HeldObject.rigidbody2D.CompareTag("Hook");
         private HashSet<IHoldable> _recentlyDroppedHoldables = new HashSet<IHoldable>();
+        
+        //TODO: Replace this method with factory pattern 
         private Holder.JointHolderBase GetHoldJoint(Rigidbody2D holdable)
         {
             float distance = Vector2.Distance(diverMovement.rigidbody2D.position, holdable.position);
@@ -60,21 +62,6 @@ namespace Player.Diver
             if (h != null && h.IsHoldingObject)
             {
                 h.ReleaseObject();
-            }
-
-        }
-
-        private void TryAttachHook(IHoldable[] validHoldables)
-        {
-            var hook = holder.HeldObject.rigidbody2D.GetComponent<Hook>();
-            try
-            {
-                hook.TryToAttachHook(validHoldables);
-            }
-            catch(NullReferenceException e)
-            {
-                Debug.Assert(hook != null, $"gameObject {holder.HeldObject.rigidbody2D.name} tagged as hook but does not have Hook component", holder.HeldObject.rigidbody2D);
-                throw;
             }
         }
 
