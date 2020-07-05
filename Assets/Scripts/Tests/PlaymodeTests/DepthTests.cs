@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using NUnit.Framework;
+using Player;
 using Player.Diver;
 using UnityEngine;
 using UnityEngine.TestTools;

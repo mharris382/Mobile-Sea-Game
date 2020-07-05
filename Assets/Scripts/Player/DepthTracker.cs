@@ -2,8 +2,11 @@
 using Core;
 using UnityEngine;
 
-namespace Player.Diver
+namespace Player
 {
+    /// <summary>
+    /// tracks the depth of an object (in feet below sea level)
+    /// </summary>
     public class DepthTracker : MonoBehaviour
     {
 
@@ -27,8 +30,11 @@ namespace Player.Diver
 
         private void LateUpdate() => _depth.Value = GetCurrentDepth();
     }
+
     
-    
+    /// <summary>
+    /// struct for tracking depth
+    /// </summary>
     public struct Depth
     {
         public bool Equals(Depth other)

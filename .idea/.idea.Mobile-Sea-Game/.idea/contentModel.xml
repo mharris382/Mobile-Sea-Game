@@ -88,15 +88,19 @@
             <e p="Abilities" t="Include">
               <e p="FishDisruptor.cs" t="Include" />
             </e>
+            <e p="DepthTracker.cs" t="Include" />
             <e p="Diver" t="Include">
-              <e p="DepthTracker.cs" t="Include" />
+              <e p="Depricated" t="Include">
+                <e p="DiverMoveController.cs" t="Include" />
+              </e>
               <e p="DiverConfig.cs" t="Include" />
-              <e p="DiverFlashlight.cs" t="Include" />
               <e p="DiverHeavyMovement.cs" t="Include" />
-              <e p="DiverHideEvents.cs" t="Include" />
-              <e p="DiverMoveController.cs" t="Include" />
               <e p="DiverPickupHandler.cs" t="Include" />
               <e p="DiverSmoothMovement.cs" t="Include" />
+              <e p="Peripherals" t="Include">
+                <e p="DiverFlashlight.cs" t="Include" />
+                <e p="DiverHideEvents.cs" t="Include" />
+              </e>
             </e>
             <e p="Hook" t="Include">
               <e p="Depricatecd" t="Include">
@@ -104,12 +108,13 @@
                 <e p="HookPickupHandler.cs" t="Include" />
                 <e p="OldHook.cs" t="Include" />
               </e>
-              <e p="HookHolder.cs" t="Include" />
               <e p="HookLineRenderer.cs" t="Include" />
             </e>
             <e p="IListenForMoveInput.cs" t="Include" />
             <e p="Input" t="Include">
-              <e p="OnScreenStickCustom.cs" t="Include" />
+              <e p="Mobile" t="Include">
+                <e p="OnScreenStickCustom.cs" t="Include" />
+              </e>
               <e p="SnapToDirectionProcessor.cs" t="Include" />
             </e>
             <e p="Interactables" t="Include">
