@@ -89,6 +89,7 @@
               <e p="FishDisruptor.cs" t="Include" />
             </e>
             <e p="Diver" t="Include">
+              <e p="DepthTracker.cs" t="Include" />
               <e p="DiverConfig.cs" t="Include" />
               <e p="DiverFlashlight.cs" t="Include" />
               <e p="DiverHeavyMovement.cs" t="Include" />
@@ -98,10 +99,13 @@
               <e p="DiverSmoothMovement.cs" t="Include" />
             </e>
             <e p="Hook" t="Include">
-              <e p="Hook.cs" t="Include" />
-              <e p="HookController.cs" t="Include" />
+              <e p="Depricatecd" t="Include">
+                <e p="HookController.cs" t="Include" />
+                <e p="HookPickupHandler.cs" t="Include" />
+                <e p="OldHook.cs" t="Include" />
+              </e>
+              <e p="HookHolder.cs" t="Include" />
               <e p="HookLineRenderer.cs" t="Include" />
-              <e p="HookPickupHandler.cs" t="Include" />
             </e>
             <e p="IListenForMoveInput.cs" t="Include" />
             <e p="Input" t="Include">
@@ -120,6 +124,13 @@
             <e p="Sub" t="Include">
               <e p="SubConfig.cs" t="Include" />
               <e p="SubController.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Tests" t="Include">
+            <e p="PlaymodeTests" t="Include">
+              <e p="DepthTests.cs" t="Include" />
+              <e p="HookTests.cs" t="Include" />
+              <e p="PlaymodeTests.asmdef" t="Include" />
             </e>
           </e>
           <e p="UI" t="Include">
@@ -167,10 +178,11 @@
       </e>
       <e p="game.csproj" t="IncludeRecursive" />
       <e p="Mobile-Sea-Game.sln" t="IncludeFlat" />
-      <e p="NAME.csproj" t="IncludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
+      <e p="PlaymodeTests.csproj" t="IncludeRecursive" />
       <e p="PolyNav2D.csproj" t="IncludeRecursive" />
+      <e p="PolyNav2D.Demo.csproj" t="IncludeRecursive" />
       <e p="PolyNav2D.Editor.csproj" t="IncludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
     </e>
