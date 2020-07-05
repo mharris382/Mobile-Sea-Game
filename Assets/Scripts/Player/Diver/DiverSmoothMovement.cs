@@ -10,7 +10,7 @@ using UnityEngine.InputSystem.OnScreen;
 
 namespace Player.Diver
 {
-    public class DiverSmoothMovement : MonoBehaviour, IChaseTarget, IState, IListenForMoveInput
+    public class DiverSmoothMovement : MonoBehaviour, IChaseTarget, IState, IListenForMoveInput, IDiverMovement
     {
         [Min(0)] public float moveSpeed = 2;
         public DiverConfig config;
@@ -22,7 +22,7 @@ namespace Player.Diver
 
         public Vector2 MoveDirection => _moveDirection;
 
-        public Rigidbody2D rigidbody2D
+        public new Rigidbody2D rigidbody2D
         {
             get => _rigidbody2D;
             set => _rigidbody2D = value;
@@ -132,6 +132,14 @@ namespace Player.Diver
         }
 
         #endregion
+    }
+    
+    
+    
+    public interface IDiverMovement
+    {
+        Rigidbody2D rigidbody2D { get; }
+        Vector2 MoveDirection { get; }
     }
 }
 

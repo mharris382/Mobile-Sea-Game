@@ -115,12 +115,12 @@ namespace Player
             else
             {
                 DiverPickupHandler.OnInteract(trigger.GetInRangeInteractables<IHoldable>().ToArray());
-                IHoldable holdable = trigger.GetInRangeInteractables<IHoldable>().FirstOrDefault(t => t.CanBePickedUpBy(objHolder));
-                if (holdable != null  && objHolder.TryHoldObject(holdable,  GetHoldJoint(holdable.rigidbody2D)))
-                {
-                    //_isHoldingObject = true;
-                    return;
-                }
+                // IHoldable holdable = trigger.GetInRangeInteractables<IHoldable>().FirstOrDefault(t => t.CanBePickedUpBy(objHolder));
+                // if (holdable != null  && objHolder.TryHoldObject(holdable,  GetHoldJoint(holdable.rigidbody2D)))
+                // {
+                //     //_isHoldingObject = true;
+                //     return;
+                // }
             }
         }
         

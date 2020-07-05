@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Diver Config
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  flashlightDepth: 10
+  maxHookHoldDistance: 0.75

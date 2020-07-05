@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using NUnit.Framework;
+using Player;
 using UnityEngine;
 
 namespace Tests.PlaymodeTests
@@ -6,22 +7,32 @@ namespace Tests.PlaymodeTests
     public class HookTests
     {
         
+        // [NUnit.Framework.Test]
+        // public void HookTestsSimplePasses()
+        // {
+        //     // Use the Assert class to test conditions.
+        //     
+        // }
         [NUnit.Framework.Test]
-        public void HookTestsSimplePasses()
+        public void ObjectCanBePickedUpBy()
         {
-            // Use the Assert class to test conditions.
+            var holder = CreateHolder();
+            var obj = CreateHeavyHoldableObject(Vector2.zero);
             
+            Assert.IsTrue(obj.CanBePickedUpBy(holder), "HoldableObject cannot be picked up by holder");
         }
+        
+        
 
         // A UnityTest behaves like a coroutine in PlayMode
         // and allows you to yield null to skip a frame in EditMode
-        [UnityEngine.TestTools.UnityTest]
-        public System.Collections.IEnumerator HookTestsWithEnumeratorPasses()
-        {
-            // Use the Assert class to test conditions.
-            // yield to skip a frame
-            yield return null;
-        }
+        // [UnityEngine.TestTools.UnityTest]
+        // public System.Collections.IEnumerator HookTestsWithEnumeratorPasses()
+        // {
+        //     // Use the Assert class to test conditions.
+        //     // yield to skip a frame
+        //     yield return null;
+        // }
 
         public Holder CreateHolder()
         {
@@ -51,7 +62,7 @@ namespace Tests.PlaymodeTests
             rb.isKinematic = true;
             var box = go.AddComponent<BoxCollider2D>();
             box.size = Vector2.one * 10;
-            box.offset = new Vector2(box.size.x/2f, box.size.y);
+            box.offset = new Vector2(0, box.size.y/2f);
             box.isTrigger = true;
             box.usedByEffector = true;
             return go.AddComponent<BuoyancyEffector2D>();
