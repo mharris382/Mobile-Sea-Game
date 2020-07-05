@@ -39,9 +39,4 @@ public class SpriteShapeShadowCaster : MonoBehaviour
     }
     
     
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        context.ReadValue<Vector2>();
-        var curRot = transform.rotation;
-    }
 }
