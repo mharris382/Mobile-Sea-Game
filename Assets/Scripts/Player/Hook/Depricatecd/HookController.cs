@@ -9,7 +9,7 @@ namespace Player
     public class HookController : MonoBehaviour
     {
       
-        public Hook hook;
+        public OldHook oldHook;
         public Rigidbody2D diver;
         public new Camera camera;
 
@@ -36,7 +36,7 @@ namespace Player
             var surfacePoint = new Vector2(spawnPoint.x, 0);
             
             
-            hook.gameObject.SetActive(true);
+            oldHook.gameObject.SetActive(true);
             
         }
 

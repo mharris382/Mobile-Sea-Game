@@ -18,13 +18,13 @@ namespace Player
         [SerializeField] private float maxSpeed = 5;
         public Transform diver;
 
-        public Hook hook;
+        public OldHook oldHook;
         private bool _spawned = false;
         private Holder.TargetJointHolder joint;
 
         private void Awake()
         {
-            hook.OnObjectHooked += holdable =>
+            oldHook.OnObjectHooked += holdable =>
             {
                 Retract();
                 Debug.Log("Hook picked up object");
@@ -35,7 +35,7 @@ namespace Player
         {
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
-                if (_spawned || hook.IsHoldingObject)
+                if (_spawned || oldHook.IsHoldingObject)
                 {
                     Retract();
                 }
@@ -67,12 +67,12 @@ namespace Player
 
 
             Action pickupCallback = () => { goalReached = true; };
-            hook.OnHookPickedUp += pickupCallback;
+            oldHook.OnHookPickedUp += pickupCallback;
 
             while (!goalReached && !joint.isDisposed)
             {
                 Vector3 currentTarget = targetPoint;
-                if (hook.isBeingHeld) break;
+                if (oldHook.isBeingHeld) break;
                 try
                 {
                     if (!(joint.Length > stuckDistance))
@@ -96,7 +96,7 @@ namespace Player
                         Time.deltaTime, maxSpeed);
 
                     if (currentTarget == targetPoint &&
-                        Vector2.Distance(hook.rigidbody2D.position, targetPoint) < 0.125f)
+                        Vector2.Distance(oldHook.rigidbody2D.position, targetPoint) < 0.125f)
                     {
                         goalReached = true;
                     }
@@ -111,13 +111,13 @@ namespace Player
                 yield return new WaitForEndOfFrame();
             }
 
-            hook.OnHookPickedUp -= pickupCallback;
+            oldHook.OnHookPickedUp -= pickupCallback;
             joint?.Dispose();
         }
 
         private  Holder.TargetJointHolder CreateJoint(Vector3 targetPoint)
         {
-            this.joint = new Holder.TargetJointHolder(hook.rigidbody2D, targetPoint, float.MaxValue);
+            this.joint = new Holder.TargetJointHolder(oldHook.rigidbody2D, targetPoint, float.MaxValue);
             joint.Attach();
             return joint;
         }
@@ -147,15 +147,15 @@ namespace Player
 
         private void MoveHookToSurface(Vector3 surfacePoint)
         {
-            hook.rigidbody2D.position = surfacePoint;
-            hook.rigidbody2D.velocity = Vector2.zero;
+            oldHook.rigidbody2D.position = surfacePoint;
+            oldHook.rigidbody2D.velocity = Vector2.zero;
         }
 
         private void BreakHook()
         {
-            if (hook.IsHoldingObject)
+            if (oldHook.IsHoldingObject)
             {
-                hook.ReleaseObject();
+                oldHook.ReleaseObject();
             }
         }
 
@@ -170,9 +170,9 @@ namespace Player
             bool goalReached = false;
             float timeStuck = 0;
             Vector3 velocity = Vector3.zero;
-            Vector3 surfacePoint = new Vector3(hook.rigidbody2D.position.x, -1);
+            Vector3 surfacePoint = new Vector3(oldHook.rigidbody2D.position.x, -1);
             
-            joint = CreateJoint(hook.rigidbody2D.position);
+            joint = CreateJoint(oldHook.rigidbody2D.position);
             
             
             while (!goalReached)
@@ -183,11 +183,11 @@ namespace Player
 
                     if (joint.Length > stuckDistance)
                     {
-                        hook.rigidbody2D.MovePosition(joint.TargetPoint);
-                        hook.ReleaseObject();
+                        oldHook.rigidbody2D.MovePosition(joint.TargetPoint);
+                        oldHook.ReleaseObject();
                     }
 
-                    if (Vector2.Distance(hook.rigidbody2D.position, surfacePoint) < 0.125f)
+                    if (Vector2.Distance(oldHook.rigidbody2D.position, surfacePoint) < 0.125f)
                     {
                         goalReached = true;
                     }

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class Hook : MonoBehaviour, IHoldable, IHolder
+    public class OldHook : MonoBehaviour, IHoldable, IHolder
     {
         public Holder hookHolder;
         public InteractionTrigger diverInteractTrigger;
