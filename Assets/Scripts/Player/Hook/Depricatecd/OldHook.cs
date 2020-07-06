@@ -9,10 +9,10 @@ namespace Player
     public class OldHook : MonoBehaviour, IHoldable, IHolder
     {
         public Holder hookHolder;
-        public InteractionTrigger diverInteractTrigger;
+        public GameObject diverInteractTriggerGameObject;
         private Rigidbody2D _rigidbody2D;
         public float maxLength = 1;
-
+        private IDetectInteractions _diverInteractTrigger;
         public Rigidbody2D rigidbody2D
         {
             get => _rigidbody2D;
@@ -28,6 +28,7 @@ namespace Player
 
         private void Awake()
         {
+            _diverInteractTrigger = diverInteractTriggerGameObject.GetComponent<IDetectInteractions>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
@@ -74,7 +75,7 @@ namespace Player
             isBeingHeld = false;
             OnHookReleased?.Invoke();
             
-            IHoldable[] inRangeHoldables = diverInteractTrigger.GetInRangeInteractables<IHoldable>()
+            IHoldable[] inRangeHoldables = _diverInteractTrigger.GetInRangeInteractables<IHoldable>()
                 .Where(t => t != this && t.CanBePickedUpBy(hookHolder)).ToArray();
             var toPickup = inRangeHoldables.FirstOrDefault(t => hookHolder.TryHoldObject(t, new Holder.TargetJointHolder(t.rigidbody2D, this.transform.position )));
             if (toPickup == null)
@@ -103,10 +104,10 @@ namespace Player
         {
             if (isBeingHeld)
             {
-                var inRangeInteractables = diverInteractTrigger.GetInRangeInteractables();
+                var inRangeInteractables = _diverInteractTrigger.GetInRangeInteractables<IHoldable>();
                 var inRangeHoldables = (from interactable in inRangeInteractables
-                    where (interactable is IHoldable && ((IHoldable) interactable).CanBePickedUpBy(hookHolder))
-                    select interactable as IHoldable).ToArray();
+                    where ( interactable.CanBePickedUpBy(hookHolder))
+                    select interactable).ToArray();
 
                 if (inRangeHoldables == null || inRangeHoldables.Length == 0)
                 {

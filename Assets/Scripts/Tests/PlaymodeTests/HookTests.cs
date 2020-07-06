@@ -82,7 +82,7 @@ namespace Tests.PlaymodeTests
             return go.AddComponent<HoldableObject>();
         }
 
-        public InteractionTrigger CreateInteractionTrigger(Vector2 position)
+        public IDetectInteractions CreateInteractionTrigger(Vector2 position)
         {
             var go = new GameObject();
             go.transform.position = position;

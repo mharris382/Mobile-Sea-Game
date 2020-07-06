@@ -141,6 +141,7 @@
             <e p="Interactables" t="Include">
               <e p="HoldableObject.cs" t="Include" />
               <e p="Holder.cs" t="Include" />
+              <e p="IDetectInteractions.cs" t="Include" />
               <e p="IHoldable.cs" t="Include" />
               <e p="IInteractable.cs" t="Include" />
               <e p="InteractionTrigger.cs" t="Include" />

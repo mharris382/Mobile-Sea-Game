@@ -25,7 +25,6 @@ namespace Player
             get { return HeldObject != null; }
         }
 
-        public Rigidbody2D heldRigidbody;
 
 
         private void Awake()
@@ -43,7 +42,7 @@ namespace Player
 
         public bool TryHoldObject(IHoldable objectToHold, JointHolderBase jointHolder)
         {
-            if (!enabled) return false;
+           
             ReleaseObject();
 
 
@@ -65,7 +64,6 @@ namespace Player
             _holderJoint = jointHolder;
             _heldObject = objectToHold;
             _heldObject.OnPickedUp(this);
-            heldRigidbody = objectToHold.rigidbody2D;
             
             return true;
         }

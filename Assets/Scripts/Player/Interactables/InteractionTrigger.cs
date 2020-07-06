@@ -6,8 +6,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class InteractionTrigger : MonoBehaviour
+    public class InteractionTrigger : MonoBehaviour, IDetectInteractions
     {
+        //TODO: Change to HashSet 
         private List<Collider2D> _inRangeInteractions = new List<Collider2D>();
 
         private static Dictionary<Collider2D, IInteractable[]> interactableCache =
@@ -84,27 +85,5 @@ namespace Player
         }
 
 
-        private class InteractableObservable : IObservable<IInteractable>
-        {
-            private InteractionTrigger _trigger;
-
-            private IObserver<IInteractable[]> _interactableListener;
-
-            public IDisposable Subscribe(IObserver<IInteractable> observer)
-            {
-                throw new NotImplementedException();
-            }
-
-
-            // IEnumerator Tick()
-            // {
-            //     while (true)
-            //     {
-            //         
-            //         yield return new WaitForEndOfFrame();
-            //         
-            //     }
-            // }
-        }
     }
 }
