@@ -19,6 +19,7 @@ namespace Player.Diver
 
         private Vector2 _moveDirection = Vector2.zero;
         private Rigidbody2D _rigidbody2D;
+        private Vector2 _slowingVelocity;
 
         public Vector2 MoveDirection => _moveDirection;
 
@@ -38,14 +39,13 @@ namespace Player.Diver
             QualitySettings.vSyncCount = 0;
         }
 
-        private Vector2 slowingVelocity;
         private void FixedUpdate()
         {
             var moveDirection = _moveDirection;
             if (_moveDirection.sqrMagnitude < Mathf.Epsilon)
             {
                 var vel = _rigidbody2D.velocity;
-                vel=  Vector2.SmoothDamp(vel, Vector2.zero, ref slowingVelocity, 0.05f, moveSpeed);
+                vel=  Vector2.SmoothDamp(vel, Vector2.zero, ref _slowingVelocity, 0.05f, moveSpeed);
                 //if ((hit = CheckForCollision(vel.magnitude)) && Vector2.Dot(hit.normal, vel.normalized) > 0.25f) vel = Vector2.zero;
                 
                 _rigidbody2D.velocity = vel;

@@ -10,11 +10,16 @@ namespace Player.Diver
         
         [MinValue(("moveSpeed"))]
         public float fasterMoveSpeed = 10;
+        
         [Tooltip("Depth at which flashlight will be always be enabled")]
         [SerializeField]private int flashlightDepth = 10;
 
         [SerializeField] private float maxHookHoldDistance = .75f;
 
+
+        [Title("Heavy Movement State"),HideLabel]
+        public DiverHeavyMovement.Config heavyMovementSettings;
+        
         private static DiverConfig _instance;
 
         public static DiverConfig Instance
