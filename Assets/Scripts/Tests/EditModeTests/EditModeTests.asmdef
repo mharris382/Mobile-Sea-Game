@@ -3,7 +3,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Game"
+        "Game",
+        "NPBehave"
     ],
     "includePlatforms": [
         "Editor"

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -10,13 +11,15 @@ namespace Core
 {
     public class GameManager : MonoBehaviour
     {
+        
+        
         public static GameManager Instance { get; private set; }
         public static int Treasure { get; private set; }
 
-        [SerializeField] private GameObject diverPrefab;
+        public bool dontLoadScene = true;
+        [DisableIf("dontLoadScene")]
         [SerializeField] private int currentScene = 0;
 
-        public bool dontLoadScene = true;
         private ObservedValue<bool> _isPlayerHidden;
         private ObservedValue<bool> _isDisruptorActive;
 
@@ -87,12 +90,6 @@ namespace Core
 
 
             StartCoroutine(loadScene());
-            return;
-            SceneManager.LoadScene(currentScene);
-
-            if (_diverGO != null) GameObject.Destroy(_diverGO);
-            _diverGO = GameObject.Instantiate(diverPrefab, _levelLayout.diverSpawnPosition, Quaternion.identity);
-
 
             // SceneManager.MoveGameObjectToScene(_diverGO, SceneManager.GetActiveScene());
 
