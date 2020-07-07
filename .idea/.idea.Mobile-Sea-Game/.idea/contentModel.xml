@@ -88,6 +88,7 @@
             </e>
           </e>
           <e p="Cover.cs" t="Include" />
+          <e p="DiverInputHandler.cs" t="Include" />
           <e p="Enemies" t="Include">
             <e p="CheckForDiverHit.cs" t="Include" />
             <e p="DisruptedMovement.cs" t="Include" />
@@ -101,6 +102,11 @@
             <e p="Waypoints.cs" t="Include" />
           </e>
           <e p="Game.asmdef" t="Include" />
+          <e p="HookStateMachine.cs" t="Include" />
+          <e p="HookStateMachine.HeldAttached.cs" t="Include" />
+          <e p="HookStateMachine.HeldNotAttached.cs" t="Include" />
+          <e p="HookStateMachine.NotHeld.cs" t="Include" />
+          <e p="HookStateMachine.NotSpawned.cs" t="Include" />
           <e p="Loot" t="Include">
             <e p="Loot.cs" t="Include" />
             <e p="LootCounter.cs" t="Include" />
@@ -114,10 +120,14 @@
               <e p="Depricated" t="Include">
                 <e p="DiverMoveController.cs" t="Include" />
               </e>
+              <e p="Diver.cs" t="Include" />
+              <e p="DiverActions.cs" t="Include" />
               <e p="DiverConfig.cs" t="Include" />
               <e p="DiverHeavyMovement.cs" t="Include" />
+              <e p="DiverMovement.cs" t="Include" />
               <e p="DiverPickupHandler.cs" t="Include" />
               <e p="DiverSmoothMovement.cs" t="Include" />
+              <e p="DiverStateMachine.cs" t="Include" />
               <e p="Peripherals" t="Include">
                 <e p="DiverFlashlight.cs" t="Include" />
                 <e p="DiverHideEvents.cs" t="Include" />
@@ -131,8 +141,10 @@
               </e>
               <e p="HookLineRenderer.cs" t="Include" />
             </e>
+            <e p="IClampToLevel.cs" t="Include" />
             <e p="IListenForMoveInput.cs" t="Include" />
             <e p="Input" t="Include">
+              <e p="InputProcessor.cs" t="Include" />
               <e p="Mobile" t="Include">
                 <e p="OnScreenStickCustom.cs" t="Include" />
               </e>
@@ -164,6 +176,7 @@
             <e p="MenuWindow.cs" t="Include" />
             <e p="VolumeSlider.cs" t="Include" />
           </e>
+          <e p="UnderTheSeaInput.cs" t="Include" />
           <e p="Utilities" t="Include">
             <e p="CoroutineHandler.cs" t="Include" />
             <e p="Pathfinder.cs" t="Include" />
@@ -201,7 +214,6 @@
             <e p="EmojiOne Attribution.txt" t="Include" />
           </e>
         </e>
-        <e p="UnderTheSeaInput.cs" t="Include" />
       </e>
       <e p="game.csproj" t="IncludeRecursive" />
       <e p="Mobile-Sea-Game.sln" t="IncludeFlat" />

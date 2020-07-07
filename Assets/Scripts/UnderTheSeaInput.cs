@@ -15,7 +15,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
     ""name"": ""Under-the-Sea"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""DiverGameplay"",
             ""id"": ""a697dc09-6200-455a-a9fb-e95d07f2f473"",
             ""actions"": [
                 {
@@ -27,7 +27,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""ToggleFastMove"",
                     ""type"": ""Button"",
                     ""id"": ""4f5b2ee1-2d4a-4277-89e8-ee9b7cbb96c9"",
                     ""expectedControlType"": ""Button"",
@@ -48,7 +48,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""id"": ""cb4027d0-7e9b-43f5-8cf9-20e12b88608e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Hold""
                 }
             ],
             ""bindings"": [
@@ -257,7 +257,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Dash"",
+                    ""action"": ""ToggleFastMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -268,7 +268,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Dash"",
+                    ""action"": ""ToggleFastMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -889,6 +889,52 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""HoldingHook"",
+            ""id"": ""e01ce557-302c-45e5-9d02-332917f50278"",
+            ""actions"": [
+                {
+                    ""name"": ""AttachHook"",
+                    ""type"": ""Button"",
+                    ""id"": ""e142bcb6-96b0-4b17-9b0e-37e01e3b5e74"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DetachHook"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c596d34-83a2-4d43-8c2e-4a21e7632fd8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3c421791-66e7-4bf8-9e23-c398922c797a"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""AttachHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc7abd9a-999b-4d2e-8b2a-cd7c7ffb5147"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DetachHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -954,12 +1000,12 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         }
     ]
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_Hook = m_Player.FindAction("Hook", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        // DiverGameplay
+        m_DiverGameplay = asset.FindActionMap("DiverGameplay", throwIfNotFound: true);
+        m_DiverGameplay_Move = m_DiverGameplay.FindAction("Move", throwIfNotFound: true);
+        m_DiverGameplay_ToggleFastMove = m_DiverGameplay.FindAction("ToggleFastMove", throwIfNotFound: true);
+        m_DiverGameplay_Hook = m_DiverGameplay.FindAction("Hook", throwIfNotFound: true);
+        m_DiverGameplay_Interact = m_DiverGameplay.FindAction("Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -972,6 +1018,10 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // HoldingHook
+        m_HoldingHook = asset.FindActionMap("HoldingHook", throwIfNotFound: true);
+        m_HoldingHook_AttachHook = m_HoldingHook.FindAction("AttachHook", throwIfNotFound: true);
+        m_HoldingHook_DetachHook = m_HoldingHook.FindAction("DetachHook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1018,52 +1068,52 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_Hook;
-    private readonly InputAction m_Player_Interact;
-    public struct PlayerActions
+    // DiverGameplay
+    private readonly InputActionMap m_DiverGameplay;
+    private IDiverGameplayActions m_DiverGameplayActionsCallbackInterface;
+    private readonly InputAction m_DiverGameplay_Move;
+    private readonly InputAction m_DiverGameplay_ToggleFastMove;
+    private readonly InputAction m_DiverGameplay_Hook;
+    private readonly InputAction m_DiverGameplay_Interact;
+    public struct DiverGameplayActions
     {
         private @UnderTheSeaInput m_Wrapper;
-        public PlayerActions(@UnderTheSeaInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @Hook => m_Wrapper.m_Player_Hook;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public DiverGameplayActions(@UnderTheSeaInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_DiverGameplay_Move;
+        public InputAction @ToggleFastMove => m_Wrapper.m_DiverGameplay_ToggleFastMove;
+        public InputAction @Hook => m_Wrapper.m_DiverGameplay_Hook;
+        public InputAction @Interact => m_Wrapper.m_DiverGameplay_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_DiverGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(DiverGameplayActions set) { return set.Get(); }
+        public void SetCallbacks(IDiverGameplayActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
+            if (m_Wrapper.m_DiverGameplayActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @Hook.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHook;
-                @Hook.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHook;
-                @Hook.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHook;
-                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Move.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMove;
+                @ToggleFastMove.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnToggleFastMove;
+                @ToggleFastMove.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnToggleFastMove;
+                @ToggleFastMove.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnToggleFastMove;
+                @Hook.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnHook;
+                @Hook.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnHook;
+                @Hook.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnHook;
+                @Interact.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnInteract;
             }
-            m_Wrapper.m_PlayerActionsCallbackInterface = instance;
+            m_Wrapper.m_DiverGameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Dash.started += instance.OnDash;
-                @Dash.performed += instance.OnDash;
-                @Dash.canceled += instance.OnDash;
+                @ToggleFastMove.started += instance.OnToggleFastMove;
+                @ToggleFastMove.performed += instance.OnToggleFastMove;
+                @ToggleFastMove.canceled += instance.OnToggleFastMove;
                 @Hook.started += instance.OnHook;
                 @Hook.performed += instance.OnHook;
                 @Hook.canceled += instance.OnHook;
@@ -1073,7 +1123,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
             }
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public DiverGameplayActions @DiverGameplay => new DiverGameplayActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1179,6 +1229,47 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // HoldingHook
+    private readonly InputActionMap m_HoldingHook;
+    private IHoldingHookActions m_HoldingHookActionsCallbackInterface;
+    private readonly InputAction m_HoldingHook_AttachHook;
+    private readonly InputAction m_HoldingHook_DetachHook;
+    public struct HookActions
+    {
+        private @UnderTheSeaInput m_Wrapper;
+        public HookActions(@UnderTheSeaInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AttachHook => m_Wrapper.m_HoldingHook_AttachHook;
+        public InputAction @DetachHook => m_Wrapper.m_HoldingHook_DetachHook;
+        public InputActionMap Get() { return m_Wrapper.m_HoldingHook; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(HookActions set) { return set.Get(); }
+        public void SetCallbacks(IHoldingHookActions instance)
+        {
+            if (m_Wrapper.m_HoldingHookActionsCallbackInterface != null)
+            {
+                @AttachHook.started -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnAttachHook;
+                @AttachHook.performed -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnAttachHook;
+                @AttachHook.canceled -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnAttachHook;
+                @DetachHook.started -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnDetachHook;
+                @DetachHook.performed -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnDetachHook;
+                @DetachHook.canceled -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnDetachHook;
+            }
+            m_Wrapper.m_HoldingHookActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @AttachHook.started += instance.OnAttachHook;
+                @AttachHook.performed += instance.OnAttachHook;
+                @AttachHook.canceled += instance.OnAttachHook;
+                @DetachHook.started += instance.OnDetachHook;
+                @DetachHook.performed += instance.OnDetachHook;
+                @DetachHook.canceled += instance.OnDetachHook;
+            }
+        }
+    }
+    public HookActions Hook => new HookActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1224,10 +1315,10 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_XRSchemeIndex];
         }
     }
-    public interface IPlayerActions
+    public interface IDiverGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
+        void OnToggleFastMove(InputAction.CallbackContext context);
         void OnHook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
@@ -1243,5 +1334,10 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IHoldingHookActions
+    {
+        void OnAttachHook(InputAction.CallbackContext context);
+        void OnDetachHook(InputAction.CallbackContext context);
     }
 }

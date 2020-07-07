@@ -2,7 +2,7 @@
     "name": "Under-the-Sea",
     "maps": [
         {
-            "name": "Player",
+            "name": "DiverGameplay",
             "id": "a697dc09-6200-455a-a9fb-e95d07f2f473",
             "actions": [
                 {
@@ -14,7 +14,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Dash",
+                    "name": "ToggleFastMove",
                     "type": "Button",
                     "id": "4f5b2ee1-2d4a-4277-89e8-ee9b7cbb96c9",
                     "expectedControlType": "Button",
@@ -35,7 +35,7 @@
                     "id": "cb4027d0-7e9b-43f5-8cf9-20e12b88608e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Hold"
                 }
             ],
             "bindings": [
@@ -244,7 +244,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Dash",
+                    "action": "ToggleFastMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -255,7 +255,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Dash",
+                    "action": "ToggleFastMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -872,6 +872,52 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HoldingHook",
+            "id": "e01ce557-302c-45e5-9d02-332917f50278",
+            "actions": [
+                {
+                    "name": "AttachHook",
+                    "type": "Button",
+                    "id": "e142bcb6-96b0-4b17-9b0e-37e01e3b5e74",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DetachHook",
+                    "type": "Button",
+                    "id": "3c596d34-83a2-4d43-8c2e-4a21e7632fd8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3c421791-66e7-4bf8-9e23-c398922c797a",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AttachHook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dc7abd9a-999b-4d2e-8b2a-cd7c7ffb5147",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DetachHook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
