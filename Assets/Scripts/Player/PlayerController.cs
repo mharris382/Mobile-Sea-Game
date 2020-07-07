@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Core;
@@ -61,8 +62,8 @@ namespace Player
                 }
             };
 
-            
-            IState heavyMovement = new DiverHeavyMovement(diverMovement.GetComponent<Rigidbody2D>(), _objHolder, heavyMoveConfig);
+
+            IState heavyMovement = null;//new DiverHeavyMovement(diverMovement.GetComponent<Rigidbody2D>(), _objHolder, heavyMoveConfig);
             IState normalMovement = diverMovement;
             
             _diverFsm.AddTransition(heavyMovement, normalMovement, () => isHoldingObject == false);
@@ -105,7 +106,7 @@ namespace Player
         //TODO: Refactor the pickup code into separate class
         public void OnInteract(InputAction.CallbackContext context)
         {
-
+            InputActionPhase phase = context.phase;
 
             if (context.performed == false) return;
             
