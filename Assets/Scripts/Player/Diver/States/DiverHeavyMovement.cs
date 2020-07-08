@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
-
+using DiverActions = UnderTheSeaInput.DiverGameplayActions;
 namespace Player.Diver
 {
     public class DiverHeavyMovement : IState, IListenForMoveInput
@@ -36,13 +36,13 @@ namespace Player.Diver
 
         public IEnumerator OnStateEnter()
         {
-            _diverActions.MoveAction.performed += OnMove;
+            _diverActions.Move.performed += OnMove;
             yield break;
         }
 
         public IEnumerator OnStateExit()
         {
-            _diverActions.MoveAction.performed -= OnMove;
+            _diverActions.Move.performed -= OnMove;
             yield break;
         }
 

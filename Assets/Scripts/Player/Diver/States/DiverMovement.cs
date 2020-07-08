@@ -2,6 +2,7 @@
 using System.Collections;
 using Core.State;
 using UnityEngine;
+using DiverActions = UnderTheSeaInput.DiverGameplayActions;
 
 namespace Player.Diver
 {
@@ -25,7 +26,7 @@ namespace Player.Diver
             _diverActions.ToggleFastMove.performed += context => _isHoldingFastMoveButton = false;
 
 
-            _diverActions.MoveAction.performed += context => _moveDirection = context.ReadValue<Vector2>();
+            _diverActions.Move.performed += context => _moveDirection = context.ReadValue<Vector2>();
         }
 
         public IEnumerator OnStateEnter()

@@ -11,16 +11,16 @@ namespace Player
         //TODO: Change to HashSet 
         private List<Collider2D> _inRangeInteractions = new List<Collider2D>();
 
-        private static Dictionary<Collider2D, IInteractable[]> interactableCache =
+        private static Dictionary<Collider2D, IInteractable[]> _interactableCache =
             new Dictionary<Collider2D, IInteractable[]>();
 
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             IInteractable[] interactables;
-            if (interactableCache.TryGetValue(collision, out interactables) == false)
+            if (_interactableCache.TryGetValue(collision, out interactables) == false)
             {
-                interactableCache.Add(collision, collision.GetComponents<IInteractable>());
+                _interactableCache.Add(collision, collision.GetComponents<IInteractable>());
                 _inRangeInteractions.Add(collision);
                 return;
             }
@@ -35,9 +35,9 @@ namespace Player
         private void OnTriggerExit2D(Collider2D collision)
         {
             IInteractable[] interactables;
-            if (interactableCache.TryGetValue(collision, out interactables) == false)
+            if (_interactableCache.TryGetValue(collision, out interactables) == false)
             {
-                interactableCache.Add(collision, collision.GetComponents<IInteractable>());
+                _interactableCache.Add(collision, collision.GetComponents<IInteractable>());
             }
 
             if (interactables != null && interactables.Length > 0)
@@ -48,16 +48,22 @@ namespace Player
 
         public List<T> GetInRangeInteractables<T>() where T : class, IInteractable
         {
-            return _inRangeInteractions.SelectMany(item => interactableCache[item]).Select(t => t as T)
+            return _inRangeInteractions.SelectMany(item => _interactableCache[item]).Select(t => t as T)
                 .Where(t => t != null).ToList();
         }
 
 
+
+        public bool HasTypeInRange<T>() where T : class, IInteractable
+        {
+            return _inRangeInteractions.SelectMany(t => _interactableCache[t]).FirstOrDefault(t => t is T) != null;
+        }
+
         public IEnumerable<IInteractable> GetInRangeInteractables(bool sortByDistance = false)
         {
             var res = (from col in _inRangeInteractions
-                    where (interactableCache[col].Length > 0)
-                    select interactableCache[col])
+                    where (_interactableCache[col].Length > 0)
+                    select _interactableCache[col])
                 .SelectMany(t => t);
             if (sortByDistance)
                 return res.OrderBy(t => (t.rigidbody2D.position - (Vector2) transform.position).sqrMagnitude);
@@ -67,8 +73,8 @@ namespace Player
         public IEnumerable<IInteractable> GetInRangeInteractables(Vector2 relativeTo)
         {
             var res = (from col in _inRangeInteractions
-                    where (interactableCache[col].Length > 0)
-                    select interactableCache[col])
+                    where (_interactableCache[col].Length > 0)
+                    select _interactableCache[col])
                 .SelectMany(t => t);
 
             return res.OrderBy(t => (t.rigidbody2D.position - relativeTo).sqrMagnitude);
@@ -76,12 +82,12 @@ namespace Player
 
         static class ColliderCache<T> where T : IInteractable
         {
-            internal static Dictionary<Collider2D, T> interactableCache = new Dictionary<Collider2D, T>();
+            internal static Dictionary<Collider2D, T[]> interactableCache = new Dictionary<Collider2D, T[]>();
         }
 
         protected internal bool IsColliderInRange(Collider2D collider2D)
         {
-            return interactableCache.ContainsKey(collider2D);
+            return _interactableCache.ContainsKey(collider2D);
         }
 
 
