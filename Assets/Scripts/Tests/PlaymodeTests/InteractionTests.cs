@@ -22,16 +22,17 @@ namespace Tests.PlaymodeTests
         {
             var interactionTrigger = CreateInteractionTrigger(Vector2.zero);
             var holdable = CreateHeavyHoldableObject(Vector2.zero);
-            // Assert.Less(Vector2.Distance(holdable.rigidbody2D.position, interactionTrigger.transform.position), interactionTrigger.GetComponent<CircleCollider2D>().radius);
+             Assert.Less(Vector2.Distance(holdable.rigidbody2D.position, interactionTrigger.transform.position), interactionTrigger.GetComponent<CircleCollider2D>().radius);
             CreateSeaFloor(10, 10, -0.5f);
             yield return null;
+            yield return null;
+
             
-            
-            Assert.IsTrue(interactionTrigger.HasTypeInRange<IHoldable>());
             
             var inRange = interactionTrigger.GetInRangeInteractables<IHoldable>();
             Assert.IsNotEmpty(inRange);
             Assert.Contains(holdable, inRange);
+            Assert.IsTrue(interactionTrigger.HasTypeInRange<IHoldable>());
             
         }
         
@@ -70,7 +71,7 @@ namespace Tests.PlaymodeTests
             var coll = go.AddComponent<CircleCollider2D>();
             rb.isKinematic = true;
             coll.isTrigger = true;
-            coll.radius = 1;
+            coll.radius = 2;
             return go.AddComponent<InteractionTrigger>();
         }
         
