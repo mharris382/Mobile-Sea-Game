@@ -249,7 +249,9 @@
             <e p="PlaymodeTests" t="Include">
               <e p="DepthTests.cs" t="Include" />
               <e p="HookTests.cs" t="Include" />
+              <e p="InputTests.cs" t="Include" />
               <e p="InteractionTests.cs" t="Include" />
+              <e p="MyInputTests.cs" t="Include" />
               <e p="PlaymodeTests.asmdef" t="Include" />
             </e>
           </e>

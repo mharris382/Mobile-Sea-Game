@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using NUnit.Framework;
 using Player;
+using Player.Diver;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -50,6 +51,9 @@ namespace Tests.PlaymodeTests
             Assert.IsEmpty(interactionTrigger.GetInRangeInteractables<IHoldable>());
         }
         
+        
+        
+        
         public EdgeCollider2D CreateSeaFloor(float xMin, float xMax, float yMin)
         {
             var go = new GameObject();
@@ -88,6 +92,24 @@ namespace Tests.PlaymodeTests
             box.size = Vector2.one;
             box.offset = Vector2.zero;
             return go.AddComponent<HoldableObject>();
+        }
+        
+        
+        public Holder CreateHolder()
+        {
+            var go = new GameObject();
+            return go.AddComponent<Holder>();
+        }
+
+
+        public DiverInteractionController CreateDiverInteractionController()
+        {
+            var go = new GameObject();
+            go.AddComponent<Holder>();
+            go.AddComponent<Rigidbody2D>();
+            var trigger = CreateInteractionTrigger(go.transform.position);
+            trigger.transform.parent = go.transform;
+            return go.AddComponent<DiverInteractionController>();
         }
     }
 }

@@ -2,11 +2,12 @@
 using Core;
 using Core.State;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using DiverActions = UnderTheSeaInput.DiverGameplayActions;
 namespace Player.Diver
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    public class Diver : MonoBehaviour, IDiverMovement
+    [RequireComponent(typeof(Rigidbody2D), typeof(Holder))]
+    public class Diver : MonoBehaviour, IDiverMovement, UnderTheSeaInput.IDiverGameplayActions
     {
         private StateMachine _fsm;
         private DiverActions _diverActions;
@@ -19,7 +20,11 @@ namespace Player.Diver
         private void Awake()
         {
             _fsm = new StateMachine();
+            GameInput.AllInputsInput.Enable();
             _diverActions = GameInput.DiverGameplayActions;
+            GameInput.DiverGameplayActions.Enable();
+            Debug.Assert(GameInput.DiverGameplayActions.enabled);
+            GameInput.DiverGameplayActions.SetCallbacks(this);
             _diverActions.Move.performed += context => _moveDirection = context.ReadValue<Vector2>();
             _positionConstraint = new ClampToLevel();
             
@@ -63,6 +68,26 @@ namespace Player.Diver
         {
             get => _moveDirection;
             set => _moveDirection = value;
+        }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            Debug.Log("OnMove");
+        }
+
+        public void OnToggleFastMove(InputAction.CallbackContext context)
+        {
+            Debug.Log("OToggleFastMove");
+        }
+
+        public void OnHook(InputAction.CallbackContext context)
+        {
+            Debug.Log("OnHOok");
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            Debug.Log("OnInteract");
         }
     }
 }

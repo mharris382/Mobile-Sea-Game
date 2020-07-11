@@ -28,7 +28,7 @@ namespace Player.Diver
             {
                 if (_instance == null)
                 {
-                    _instance = Resources.Load<DiverConfig>("DiverConfig");
+                    _instance = Resources.Load<DiverConfig>("Diver Config");
                 }
 
                 return _instance;

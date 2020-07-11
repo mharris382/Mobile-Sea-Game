@@ -18,7 +18,7 @@ namespace Player.Diver
             if (_interactionTrigger == null) _interactionTrigger = GetComponentInChildren<InteractionTrigger>();
             if (_jointAttachPoint == null)
             {
-                _jointAttachPoint = new GameObject().transform;
+                _jointAttachPoint = new GameObject("AttachPoint").transform;
                 _jointAttachPoint.parent = transform;
             }
 
