@@ -14,6 +14,7 @@
         <e p="Data" t="Include">
           <e p="CustomFile.hlsl" t="Include" />
         </e>
+        <e p="FishParticles.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="NPBehave" t="Include">
             <e p="Editor" t="Include">
@@ -263,6 +264,11 @@
           <e p="Utilities" t="Include">
             <e p="CoroutineHandler.cs" t="Include" />
             <e p="Pathfinder.cs" t="Include" />
+            <e p="Pools" t="Include">
+              <e p="Pool.cs" t="Include" />
+              <e p="PooledMonoBehaviour.cs" t="Include" />
+              <e p="PooledSpringJoint2D.cs" t="Include" />
+            </e>
           </e>
         </e>
         <e p="SpriteShapeShadowCaster.cs" t="Include" />
