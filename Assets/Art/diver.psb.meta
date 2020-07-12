@@ -5723,6 +5723,50 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: -265, y: 323}
+  - name: f-arm
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 151
+      y: 268
+      width: 110
+      height: 113
+    spriteID: ee261d5f555bf3a479285f40799e35fa
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 52, y: 231}
+  - name: r-arm
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 151
+      y: 389
+      width: 110
+      height: 113
+    spriteID: 37528e3370ab1a549b185563c3a433b9
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 52, y: 352}
   platformSettings: []
   mosaicLayers: 1
   documentPivot: {x: 0, y: 0}
@@ -5751,6 +5795,13 @@ ScriptedImporter:
     spriteID: 84ad05af92425084eac9d3ad986d3c1d
     layerID: 17
     mosaicPosition: {x: 421, y: 4}
+  - name: f-arm
+    spriteName: f-arm
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ee261d5f555bf3a479285f40799e35fa
+    layerID: 39
+    mosaicPosition: {x: 151, y: 268}
   - name: Torso
     spriteName: Torso
     isGroup: 0
@@ -5768,24 +5819,31 @@ ScriptedImporter:
   - name: Front-Fin
     spriteName: Front-Fin
     isGroup: 0
-    parentIndex: 2
+    parentIndex: 3
     spriteID: deb5aa679fb1a9e42b8b079ae0d51620
     layerID: 14
     mosaicPosition: {x: 274, y: 145}
   - name: Front-Shin
     spriteName: Front-Shin
     isGroup: 0
-    parentIndex: 2
+    parentIndex: 3
     spriteID: 403da9e90b2da184fa05a3b59dbb91f2
     layerID: 13
     mosaicPosition: {x: 4, y: 268}
   - name: Front-Thigh
     spriteName: Front-Thigh
     isGroup: 0
-    parentIndex: 2
+    parentIndex: 3
     spriteID: afd04267b7ba04b4c8aaa7e01115c340
     layerID: 12
     mosaicPosition: {x: 4, y: 409}
+  - name: r-arm
+    spriteName: r-arm
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 37528e3370ab1a549b185563c3a433b9
+    layerID: 38
+    mosaicPosition: {x: 151, y: 389}
   - name: Rear Leg
     spriteName: 
     isGroup: 1
@@ -5796,21 +5854,21 @@ ScriptedImporter:
   - name: Rear-Fin
     spriteName: Rear-Fin
     isGroup: 0
-    parentIndex: 6
+    parentIndex: 8
     spriteID: e6e4b5a210fef3d48bf2d7a9c71a2f78
     layerID: 36
     mosaicPosition: {x: 274, y: 253}
   - name: Rear-Shin
     spriteName: Rear-Shin
     isGroup: 0
-    parentIndex: 6
+    parentIndex: 8
     spriteID: 79c6d09bdc61b5741a44ad16959553c9
     layerID: 35
     mosaicPosition: {x: 274, y: 4}
   - name: Rear-Thigh
     spriteName: Rear-Thigh
     isGroup: 0
-    parentIndex: 6
+    parentIndex: 8
     spriteID: ea81e52d26397134cbf68947aaa1d86e
     layerID: 34
     mosaicPosition: {x: 274, y: 361}
