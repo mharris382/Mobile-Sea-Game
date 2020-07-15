@@ -29,9 +29,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_865870CC: 0.593
+    - Vector1_865870CC: 0.357
     - Vector1_A3A3C56B: 8
-    - _RipScale: 10
-    - _RipSpeed: 1
+    - _RipScale: 13.12
+    - _RipSpeed: 0.1
     m_Colors:
+    - Vector2_993B9C33: {r: 1, g: 1, b: 0, a: 0}
     - _RipColor: {r: 0.4669811, g: 0.9841809, b: 1, a: 1}
