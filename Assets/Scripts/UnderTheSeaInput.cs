@@ -891,7 +891,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
             ]
         },
         {
-            ""name"": ""HoldingHook"",
+            ""name"": ""Hook"",
             ""id"": ""e01ce557-302c-45e5-9d02-332917f50278"",
             ""actions"": [
                 {
@@ -1018,10 +1018,10 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        // HoldingHook
-        m_HoldingHook = asset.FindActionMap("HoldingHook", throwIfNotFound: true);
-        m_HoldingHook_AttachHook = m_HoldingHook.FindAction("AttachHook", throwIfNotFound: true);
-        m_HoldingHook_DetachHook = m_HoldingHook.FindAction("DetachHook", throwIfNotFound: true);
+        // Hook
+        m_Hook = asset.FindActionMap("Hook", throwIfNotFound: true);
+        m_Hook_AttachHook = m_Hook.FindAction("AttachHook", throwIfNotFound: true);
+        m_Hook_DetachHook = m_Hook.FindAction("DetachHook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1230,34 +1230,34 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
     }
     public UIActions @UI => new UIActions(this);
 
-    // HoldingHook
-    private readonly InputActionMap m_HoldingHook;
-    private IHoldingHookActions m_HoldingHookActionsCallbackInterface;
-    private readonly InputAction m_HoldingHook_AttachHook;
-    private readonly InputAction m_HoldingHook_DetachHook;
+    // Hook
+    private readonly InputActionMap m_Hook;
+    private IHookActions m_HookActionsCallbackInterface;
+    private readonly InputAction m_Hook_AttachHook;
+    private readonly InputAction m_Hook_DetachHook;
     public struct HookActions
     {
         private @UnderTheSeaInput m_Wrapper;
         public HookActions(@UnderTheSeaInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @AttachHook => m_Wrapper.m_HoldingHook_AttachHook;
-        public InputAction @DetachHook => m_Wrapper.m_HoldingHook_DetachHook;
-        public InputActionMap Get() { return m_Wrapper.m_HoldingHook; }
+        public InputAction @AttachHook => m_Wrapper.m_Hook_AttachHook;
+        public InputAction @DetachHook => m_Wrapper.m_Hook_DetachHook;
+        public InputActionMap Get() { return m_Wrapper.m_Hook; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(HookActions set) { return set.Get(); }
-        public void SetCallbacks(IHoldingHookActions instance)
+        public void SetCallbacks(IHookActions instance)
         {
-            if (m_Wrapper.m_HoldingHookActionsCallbackInterface != null)
+            if (m_Wrapper.m_HookActionsCallbackInterface != null)
             {
-                @AttachHook.started -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnAttachHook;
-                @AttachHook.performed -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnAttachHook;
-                @AttachHook.canceled -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnAttachHook;
-                @DetachHook.started -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnDetachHook;
-                @DetachHook.performed -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnDetachHook;
-                @DetachHook.canceled -= m_Wrapper.m_HoldingHookActionsCallbackInterface.OnDetachHook;
+                @AttachHook.started -= m_Wrapper.m_HookActionsCallbackInterface.OnAttachHook;
+                @AttachHook.performed -= m_Wrapper.m_HookActionsCallbackInterface.OnAttachHook;
+                @AttachHook.canceled -= m_Wrapper.m_HookActionsCallbackInterface.OnAttachHook;
+                @DetachHook.started -= m_Wrapper.m_HookActionsCallbackInterface.OnDetachHook;
+                @DetachHook.performed -= m_Wrapper.m_HookActionsCallbackInterface.OnDetachHook;
+                @DetachHook.canceled -= m_Wrapper.m_HookActionsCallbackInterface.OnDetachHook;
             }
-            m_Wrapper.m_HoldingHookActionsCallbackInterface = instance;
+            m_Wrapper.m_HookActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @AttachHook.started += instance.OnAttachHook;
@@ -1269,7 +1269,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
             }
         }
     }
-    public HookActions Hook => new HookActions(this);
+    public HookActions @Hook => new HookActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1335,7 +1335,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
     }
-    public interface IHoldingHookActions
+    public interface IHookActions
     {
         void OnAttachHook(InputAction.CallbackContext context);
         void OnDetachHook(InputAction.CallbackContext context);
