@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,7 +12,8 @@ public class DiverAnimatorController : MonoBehaviour
     private Animator _anim;
     private bool _faceLeft = true;
 
-    [Range(0, 2), Tooltip("Applies smooth damp function to the movement input values before passing them to the animator, set to zero to disable damping")]
+
+    [Range(0, 60), Tooltip("Applies smooth damp function to the movement input values before passing them to the animator, set to zero to disable damping")]
     public float smoothingAmount = 0;
     
 
@@ -20,7 +22,8 @@ public class DiverAnimatorController : MonoBehaviour
     private static readonly int VelocityY = Animator.StringToHash("VelocityY");
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
 
-    
+    private Vector2 _target;
+    private Vector2 _curr;
     private Vector2 _vel;
     private bool IsUsingSmoothing => Math.Abs(smoothingAmount) > Mathf.Epsilon;
     
@@ -30,6 +33,18 @@ public class DiverAnimatorController : MonoBehaviour
     }
 
 
+    private IEnumerator Start()
+    {
+        if (!IsUsingSmoothing) yield break;
+
+        while (true)
+        {
+            _curr = Vector2.SmoothDamp(_curr, _target, ref _vel, smoothingAmount * Time.deltaTime);
+            _anim.SetFloat(VelocityForwards, _curr.x);
+            _anim.SetFloat(VelocityY, _curr.y);
+            yield return null;
+        }
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -47,13 +62,13 @@ public class DiverAnimatorController : MonoBehaviour
 
         if (IsUsingSmoothing)
         {
-            var curr = new Vector2(_anim.GetFloat(VelocityForwards), _anim.GetFloat(VelocityY));
-            var target = movement.normalized;
-            movement = Vector2.SmoothDamp(curr, target, ref _vel, smoothingAmount);
+            _target = movement;
+            return;
         }
         
         _anim.SetFloat(VelocityForwards, movement.x);
         _anim.SetFloat(VelocityY, movement.y);
+        
     }
 
 
