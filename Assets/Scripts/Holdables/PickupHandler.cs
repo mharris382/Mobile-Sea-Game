@@ -3,22 +3,31 @@ using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using Zenject;
 
 namespace Holdables
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PickupHandler : MonoBehaviour
     {
-        [SerializeField]
-        private Transform attachPoint;
+        [SerializeField] private Transform attachPoint;
         private Rigidbody2D rb;
         private HoldableProvider pickupSelector;
         private IHolder holder;
         private IInteractionTrigger it;
         private float _timeLastInputTriggered;
 
+        
 
-        private void Awake()
+        [Inject]
+        private void Install(Holder holder, Rigidbody2D rb)
+        {
+            this.holder = holder;
+            this.rb = rb;
+        }
+
+
+        private void Start()
         {
             if (attachPoint == null)
             {
@@ -28,12 +37,8 @@ namespace Holdables
             }
 
             this.it = GetComponentInChildren<InteractionTrigger>();
-            this.holder = new Holder(this.rb = GetComponent<Rigidbody2D>());
             this.pickupSelector = new HoldableProvider(holder, it, attachPoint);
-        }
-
-        private void Start()
-        {
+            
             //handle dropping
             holder.OnReleased += holdable =>
             {
