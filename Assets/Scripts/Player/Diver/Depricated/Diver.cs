@@ -7,7 +7,7 @@ using DiverActions = UnderTheSeaInput.DiverGameplayActions;
 namespace Player.Diver
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Holder))]
-    public class Diver : MonoBehaviour, IDiverMovement, UnderTheSeaInput.IDiverGameplayActions
+    public class Diver : MonoBehaviour, IDiverMovement
     {
         private StateMachine _fsm;
         private DiverActions _diverActions;
@@ -24,7 +24,7 @@ namespace Player.Diver
             _diverActions = GameInput.DiverGameplayActions;
             GameInput.DiverGameplayActions.Enable();
             Debug.Assert(GameInput.DiverGameplayActions.enabled);
-            GameInput.DiverGameplayActions.SetCallbacks(this);
+            // GameInput.DiverGameplayActions.SetCallbacks(this);
             _diverActions.Move.performed += context => _moveDirection = context.ReadValue<Vector2>();
             _positionConstraint = new ClampToLevel();
             

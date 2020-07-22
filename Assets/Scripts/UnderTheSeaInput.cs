@@ -49,6 +49,14 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveHook"",
+                    ""type"": ""Value"",
+                    ""id"": ""afd7c686-a57f-4889-8a97-993255976777"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""AxisDeadzone"",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -337,6 +345,50 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0ae594c-fed2-4bf5-8774-709bb3e0746a"",
+                    ""path"": ""<Gamepad>/rightStick/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""8df36127-468e-47d2-8a79-5448a2c0863a"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""4856dd01-2fcc-4932-a73c-cb2cfc8d51af"",
+                    ""path"": ""<Keyboard>/numpad2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""a181f45a-afc6-4766-aa6b-56462257dd34"",
+                    ""path"": ""<Keyboard>/numpad8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1006,6 +1058,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         m_DiverGameplay_ToggleFastMove = m_DiverGameplay.FindAction("ToggleFastMove", throwIfNotFound: true);
         m_DiverGameplay_Hook = m_DiverGameplay.FindAction("Hook", throwIfNotFound: true);
         m_DiverGameplay_Interact = m_DiverGameplay.FindAction("Interact", throwIfNotFound: true);
+        m_DiverGameplay_MoveHook = m_DiverGameplay.FindAction("MoveHook", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1075,6 +1128,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
     private readonly InputAction m_DiverGameplay_ToggleFastMove;
     private readonly InputAction m_DiverGameplay_Hook;
     private readonly InputAction m_DiverGameplay_Interact;
+    private readonly InputAction m_DiverGameplay_MoveHook;
     public struct DiverGameplayActions
     {
         private @UnderTheSeaInput m_Wrapper;
@@ -1083,6 +1137,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         public InputAction @ToggleFastMove => m_Wrapper.m_DiverGameplay_ToggleFastMove;
         public InputAction @Hook => m_Wrapper.m_DiverGameplay_Hook;
         public InputAction @Interact => m_Wrapper.m_DiverGameplay_Interact;
+        public InputAction @MoveHook => m_Wrapper.m_DiverGameplay_MoveHook;
         public InputActionMap Get() { return m_Wrapper.m_DiverGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1104,6 +1159,9 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnInteract;
+                @MoveHook.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveHook;
+                @MoveHook.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveHook;
+                @MoveHook.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveHook;
             }
             m_Wrapper.m_DiverGameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -1120,6 +1178,9 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @MoveHook.started += instance.OnMoveHook;
+                @MoveHook.performed += instance.OnMoveHook;
+                @MoveHook.canceled += instance.OnMoveHook;
             }
         }
     }
@@ -1321,6 +1382,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         void OnToggleFastMove(InputAction.CallbackContext context);
         void OnHook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnMoveHook(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
