@@ -48,7 +48,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""id"": ""cb4027d0-7e9b-43f5-8cf9-20e12b88608e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
