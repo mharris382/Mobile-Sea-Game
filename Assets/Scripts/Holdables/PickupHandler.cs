@@ -17,7 +17,6 @@ namespace Holdables
         private IInteractionTrigger it;
         private float _timeLastInputTriggered;
 
-        
 
         [Inject]
         private void Install(Holder holder, Rigidbody2D rb)
@@ -38,23 +37,31 @@ namespace Holdables
 
             this.it = GetComponentInChildren<InteractionTrigger>();
             this.pickupSelector = new HoldableProvider(holder, it, attachPoint);
-            
-            //handle dropping
-            holder.OnReleased += holdable =>
-            {
-                //will replace with joint code
-                holdable.rigidbody2D.isKinematic = false;
-                holdable.rigidbody2D.transform.parent = null;
-            };
 
-            //handle pickup
-            holder.OnPickedUp += holdable =>
+            //TODO: move these callbacks into handler class which will probably get depricated
+            SubscribeCallbacks();
+            void SubscribeCallbacks()
             {
-                //will replace with joint code
-                holdable.rigidbody2D.isKinematic = true;
-                holdable.rigidbody2D.transform.parent = attachPoint;
-                holdable.rigidbody2D.transform.localPosition = Vector3.zero;
-            };
+                bool wasKinematicOnPickup = false;
+
+                //handle dropping
+                holder.OnReleased += holdable =>
+                {
+                    //will replace with joint code
+                    holdable.rigidbody2D.isKinematic = wasKinematicOnPickup;
+                    holdable.rigidbody2D.transform.parent = null;
+                };
+
+                //handle pickup
+                holder.OnPickedUp += holdable =>
+                {
+                    wasKinematicOnPickup = holdable.rigidbody2D.isKinematic;
+                    //will replace with joint code
+                    holdable.rigidbody2D.isKinematic = true;
+                    holdable.rigidbody2D.transform.parent = attachPoint;
+                    holdable.rigidbody2D.transform.localPosition = Vector3.zero;
+                };
+            }
         }
 
         //called by unity event in PlayerInput1
