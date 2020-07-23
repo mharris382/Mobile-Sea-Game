@@ -7,7 +7,13 @@ using UnityEngine;
 using Utilities;
 namespace Holdables
 {
-    public class HoldableProvider 
+  
+    public interface IHoldableProvider
+    {
+        IHoldable GetFirstChoiceForPickup();
+    }
+    
+    public class HoldableProvider : IHoldableProvider
     {
         private IHold _holder;
         private IInteractionTrigger _trigger;
@@ -34,25 +40,13 @@ namespace Holdables
         
         public IHoldable GetFirstChoiceForPickup()
         {
-            return _trigger.GetInRangeInteractables<IHoldable>().FirstOrDefault(t => !t.IsHeld && _holder.HeldObject != t);
-            //     .OrderBy(t =>
-            // {
-            //     var dist = Vector2.Distance(_transform.position, t.rigidbody2D.transform.position);
-            //     if (_recentlyDropped.Contains((IHoldable)t)) dist = -(1 / dist);
-            //     return dist;
-            // } )
-
+            return _trigger.GetInRangeInteractables<IHoldable>()
+                .FirstOrDefault(t => CanPickup(t));
         }
 
-        IHoldable[] GetInRangeHoldables()
+        protected virtual bool CanPickup(IHoldable t)
         {
-            return _trigger.GetInRangeInteractables<IHoldable>().ToArray();
-
-
-            IEnumerable<HoldableObject> holdableObjects =
-                from holdable in _trigger.GetInRangeInteractables<HoldableObject>()
-                where !holdable.IsHeld select holdable;
-            return holdableObjects.ToArray();
+            return !t.IsHeld && _holder.HeldObject != t;
         }
     }
     

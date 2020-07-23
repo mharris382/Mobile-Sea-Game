@@ -12,7 +12,7 @@ namespace Holdables
     {
         [SerializeField] private Transform attachPoint;
         private Rigidbody2D rb;
-        private HoldableProvider pickupSelector;
+        private HoldableProvider _pickupProvider;
         private IHolder holder;
         private IInteractionTrigger it;
         private float _timeLastInputTriggered;
@@ -36,7 +36,7 @@ namespace Holdables
             }
 
             this.it = GetComponentInChildren<InteractionTrigger>();
-            this.pickupSelector = new HoldableProvider(holder, it, attachPoint);
+            this._pickupProvider = new HoldableProvider(holder, it, attachPoint);
 
             //TODO: move these callbacks into handler class which will probably get depricated
             SubscribeCallbacks();
@@ -86,7 +86,7 @@ namespace Holdables
 
         private void TryToPickup()
         {
-            IHoldable pickedUp = pickupSelector.GetFirstChoiceForPickup();
+            IHoldable pickedUp = _pickupProvider.GetFirstChoiceForPickup();
             if (pickedUp != null)
             {
                 PickUp(pickedUp);

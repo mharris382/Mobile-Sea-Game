@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Player.Diver;
 using UnityEngine;
 using Zenject;
@@ -9,6 +10,8 @@ namespace Holdables.Diver
         public override void InstallBindings()
         {
             Container.Bind<Rigidbody2D>().FromComponentInHierarchy().AsSingle();
+            
+            //NOTE: if it becomes necessary to inject the HoldableSelector this needs to be changed to BindToSelfAndInterfaces
             Container.Bind<Holder>().AsSingle();
 
             Container.BindInterfacesTo<DiverHolderSignalPublisher>().AsSingle();
@@ -34,6 +37,7 @@ namespace Holdables.Diver
             Container.BindSignal<DiverHeldItemChangedSignal>().ToMethod<StopMovementOnHoldHeavy>(t => t.OnHeldItemChanged).FromResolve();
         }
 
+        [UsedImplicitly]
         private class DiverHolderSignalPublisher : IInitializable
         {
             private SignalBus _signalBus;
@@ -52,7 +56,7 @@ namespace Holdables.Diver
             }
         }
 
-
+        [UsedImplicitly]
         public class StopMovementOnHoldHeavy
         {
             private readonly MonoBehaviour _movement;
