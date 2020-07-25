@@ -34,12 +34,26 @@ namespace Hook
 
         private void Start()
         {
-            //_signalBus.Subscribe<HookHeldItemChangedSignal>(Callback);
+            try
+            {
+                _signalBus.Subscribe<HookHeldItemChangedSignal>(Callback);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Exception thrown subscribing from HookHeldItemChangedSignal\n{e.GetType().Name}: {e.Message}",this);
+            }
         }
 
         private void OnDestroy()
         {
-            //_signalBus.Unsubscribe<HookHeldItemChangedSignal>( Callback);
+            try
+            {
+                _signalBus.Unsubscribe<HookHeldItemChangedSignal>( Callback);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Exception thrown unSubscribing from HookHeldItemChangedSignal\n{e.GetType().Name}: {e.Message}",this);
+            }
         }
 
         public void Callback(HookHeldItemChangedSignal obj)
