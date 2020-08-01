@@ -50,7 +50,7 @@ namespace Hook
             if ((Time.realtimeSinceStartup - _timeLastInputTriggered) < 0.25f)
                 return;
             _timeLastInputTriggered = Time.realtimeSinceStartup;
-            Debug.Log("OnHookAttachedButton Pressed".InItalics());
+           // Debug.Log("OnHookAttachedButton Pressed".InItalics());
             if (_holder.HeldObject != null)
             {
                 _holder.ReleaseHeldObject();
