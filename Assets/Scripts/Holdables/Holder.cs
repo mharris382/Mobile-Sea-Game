@@ -1,5 +1,5 @@
 ﻿using System;
-
+using UniRx;
 using UnityEngine;
 
 namespace Holdables
@@ -52,10 +52,10 @@ namespace Holdables
 
        
     }
-    
-    
-    
-    
-    
+
+
+
+
+   
     
 }

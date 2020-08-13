@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Player.Diver;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -14,47 +15,17 @@ namespace Holdables.Diver
             //NOTE: if it becomes necessary to inject the HoldableSelector this needs to be changed to BindToSelfAndInterfaces
             Container.Bind<Holder>().AsSingle();
 
-            Container.BindInterfacesTo<DiverHolderSignalPublisher>().AsSingle();
-
             Container.DeclareSignal<DiverHeldItemChangedSignal>();
-            Container.BindSignal<DiverHeldItemChangedSignal>().ToMethod(t =>
-            {
-                if (t.HeldObject == null)
-                {
-                    Debug.Log($"Diver is no longer holding anything".InBold());
-                }
-                else
-                {
-                    Debug.Log($"Diver is now holding {t.HeldObject.name}".InBold());
-                }
-            });
-
-
-
+            Container.BindInterfacesTo<DiverHeldItemChangedSignal.Publisher>().AsSingle();
+            
+            
             //TODO: Move to a different installer
             Container.Bind<MonoBehaviour>().To<DiverSmoothMovement>().FromComponentsInHierarchy().WhenInjectedInto<StopMovementOnHoldHeavy>();
             Container.Bind<StopMovementOnHoldHeavy>().AsSingle();
             Container.BindSignal<DiverHeldItemChangedSignal>().ToMethod<StopMovementOnHoldHeavy>(t => t.OnHeldItemChanged).FromResolve();
         }
 
-        [UsedImplicitly]
-        private class DiverHolderSignalPublisher : IInitializable
-        {
-            private SignalBus _signalBus;
-            private Holder _holder;
-
-            public DiverHolderSignalPublisher(SignalBus signalBus, Holder holder)
-            {
-                _signalBus = signalBus;
-                _holder = holder;
-            }
-
-            public void Initialize()
-            {
-                _holder.OnPickedUp += holdable => _signalBus.Fire(new DiverHeldItemChangedSignal(holdable));
-                _holder.OnReleased += holdable => _signalBus.Fire(new DiverHeldItemChangedSignal(null));
-            }
-        }
+        
 
         [UsedImplicitly]
         public class StopMovementOnHoldHeavy
