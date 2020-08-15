@@ -24,7 +24,7 @@ namespace Holdables.Diver
             Container.Bind<StopMovementOnHoldHeavy>().AsSingle();
             Container.BindSignal<DiverHeldItemChangedSignal>().ToMethod<StopMovementOnHoldHeavy>(t => t.OnHeldItemChanged).FromResolve();
 
-            Container.BindInterfacesTo<HeavyHoldableListener>().AsSingle();
+            //Container.BindInterfacesTo<HeavyHoldableListener>().AsSingle();
         }
 
         
