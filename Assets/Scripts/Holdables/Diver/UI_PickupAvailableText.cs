@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -7,6 +8,7 @@ namespace Holdables.Diver
 {
     public class UI_PickupAvailableText : MonoBehaviour
     {
+        [Required]
         public TMPro.TextMeshProUGUI notificationText;
         
         
