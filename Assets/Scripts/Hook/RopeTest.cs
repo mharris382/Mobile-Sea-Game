@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Zenject;
 using Object = UnityEngine.Object;
 
 public class RopeTest : MonoBehaviour
@@ -14,7 +13,7 @@ public class RopeTest : MonoBehaviour
     private FirstRopeJoint _first;
     
     public Rigidbody2D connected;
-
+    public RopeJoint EndJoint { get; }
     [InlineButton("Plus1", "+"), InlineButton("Minus1", "-")]
     [ShowInInspector, HideInEditorMode, MinValue("_minDistance")]
     public float Distance

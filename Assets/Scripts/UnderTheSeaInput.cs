@@ -57,6 +57,14 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": ""AxisDeadzone"",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveBoat"",
+                    ""type"": ""Value"",
+                    ""id"": ""bcf16aad-0696-4837-b23d-a2ba06109b51"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""AxisDeadzone"",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -358,7 +366,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""1D Axis - Numpad"",
                     ""id"": ""8df36127-468e-47d2-8a79-5448a2c0863a"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -387,6 +395,83 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis - Arrows"",
+                    ""id"": ""48a9b486-2cbb-4c5b-9453-bbbbe079aa00"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""bfd4f3f9-6e2b-4460-8ffd-744b450f3e63"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""cddcb3a3-393a-4b1f-96c0-0b482d1b36db"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69f1d65c-60cd-4881-89a9-a3a3ac6373b0"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MoveBoat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""151f4262-e8fb-4a7f-ab8d-221a79efa9fd"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveBoat"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""4c2adbc2-9e83-4509-bc2a-825baed41302"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveBoat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""8922c62f-3ca1-4a7d-8ead-91a90fadd8fe"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveBoat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -1059,6 +1144,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         m_DiverGameplay_Hook = m_DiverGameplay.FindAction("Hook", throwIfNotFound: true);
         m_DiverGameplay_Interact = m_DiverGameplay.FindAction("Interact", throwIfNotFound: true);
         m_DiverGameplay_MoveHook = m_DiverGameplay.FindAction("MoveHook", throwIfNotFound: true);
+        m_DiverGameplay_MoveBoat = m_DiverGameplay.FindAction("MoveBoat", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1129,6 +1215,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
     private readonly InputAction m_DiverGameplay_Hook;
     private readonly InputAction m_DiverGameplay_Interact;
     private readonly InputAction m_DiverGameplay_MoveHook;
+    private readonly InputAction m_DiverGameplay_MoveBoat;
     public struct DiverGameplayActions
     {
         private @UnderTheSeaInput m_Wrapper;
@@ -1138,6 +1225,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         public InputAction @Hook => m_Wrapper.m_DiverGameplay_Hook;
         public InputAction @Interact => m_Wrapper.m_DiverGameplay_Interact;
         public InputAction @MoveHook => m_Wrapper.m_DiverGameplay_MoveHook;
+        public InputAction @MoveBoat => m_Wrapper.m_DiverGameplay_MoveBoat;
         public InputActionMap Get() { return m_Wrapper.m_DiverGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1162,6 +1250,9 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                 @MoveHook.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveHook;
                 @MoveHook.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveHook;
                 @MoveHook.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveHook;
+                @MoveBoat.started -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveBoat;
+                @MoveBoat.performed -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveBoat;
+                @MoveBoat.canceled -= m_Wrapper.m_DiverGameplayActionsCallbackInterface.OnMoveBoat;
             }
             m_Wrapper.m_DiverGameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -1181,6 +1272,9 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
                 @MoveHook.started += instance.OnMoveHook;
                 @MoveHook.performed += instance.OnMoveHook;
                 @MoveHook.canceled += instance.OnMoveHook;
+                @MoveBoat.started += instance.OnMoveBoat;
+                @MoveBoat.performed += instance.OnMoveBoat;
+                @MoveBoat.canceled += instance.OnMoveBoat;
             }
         }
     }
@@ -1383,6 +1477,7 @@ public class @UnderTheSeaInput : IInputActionCollection, IDisposable
         void OnHook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMoveHook(InputAction.CallbackContext context);
+        void OnMoveBoat(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

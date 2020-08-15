@@ -17,13 +17,19 @@ namespace Diver
 
         private InputAction _moveAction;
         private InputAction _moveHookAction;
-
+        private InputAction _boatMoveInput;
+        
         public float HookMoveInput { private set; get; }
         public Vector2 DiverMoveInput { private set; get; }
+        public float BoatMoveInput { private set; get; }
         
         public Subject<Unit> OnUseHook { private set; get; }
         public Subject<Unit> OnInteract { private set; get; }
 
+
+        
+         
+        
 
         [Inject]
         void Inject(PlayerInput input)
@@ -50,6 +56,7 @@ namespace Diver
             {
                 _moveAction = GetActionSafe("Move");
                 _moveHookAction = GetActionSafe("MoveHook");
+                _boatMoveInput = GetActionSafe("MoveBoat");
                 interact = GetActionSafe("Interact");
                 useHook = GetActionSafe("Hook");
                 toggleSprint = GetActionSafe("ToggleFastMove");
@@ -76,7 +83,8 @@ namespace Diver
         {
             this.DiverMoveInput = _moveAction.ReadValue<Vector2>();
             this.HookMoveInput = _moveHookAction.ReadValue<float>();
-            
+            this.BoatMoveInput = _boatMoveInput.ReadValue<float>();
+
         }
     }
 }

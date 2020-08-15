@@ -1,8 +1,10 @@
 ﻿using System;
 using Core;
+using Diver;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Hook
 {
@@ -12,7 +14,9 @@ namespace Hook
         public float raiseLowerSpeed = 10;
         [Range(0,3),ShowIf("useDifferentSmoothings")] public float raiseSmoothing = 0.1f;
         [Range(0,3),ShowIf("useDifferentSmoothings")] public float lowerSmoothing = 1;
-
+        
+        
+        
         #region [EditorOnly]
 
 #if UNITY_EDITOR
@@ -92,9 +96,31 @@ namespace Hook
         }
 
 
+      
+
         public void OnHookMove(InputAction.CallbackContext context)
         {
             _currInput = context.ReadValue<float>();
         }
+    }
+
+
+    
+    public class HookRopeController : MonoBehaviour
+    {
+        public RopeTest rope;
+        public Rigidbody2D hook;
+        
+        
+        private DiverInput _input;
+
+
+        [Inject]
+        void Inject(DiverInput input)
+        {
+            this._input = input;
+        }
+
+        
     }
 }
