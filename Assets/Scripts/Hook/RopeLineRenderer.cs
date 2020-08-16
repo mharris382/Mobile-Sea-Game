@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
@@ -13,16 +14,21 @@ public class RopeLineRenderer : MonoBehaviour
 
     private void Start()
     {
-        rope.GetDistanceStream().Subscribe(_ => UpdateRenderer());
+    }
+
+    private void Update()
+    {
+        UpdateRenderer();
     }
 
     private void UpdateRenderer()
     {
         List<Vector3> points = new List<Vector3>(lineRenderer.positionCount);
         int cnt = 0;
+        Vector2 direction = Vector2.down;
         foreach (var pos in rope.JointPositions)
         {
-            points.Add(pos);
+            points.Add(pos);    
             cnt++;
         }
 

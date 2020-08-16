@@ -1,10 +1,12 @@
 ﻿
 using System;
+using Player;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
+using Holder = Holdables.Holder;
 
 namespace Diver
 {
@@ -87,4 +89,8 @@ namespace Diver
 
         }
     }
+
+
+
+    
 }

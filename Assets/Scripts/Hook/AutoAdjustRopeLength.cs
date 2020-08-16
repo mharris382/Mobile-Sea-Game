@@ -38,12 +38,12 @@ public class AutoAdjustRopeLength : MonoBehaviour
         if(Mathf.Abs(moveInput) < 0.1f)
             return;
         
-        if((moveInput > 0 && _currentDistance >= maxRopeDistance) || 
-           (moveInput < 0) && _currentDistance <= minRopeDistance)
-            return;
+        // if((moveInput < 0 && _currentDistance >= maxRopeDistance) || 
+        //    (moveInput > 0) && _currentDistance <= minRopeDistance)
+        //     return;
 
         var moveAmount = Time.deltaTime * speed * moveInput;
-        _currentDistance -= moveAmount;
+        _currentDistance += -moveAmount;
         _rope.Distance = _currentDistance;
     }
 }

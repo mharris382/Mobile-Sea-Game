@@ -8,7 +8,7 @@ namespace Hook
 {
     public class HookMonoInstaller : MonoInstaller
     {
-        public HookAttachable attachable;
+        //public HookAttachable attachable;
 
         public override void InstallBindings()
         {
@@ -23,7 +23,7 @@ namespace Hook
             
             Container.BindSignal<HookHeldItemChangedSignal>().ToMethod<HookedObjectLerper>(t => t.OnObjectHooked).FromNew();
             
-            if (attachable != null) Container.BindSignal<HookHeldItemChangedSignal>().ToMethod(attachable.Callback);
+          //  if (attachable != null) Container.BindSignal<HookHeldItemChangedSignal>().ToMethod(attachable.Callback);
         }
     }
 

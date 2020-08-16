@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,6 +16,9 @@ public class RopeTest : MonoBehaviour
     
     public Rigidbody2D connected;
     public RopeJoint EndJoint { get; }
+    public IEnumerable<RopeJoint> AllJoints => _first;
+    public IEnumerable<Vector2> JointPositions => _first.Select(t => t.AttachedBody.position);
+    
     [InlineButton("Plus1", "+"), InlineButton("Minus1", "-")]
     [ShowInInspector, HideInEditorMode, MinValue("_minDistance")]
     public float Distance
@@ -26,6 +31,10 @@ public class RopeTest : MonoBehaviour
 
     void Minus1() => Distance -= 0.1f;
 
+   private ReactiveProperty<float> _distance = new ReactiveProperty<float>();
+
+   public UniRx.IObservable<float> GetDistanceStream() => _distance;
+    
     private void Awake()
     {
         var joints = GetComponentsInChildren<DistanceJoint2D>();
@@ -45,6 +54,7 @@ public class RopeTest : MonoBehaviour
 
         _minDistance = _first.GetTotalDistance();
         _head.ConnectedBody = connected;
+        _distance.Value = _minDistance;
     }
 
 
@@ -53,6 +63,7 @@ public class RopeTest : MonoBehaviour
         if (_first == null) return;
         dist = Mathf.Max(dist, _minDistance);
         _first.SetDistance(dist);
+        _distance.Value = dist;
     }
 
     public float GetDistance()
@@ -99,11 +110,21 @@ public class RopeTest : MonoBehaviour
                 curr = curr.NextJoint;
             }
         }
-
+        public IEnumerable<RopeJoint> GetEnumerable()
+        {
+            RopeJoint curr = this;
+            while (curr != null)
+            {
+                yield return curr;
+                curr = curr.NextJoint;
+            }
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
+        
+        
         
         
     }
@@ -158,6 +179,8 @@ public class RopeTest : MonoBehaviour
                 if (_springJoint2D != null) _springJoint2D.connectedBody = value;
             }
         }
+
+        public Rigidbody2D AttachedBody => _joint.attachedRigidbody;
 
         public bool AllowDestruction { get; set; }
         protected void SetDistance(float targetDistance, ref float currentDistance)

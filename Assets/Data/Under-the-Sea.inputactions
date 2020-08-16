@@ -417,61 +417,6 @@
                     "action": "MoveBoat",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "Arrows",
-                    "id": "afbedc99-2267-46fd-a69e-9cf4c276abc1",
-                    "path": "Dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Hook",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "b786d79b-1bed-4964-8bfc-d687fc2c0091",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Hook",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "de020e33-c379-4cad-a6f6-df8db1e9b92f",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Hook",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "574dd3da-6379-4aa2-811e-d43ef0ab7147",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Hook",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "acb2a509-0990-4318-9e6f-a7432bf6a60e",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Hook",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         },

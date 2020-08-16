@@ -16,6 +16,8 @@ namespace Holdables
             set => _heldObject = value;
         }
         
+        
+        
         public event Action<IHoldable> OnPickedUp;
         public event Action<IHoldable> OnReleased;
         

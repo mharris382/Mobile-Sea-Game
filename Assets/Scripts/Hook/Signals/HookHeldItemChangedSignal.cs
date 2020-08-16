@@ -1,6 +1,7 @@
 ﻿using System;
 using Holdables;
 using JetBrains.Annotations;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -33,6 +34,8 @@ namespace Hook
             {
                 _holder.OnPickedUp += holdable => _signalBus.Fire(new HookHeldItemChangedSignal(holdable));
                 _holder.OnReleased += holdable => _signalBus.Fire(new HookHeldItemChangedSignal(null));
+                _holder.OnPickedUp += holdable => MessageBroker.Default.Publish(new HookHeldItemChangedSignal(holdable));
+                _holder.OnReleased += holdable =>  MessageBroker.Default.Publish(new HookHeldItemChangedSignal(null));
             }
         }
         
