@@ -42,6 +42,7 @@ namespace Holdables.Diver
             }
             else
             {
+                
                 notificationText.text = $"Press E to pickup {available.name}";
             }
         }
