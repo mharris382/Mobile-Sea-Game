@@ -1,5 +1,6 @@
 using System.Collections;
 using Holdables;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -8,10 +9,12 @@ namespace Hook
 {
     public class HookMonoInstaller : MonoInstaller
     {
+        [Required]
         //public HookAttachable attachable;
-
+        public SpriteRenderer hookIndicator;
         public override void InstallBindings()
         {
+            Container.Bind<SpriteRenderer>().FromComponentInNewPrefab(hookIndicator).AsSingle();
             Container.Bind<Rigidbody2D>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<Holder>().AsSingle();
 

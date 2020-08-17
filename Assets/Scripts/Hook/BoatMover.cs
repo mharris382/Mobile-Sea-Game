@@ -1,5 +1,7 @@
-﻿using Core;
+﻿using System;
+using Core;
 using Diver;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -11,13 +13,21 @@ namespace Hook
         public Rigidbody2D boatBody;
         public float moveSpeed = 25;
         private DiverInput _diverInput;
+        [SerializeField,Required]
+        private UI_HookIndicator _uiHookIndicator;
 
         [Inject]
         void Inject(DiverInput input)
         {
             this._diverInput = input;
         }
-        
+
+        private void Awake()
+        {
+            //_uiHookIndicator = GetComponent<UI_HookIndicator>();
+            //Debug.Assert(_uiHookIndicator != null, "Missing UI Hook Indicator", this);
+        }
+
         private void Update()
         {
             if(Mathf.Abs(_diverInput.BoatMoveInput) < 0.1f)
@@ -27,6 +37,7 @@ namespace Hook
             boatBody.position += moveAmount;
             
             ClampPosition();
+            _uiHookIndicator.BoatPosition = boatBody.position;
         }
 
         private void ClampPosition()
@@ -39,9 +50,9 @@ namespace Hook
                 position.y = Mathf.Clamp(position.y, rect.yMin, rect.yMax);
             }
 
-            Vector3 currPosition = transform.position;
+            Vector3 currPosition = boatBody.position;
             ClampPositionToLevel(ref currPosition);
-            transform.position = currPosition;
+            boatBody.position = currPosition;
         }
        
     }
