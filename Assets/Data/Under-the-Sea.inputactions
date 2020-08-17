@@ -244,11 +244,11 @@
                 },
                 {
                     "name": "",
-                    "id": "4265a6c4-30fa-4372-8e38-e0078395d4b4",
-                    "path": "<Gamepad>/dpad/up",
+                    "id": "65a3b417-b9a9-46be-8261-54a598edc43c",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "",
                     "action": "Hook",
                     "isComposite": false,
                     "isPartOfComposite": false
