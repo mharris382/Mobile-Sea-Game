@@ -14,7 +14,6 @@
         <e p="Data" t="Include">
           <e p="CustomFile.hlsl" t="Include" />
         </e>
-        <e p="FishParticles.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="NPBehave" t="Include">
             <e p="Editor" t="Include">
@@ -174,13 +173,14 @@
               <e p="Depricated" t="Include">
                 <e p="DEP_DiverActions.cs" t="Include" />
                 <e p="DiverMoveController.cs" t="Include" />
-                <e p="DiverSmoothMovement.cs" t="Include" />
               </e>
               <e p="Diver.cs" t="Include" />
+              <e p="DiverAnimatorController.cs" t="Include" />
               <e p="DiverConfig.cs" t="Include" />
               <e p="DiverInteractionController.cs" t="Include" />
               <e p="DiverJointHolderFactory.cs" t="Include" />
               <e p="DiverPickupHandler.cs" t="Include" />
+              <e p="DiverSmoothMovement.cs" t="Include" />
               <e p="Peripherals" t="Include">
                 <e p="DiverFlashlight.cs" t="Include" />
                 <e p="DiverHideEvents.cs" t="Include" />
@@ -189,6 +189,7 @@
                 <e p="DiverHeavyMovement.cs" t="Include" />
                 <e p="DiverMovement.cs" t="Include" />
                 <e p="IsDiverCarryingHeavyObjectCondition.cs" t="Include" />
+                <e p="NoDiverMovementState.cs" t="Include" />
               </e>
             </e>
             <e p="Hook" t="Include">

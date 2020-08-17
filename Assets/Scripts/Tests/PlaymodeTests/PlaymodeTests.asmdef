@@ -5,7 +5,8 @@
         "UnityEditor.TestRunner",
         "Game",
         "Unity.InputSystem.TestFramework",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Game.Hook"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

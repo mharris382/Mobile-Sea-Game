@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using Core.State;
+using Diver;
 using enemies;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
+using Zenject;
 
 namespace Player.Diver
 {
@@ -23,12 +25,18 @@ namespace Player.Diver
         private Vector2 _moveDirection = Vector2.zero;
         private Rigidbody2D _rigidBody2D;
         private Vector2 _slowingVelocity;
+        private DiverInput _input;
 
-        
-        
+
         public Vector2 MoveDirection => _moveDirection;
         public float MoveSpeed => _config == null ? _moveSpeed : _config.moveSpeed;
 
+        [Inject]
+        void Inject(DiverInput input)
+        {
+            this._input = input;
+        }
+        
         public new Rigidbody2D rigidbody2D
         {
             get => _rigidBody2D;
@@ -40,7 +48,12 @@ namespace Player.Diver
             _config = DiverConfig.Instance;
             _rigidBody2D = GetComponent<Rigidbody2D>();
         }
-        
+
+        private void Update()
+        {    
+            OnMove(_input.DiverMoveInput);
+        }
+
         private void FixedUpdate()
         {
             if (CheckForStopping()) 
@@ -124,6 +137,16 @@ namespace Player.Diver
             _moveDirection = context.ReadValue<Vector2>().normalized;
         }
 
+        void OnMove(Vector2 move)
+        {
+            var inputDirection = move.normalized;
+            if (Vector2.Dot(inputDirection, _moveDirection) < -0.25f)
+            {
+                _rigidBody2D.velocity /= 4;
+            }
+
+            _moveDirection = move.normalized;
+        }
         
         //this is used for touch input on mobile devices
         public void OnMove_OnScreen(Vector2 movement)

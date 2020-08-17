@@ -41,44 +41,19 @@ namespace Player
             _trigger = triggerGameObject.GetComponent<IDetectInteractions>();
             this._objHolder = GetComponent<Holder>() ?? diverMovement.GetComponent<Holder>();
             _diverFsm = new StateMachine();
-            
-            var moveAction = input.actions["move"];
-            _diverFsm.OnStateChanged += (state, newState) =>
-            {
-                if (state is IListenForMoveInput)
-                {
-                    var prevListener = state as IListenForMoveInput;
-                    moveAction.performed -= prevListener.OnMove;
-                }
-
-                if (newState is IListenForMoveInput)
-                {
-                    var nextListener = newState as IListenForMoveInput;
-                    moveAction.performed += nextListener.OnMove;
-                }
-                else
-                {
-                    Debug.LogWarning("No State is listening for move input");
-                }
-            };
-
 
             IState heavyMovement = null;//new DiverHeavyMovement(diverMovement.GetComponent<Rigidbody2D>(), _objHolder, heavyMoveConfig);
             IState normalMovement = diverMovement;
             
-            _diverFsm.AddTransition(heavyMovement, normalMovement, () => isHoldingObject == false);
-            _diverFsm.AddTransition(normalMovement, heavyMovement, () => isHoldingObject && (_objHolder.HeldObject != null) && (_objHolder.HeldObject is IHeavyHoldable));
-            
             
             _diverFsm.SetState(normalMovement);
-            moveAction.performed += (diverMovement as IListenForMoveInput).OnMove;
+           // moveAction.performed += (diverMovement as IListenForMoveInput).OnMove;
         }
 
 
         private void Update()
         {
             _diverFsm.Tick();
-            var holdable = _trigger.GetInRangeInteractables<IHoldable>().OrderBy(t => Vector2.Distance(t.rigidbody2D.position, diverMovement.rigidbody2D.position)).FirstOrDefault();
             
         }
 
@@ -99,7 +74,6 @@ namespace Player
         
         public void OnMove(InputAction.CallbackContext context)
         {
-            var moveDirection = context.ReadValue<Vector2>().normalized;
            
         }
 
@@ -126,17 +100,6 @@ namespace Player
             }
         }
         
-        [System.Obsolete("Moved to DiverPickupHandler")]
-        
-        private JointHolderBase GetHoldJoint(Rigidbody2D holdable)
-        {
-            float distance = Vector2.Distance(diverMovement.rigidbody2D.position, holdable.position);
-            
-            JointHolderBase holdJoint = !holdable.isKinematic ?  (JointHolderBase)
-               new SpringJointHolder(holdable, diverMovement.rigidbody2D, distance) :
-               new FixedJointHolder(holdable, diverMovement.rigidbody2D, fixedAttachPoint, distance);
 
-            return holdJoint;
-        }
     }
 }

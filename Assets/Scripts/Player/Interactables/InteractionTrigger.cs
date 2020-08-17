@@ -6,7 +6,12 @@ using UnityEngine;
 
 namespace Player
 {
-    public class InteractionTrigger : MonoBehaviour, IDetectInteractions
+    public interface IInteractionTrigger
+    {
+        List<T> GetInRangeInteractables<T>() where T : class, IInteractable;
+    }
+
+    public class InteractionTrigger : MonoBehaviour, IDetectInteractions, IInteractionTrigger
     {
         //TODO: Change to HashSet 
         private List<Collider2D> _inRangeInteractions = new List<Collider2D>();
