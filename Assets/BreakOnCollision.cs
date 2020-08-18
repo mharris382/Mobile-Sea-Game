@@ -11,13 +11,15 @@ public class BreakOnCollision : MonoBehaviour
     [Tooltip("The mass of incoming body required to break this object")]
     public float massThreshold = 3;
 
-    public UnityEvent onBreak;
+   
     
     [SerializeField] private BreakMode breakMode = BreakMode.Dynamic;
     
-    [ShowIf("@_breakMode==BreakMode.BreakParts")]
+    [ShowIf("@breakMode==BreakMode.BreakParts")]
     [SerializeField] private Rigidbody2D[] breakParts;
-
+    public UnityEvent onBreak;
+    
+    
     private Rigidbody2D _rb;
     
     
