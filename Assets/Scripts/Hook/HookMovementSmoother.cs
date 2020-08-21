@@ -26,7 +26,18 @@ namespace Hook
             [MinMaxSlider(-5, 5, ShowFields = true)]
             private Vector2 minMaxGravityScale = new Vector2(1, 2);
             
+            [Range(0, 5)]
+            public float xLimit = 1;
             
+            [Range(0, 5)]
+            public float xGravityScale = 2;
+
+            [SerializeField] private XMode mode;
+            private enum XMode
+            {
+                Add,
+                Override
+            }
             public float GetGravityScale(float time)
             {
                 if (!useGravityScale) return minMaxGravityScale.x;
@@ -37,6 +48,18 @@ namespace Hook
             {
                 var diffY = actualPos.y - targetPos.y;
                 var time = Mathf.InverseLerp(diffRange.x, diffRange.y, diffY);
+                var diffX = Mathf.Abs(actualPos.x - targetPos.x);
+                if (diffX > xLimit)
+                {
+                    switch (mode)
+                    {
+                        case XMode.Add:
+                            return xGravityScale + GetGravityScale(curve.Evaluate(time));
+                            break;
+                        case XMode.Override:
+                            return xGravityScale;
+                    }
+                }
                 return GetGravityScale(curve.Evaluate(time));
             }
         }
