@@ -20,7 +20,7 @@ namespace Holdables.Diver
             Container.Bind(typeof(IHold), typeof(Holder)).To<Holder>().AsSingle();
             Container.DeclareSignal<DiverHeldItemChangedSignal>();
             Container.BindInterfacesTo<DiverHeldItemChangedSignal.Publisher>().AsSingle();
-           
+            Container.BindInterfacesTo<DiverPickupAvailableSignalProvider>().AsSingle().NonLazy();
 
             //TODO: Move to a different installer
             Container.Bind<MonoBehaviour>().To<DiverSmoothMovement>().FromComponentsInHierarchy().WhenInjectedInto<StopMovementOnHoldHeavy>();

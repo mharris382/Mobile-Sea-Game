@@ -1,5 +1,7 @@
 ﻿using System;
+using Signals;
 using Sirenix.OdinInspector;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -10,42 +12,35 @@ namespace Holdables.Diver
         [Required]
         public TMPro.TextMeshProUGUI notificationText;
         
+        private int _cnt = 0;
         
-        private HoldableProvider _provider;
-        private Holder _holder;
-
-
-        [Inject]
-        void Inject(Holder holder, HoldableProvider provider)
-        {
-            this._holder = holder;
-            this._provider = provider;
-        }
-
-
         private void Start()
         {
-            Debug.Assert(_holder != null, "Null Holder injected", this);
-            Debug.Assert(_provider != null, "Null Provider Injected", this);
+           
+            MessageBroker.Default.Receive<DiverPickupAvailableSignal>()
+                .Where(t => t.availablePickup != null)
+                .Subscribe(t =>
+                {
+                    Debug.Log($"Diver has {t.availablePickup.name} available.");
+                    _cnt = 0;
+                    notificationText.enabled = true;
+                    notificationText.text = $"Press E to pickup {t.availablePickup.name}";
+                });
             
-            notificationText.enabled = true;
-            notificationText.text = "";
-            transform.parent = null;
+            DisableNotificationText();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            var available = _holder.HeldObject != null ? null : _provider.GetFirstChoiceForPickup();
-            if (available == null)
-            {
-                notificationText.text = "";
-            }
-            else
-            {
-                
-                notificationText.text = $"Press E to pickup {available.name}";
-            }
+            _cnt++;
+            if (_cnt <= 1) return;
+            DisableNotificationText();
         }
 
+        private void DisableNotificationText()
+        {
+            notificationText.text = "";
+            notificationText.enabled = false;
+        }
     }
 }

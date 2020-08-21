@@ -1090,14 +1090,18 @@
           <e p="Game.asmdef" t="Include" />
           <e p="Holdables" t="Include">
             <e p="Diver" t="Include">
-              <e p="DiverHeldItemChangedSignal.cs" t="Include" />
               <e p="DiverHolderInstaller.cs" t="Include" />
               <e p="DiverPickupAvailableSignalProvider.cs" t="Include" />
               <e p="DiverPickupHandler.cs" t="Include" />
               <e p="DiverPickupJoints.cs" t="Include" />
-              <e p="HeavyHoldable.cs" t="Include" />
-              <e p="HeavyHoldableListener.cs" t="Include" />
-              <e p="StopMovementOnHoldHeavy.cs" t="Include" />
+              <e p="Old" t="Include">
+                <e p="HeavyHoldable.cs" t="Include" />
+                <e p="HeavyHoldableListener.cs" t="Include" />
+                <e p="StopMovementOnHoldHeavy.cs" t="Include" />
+              </e>
+              <e p="Signals" t="Include">
+                <e p="DiverHeldItemChangedSignal.cs" t="Include" />
+              </e>
               <e p="UI_PickupAvailableText.cs" t="Include" />
             </e>
             <e p="HoldableObject.cs" t="Include" />
@@ -1142,7 +1146,6 @@
             </e>
             <e p="UI_HookIndicator.cs" t="Include" />
           </e>
-          <e p="HookHasAttachmentAvailableSignal.cs" t="Include" />
           <e p="Loot" t="Include">
             <e p="Loot.cs" t="Include" />
             <e p="LootCounter.cs" t="Include" />
@@ -1205,6 +1208,10 @@
               <e p="SubConfig.cs" t="Include" />
               <e p="SubController.cs" t="Include" />
             </e>
+          </e>
+          <e p="Signals" t="Include">
+            <e p="DiverPickupAvailableSignal.cs" t="Include" />
+            <e p="HookHasAttachmentAvailableSignal.cs" t="Include" />
           </e>
           <e p="Tests" t="Include">
             <e p="EditModeTests" t="Include">
