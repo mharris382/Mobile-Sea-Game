@@ -30,9 +30,9 @@ namespace Zenject
             _pool = pool;
         }
 
-        public TValue Create(TParam1 arg)
+        public TValue Create(TParam1 prevJoint)
         {
-            return _pool.Spawn(arg);
+            return _pool.Spawn(prevJoint);
         }
     }
 }

@@ -1,10 +1,14 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Utilities.Pools
 {
     public class PooledMonoBehaviour : MonoBehaviour
     {
+        [HideInPrefabAssets]
+        public bool isSceneInstance = false;
+        [HideIf("isSceneInstance")]
         [SerializeField] private int _initialPoolSize = 100;
         public int InitialPoolSize => _initialPoolSize;
 
@@ -12,6 +16,7 @@ namespace Utilities.Pools
 
         protected virtual void OnDisable()
         {
+            if (isSceneInstance) return;
             OnDisableEvent?.Invoke();
         }
 
@@ -35,22 +40,26 @@ namespace Utilities.Pools
 
             if (resetTransform)
             {
-                pooledObject.transform.localPosition = Vector3.zero;
-                pooledObject.transform.localRotation = Quaternion.identity;
+                var transform1 = pooledObject.transform;
+                transform1.localPosition = Vector3.zero;
+                transform1.localRotation = Quaternion.identity;
             }
 
             return pooledObject;
         }
 
-        public T Get<T>(Transform parent, Vector3 relativePosition, Quaternion relativeRotation)
+        public T Get<T>(Vector3 position, Quaternion rotation, Transform parent)
             where T : PooledMonoBehaviour
         {
             var pooledObject = Get<T>(true);
-            pooledObject.transform.SetParent(parent);
-
-            pooledObject.transform.localPosition = relativePosition;
-            pooledObject.transform.localRotation = relativeRotation;
-
+            
+            Transform transform1 =pooledObject.transform;
+            
+            
+            transform1.position = position;
+            transform1.rotation = rotation;
+            transform1.parent = parent;
+            
             return pooledObject;
         }
     }

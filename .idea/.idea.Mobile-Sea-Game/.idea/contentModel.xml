@@ -7,6 +7,7 @@
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="BreakOnCollision.cs" t="Include" />
         <e p="Data" t="Include">
           <e p="CustomFile.hlsl" t="Include" />
         </e>
@@ -1108,7 +1109,6 @@
             <e p="UniRxHolderExtensions.cs" t="Include" />
           </e>
           <e p="Hook" t="Include">
-            <e p="AutoAdjustRopeLength.cs" t="Include" />
             <e p="BoatMover.cs" t="Include" />
             <e p="DiverHookCheck.cs" t="Include" />
             <e p="Game.Hook.asmdef" t="Include" />
@@ -1121,8 +1121,15 @@
             <e p="Installers" t="Include">
               <e p="HookMonoInstaller.cs" t="Include" />
             </e>
-            <e p="RopeLineRenderer.cs" t="Include" />
-            <e p="RopeTest.cs" t="Include" />
+            <e p="Rope" t="Include">
+              <e p="PooledRopeJoint.cs" t="Include" />
+              <e p="RopeController.cs" t="Include" />
+              <e p="RopeHole.cs" t="Include" />
+              <e p="RopeLineRenderer.cs" t="Include" />
+              <e p="RopeMonoInstaller.cs" t="Include" />
+              <e p="RopeTest.cs" t="Include" />
+            </e>
+            <e p="RopeLengthController.cs" t="Include" />
             <e p="Signals" t="Include">
               <e p="HookHeldItemChangedSignal.cs" t="Include" />
             </e>

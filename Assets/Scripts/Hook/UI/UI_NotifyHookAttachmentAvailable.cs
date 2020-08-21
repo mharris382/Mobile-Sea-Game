@@ -34,18 +34,18 @@ namespace Hook
 
 
 
-        private void LateUpdate()
-        {
-            frameCount++;
-            if (frameCount > 1 && _notificationText.enabled)
-            {
-                Debug.Log("Clear");
-                _notificationText.enabled = false;
-            }
-            else if(_notificationText.enabled)
-            {
-                Debug.Log("Wait");
-            }
-        }
+        // private void LateUpdate()
+        // {
+        //     frameCount++;
+        //     if (frameCount > 1 && _notificationText.enabled)
+        //     {
+        //         Debug.Log("Clear");
+        //         _notificationText.enabled = false;
+        //     }
+        //     else if(_notificationText.enabled)
+        //     {
+        //         Debug.Log("Wait");
+        //     }
+        // }
     }
 }

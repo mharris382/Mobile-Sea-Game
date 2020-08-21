@@ -6,7 +6,7 @@ using Zenject;
 namespace Hook
 {
     [TypeInfoBox("Listens to input and increases/decreases rope length to lower/raise the hook")]
-    public class AutoAdjustRopeLength : MonoBehaviour
+    public class RopeLengthController : MonoBehaviour
     {
         private RopeTest _rope;
 
