@@ -5,6 +5,7 @@ using Zenject;
 
 namespace Hook
 {
+  
     public class HookMovementSmoother : MonoBehaviour
     {
         [MinMaxSlider(0.1f, 5, ShowFields = true)]
@@ -16,13 +17,27 @@ namespace Hook
         {
             public bool useGravityScale = false;
 
-            [MinMaxSlider(1, 3, ShowFields = true)]
+            [SerializeField]private AnimationCurve curve = AnimationCurve.Linear(0,0,1,1);
+            
+            [MinMaxSlider(-5, 5,ShowFields = true)]
+            public Vector2 diffRange = new Vector2(0, 3);
+            
+            [SerializeField]
+            [MinMaxSlider(-5, 5, ShowFields = true)]
             private Vector2 minMaxGravityScale = new Vector2(1, 2);
-
+            
+            
             public float GetGravityScale(float time)
             {
                 if (!useGravityScale) return minMaxGravityScale.x;
                 return Mathf.Lerp(minMaxGravityScale.x, minMaxGravityScale.y, time);
+            }
+
+            public float GetGravityScale(Vector2 actualPos, Vector2 targetPos)
+            {
+                var diffY = actualPos.y - targetPos.y;
+                var time = Mathf.InverseLerp(diffRange.x, diffRange.y, diffY);
+                return GetGravityScale(curve.Evaluate(time));
             }
         }
 
@@ -84,14 +99,16 @@ namespace Hook
             
             
             //Not concerned with the hook being raised only lowered
-            if (aPos.y < tPos.y) aPos.y = tPos.y;
+            //if (aPos.y < tPos.y) aPos.y = tPos.y;
 
-            var distance = Vector2.Distance(aPos, tPos);
-            distance = Mathf.Clamp(distance, smoothDistanceRange.x, smoothDistanceRange.y);
-            var time = Mathf.InverseLerp(smoothDistanceRange.x, smoothDistanceRange.y, distance);
-            
+            // var distance = Vector2.Distance(aPos, tPos);
+            // distance = Mathf.Clamp(distance, smoothDistanceRange.x, smoothDistanceRange.y);
+            // var time = Mathf.InverseLerp(smoothDistanceRange.x, smoothDistanceRange.y, distance);
+
             if (_gravityScaleSettings.useGravityScale)
-                _hookBody.drag = _gravityScaleSettings.GetGravityScale(time);
+            {
+                _hookBody.gravityScale = _gravityScaleSettings.GetGravityScale(aPos, tPos);
+            }
             
             
         }
