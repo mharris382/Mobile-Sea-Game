@@ -51,7 +51,7 @@ namespace Utilities.Pools
         public T Get<T>(Vector3 position, Quaternion rotation, Transform parent)
             where T : PooledMonoBehaviour
         {
-            var pooledObject = Get<T>(true);
+            var pooledObject = Get<T>(false);
             
             Transform transform1 =pooledObject.transform;
             
@@ -59,7 +59,7 @@ namespace Utilities.Pools
             transform1.position = position;
             transform1.rotation = rotation;
             transform1.parent = parent;
-            
+            pooledObject.gameObject.SetActive(true);
             return pooledObject;
         }
     }
