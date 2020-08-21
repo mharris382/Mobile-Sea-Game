@@ -4890,7 +4890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5a66a8b56f99d48afb13e73162f9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLength: 5
+  startLength: 3
   minDistance: 0.9
   maxDistance: 50
   poolPrefab: {fileID: 1648630571083310955, guid: f92e26455399f164cab84e60d3c2ccc5,

@@ -15,6 +15,7 @@ namespace Hook
         public float minRopeDistance = 1;
         public float maxRopeDistance = 50;
 
+        // [InjectOptional(Id = "StartLength")]
         private float _currentDistance;
     
         private DiverInput _input;
@@ -32,8 +33,9 @@ namespace Hook
         private void Awake()
         {
             _rope = GetComponent<RopeTest>();
-           // _uiHookIndicator = GetComponent<UI_HookIndicator>();
-           // Debug.Assert(_uiHookIndicator != null, "Missing UI Hook Indicator", this);
+            _currentDistance = _rope.startLength;
+            // _uiHookIndicator = GetComponent<UI_HookIndicator>();
+            // Debug.Assert(_uiHookIndicator != null, "Missing UI Hook Indicator", this);
         }
 
         private void Update()

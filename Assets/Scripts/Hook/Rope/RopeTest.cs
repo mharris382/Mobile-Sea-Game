@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 
 public class RopeTest : MonoBehaviour , IEnumerable<RopeTest.RopeJoint>
 {
-    public int startLength = 5;
+    public float startLength = 5;
     [SerializeField, MaxValue("maxDistance")] private float minDistance = 0.1f;
     [SerializeField, MinValue("minDistance")] private float maxDistance = 50;
     
@@ -112,7 +112,7 @@ public class RopeTest : MonoBehaviour , IEnumerable<RopeTest.RopeJoint>
     public IEnumerator<RopeJoint> GetEnumerator()
     {
         var head = _first;
-        while (head.NextJoint != null)
+        while (head != null)
         {
             yield return head;
             head = head.NextJoint;
