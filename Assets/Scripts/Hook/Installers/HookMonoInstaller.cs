@@ -14,6 +14,7 @@ namespace Hook
         public SpriteRenderer hookIndicator;
         public override void InstallBindings()
         {
+            
             Container.Bind<SpriteRenderer>().FromComponentInNewPrefab(hookIndicator).AsSingle();
             Container.Bind<Rigidbody2D>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<Holder>().AsSingle();
@@ -25,12 +26,32 @@ namespace Hook
             Container.BindSignal<HookHeldItemChangedSignal>().ToMethod<HookAttacher>(t => t.OnHookAttached).FromResolve();
             
             Container.BindSignal<HookHeldItemChangedSignal>().ToMethod<HookedObjectLerper>(t => t.OnObjectHooked).FromNew();
-            
-          //  if (attachable != null) Container.BindSignal<HookHeldItemChangedSignal>().ToMethod(attachable.Callback);
+            if (GetComponent<HoldableObject>() == null)
+            {
+                gameObject.AddComponent<HoldableObject>();
+            }
+
+            Container.BindInterfacesTo<HookTagSetup>().FromNew().AsSingle().NonLazy();
+            //     Container.Bind<HoldableObject>().FromNewComponentOnRoot().AsSingle();
+            // }
+            // else
+            // {
+            //     Container.Bind<HoldableObject>().FromComponentInHierarchy().AsSingle();
+            // }
+            //  if (attachable != null) Container.BindSignal<HookHeldItemChangedSignal>().ToMethod(attachable.Callback);
+        }
+        
+        public class HookTagSetup : IInitializable
+        {
+            private Rigidbody2D _rb;
+
+            public HookTagSetup(Rigidbody2D rb) => _rb = rb;
+
+            public void Initialize() => _rb.gameObject.tag = "Hook";
         }
     }
 
-
+    
     public class HookedObjectLerper
     {
         public float lerpSpeed = 10;
