@@ -180,7 +180,6 @@ namespace Utilities
         }
     }
 
-
     public static class Pathfinding
     {
         public static event Action RepathAll;

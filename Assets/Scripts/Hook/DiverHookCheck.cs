@@ -22,7 +22,7 @@ namespace Hook
         void Inject(Holder holder, DiverInput input)
         {
             this._diverHolder = holder;
-        
+
             this._input = input;
         }
 
@@ -40,7 +40,7 @@ namespace Hook
                     _diverHolder.ReleaseHeldObject();
                     hookHolder.Holder.PickupObject(availablePickup);
                 }
-            
+
                 // hookHolder = _interactTrigger.GetInRangeInteractables<HookHolder>().FirstOrDefault();
                 // if (hookHolder != null && hookHolder.Holder.HeldObject == null)
                 // {
@@ -55,17 +55,25 @@ namespace Hook
             });
         }
 
-        bool HasAvailableHookAttachment(out HookHolder hookHolder,  out IHoldable availableAttachment)
+        bool HasAvailableHookAttachment(out HookHolder hookHolder, out IHoldable availableAttachment)
         {
             availableAttachment = null;
             hookHolder = _interactTrigger.GetInRangeInteractables<HookHolder>().FirstOrDefault();
+            //if the hook is nearby and unattached
             if (hookHolder != null && hookHolder.Holder.HeldObject == null)
             {
-                if (_diverHolder.HeldObject != null)
+                //if not holding something or if held object IS the hook, try to find something nearby to attach it to
+                if (_diverHolder.HeldObject == null || _diverHolder.HeldObject.rigidbody2D.CompareTag("Hook"))
                 {
-                    availableAttachment = _diverHolder.HeldObject;
-                    return true;
+                    availableAttachment = _interactTrigger.GetInRangeInteractables<IHoldable>()
+                        .Where(t => !t.rigidbody2D.CompareTag("Hook"))
+                        .OrderBy(t => Vector2.Distance(transform.position, t.rigidbody2D.position)).FirstOrDefault();
+
+                    return availableAttachment != null;
                 }
+                
+                availableAttachment = _diverHolder.HeldObject;
+                return true;
             }
 
             return false;
@@ -82,7 +90,5 @@ namespace Hook
                 });
             }
         }
-    
-    
     }
 }

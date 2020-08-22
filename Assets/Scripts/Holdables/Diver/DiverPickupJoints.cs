@@ -67,6 +67,8 @@ namespace Holdables.Diver
                     springinJoint.connectedBody = connected;
                     distanceJoint.connectedBody = connected;
 
+                    springinJoint.enableCollision = springinJointTemplate.enableCollision;
+                    distanceJoint.enableCollision = distanceJointTemplate.enableCollision;
                     
                     springinJoint.distance = springinJointTemplate.distance;
                     distanceJoint.distance = distanceJointTemplate.distance;

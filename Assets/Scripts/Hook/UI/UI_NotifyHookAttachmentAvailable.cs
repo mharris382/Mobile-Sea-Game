@@ -12,40 +12,29 @@ namespace Hook
         public TMPro.TextMeshProUGUI _notificationText;
 
 
-        private int frameCount = 0;
+        private int _frameCount = 0;
         
         private void Start()
         {
-            MessageBroker.Default.Receive<HookHasAttachmentAvailableSignal>().Subscribe(hookAttachment =>
-            {
-                if (hookAttachment.holdable == null)
+            MessageBroker.Default.Receive<HookHasAttachmentAvailableSignal>()
+                .Where(t => t.holdable != null)
+                .Subscribe(hookAttachment =>
                 {
-                    _notificationText.enabled = false;
-                    return;
-                }
-                
-                frameCount = 0;
-                _notificationText.enabled = true;
-                _notificationText.text = $"Press Q to attach {hookAttachment.holdable.rigidbody2D.name} to Hook";
-                
-                Debug.Log("Display");
-            } );
+                    _frameCount = 0;
+                    _notificationText.enabled = true;
+                    _notificationText.text = $"Press Q to attach {hookAttachment.holdable.rigidbody2D.name} to Hook";
+                } );
         }
 
 
 
-        private void LateUpdate()
-        {
-            frameCount++;
-            if (frameCount > 1 && _notificationText.enabled)
-            {
-                Debug.Log("Clear");
-                _notificationText.enabled = false;
-            }
-            else if(_notificationText.enabled)
-            {
-                Debug.Log("Wait");
-            }
-        }
+         private void LateUpdate()
+         {
+             _frameCount++;
+             if (_frameCount > 1)
+             {
+                 _notificationText.enabled = false;
+             }
+         }
     }
 }
