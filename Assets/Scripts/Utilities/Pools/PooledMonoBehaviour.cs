@@ -6,7 +6,7 @@ namespace Utilities.Pools
 {
     public class PooledMonoBehaviour : MonoBehaviour
     {
-        [HideInPrefabAssets]
+        [DisableInEditorMode,DisableInPlayMode]
         public bool isSceneInstance = false;
         [HideIf("isSceneInstance")]
         [SerializeField] private int _initialPoolSize = 100;

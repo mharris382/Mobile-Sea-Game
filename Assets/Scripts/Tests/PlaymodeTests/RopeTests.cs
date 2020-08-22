@@ -44,7 +44,7 @@ namespace Tests.PlaymodeTests
             var parent = new GameObject();
             var prefab = Resources.Load<RopeTest>("RopePrefab").poolPrefab;
             var connected = new GameObject().AddComponent<Rigidbody2D>();
-            var factory = new RopeTest.RopeJointFactory(prefab, parent.transform, connected);
+            var factory = new RopeTest. RopeJointFactory(prefab, parent.transform, connected);
             var first = factory.Create(null);
             Assert.NotNull(first);
             Assert.IsNull(first.PrevJoint);
@@ -82,8 +82,8 @@ namespace Tests.PlaymodeTests
             } while (count < 20);
             
 
-            RopeTest.RopeJoint[] joints = spawned.ToArray();  
-            RopeTest.RopeJoint prev = joints[0];
+            IRopeJoint[] joints = spawned.ToArray();  
+            IRopeJoint prev = joints[0];
             
             for (int i = 1; i < count; i++)
             {

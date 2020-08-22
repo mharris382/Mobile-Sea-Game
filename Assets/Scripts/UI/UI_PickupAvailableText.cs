@@ -21,7 +21,7 @@ namespace Holdables.Diver
                 .Where(t => t.availablePickup != null)
                 .Subscribe(t =>
                 {
-                    Debug.Log($"Diver has {t.availablePickup.name} available.");
+                   // Debug.Log($"Diver has {t.availablePickup.name} available.");
                     _cnt = 0;
                     notificationText.enabled = true;
                     notificationText.text = $"Press E to pickup {t.availablePickup.name}";

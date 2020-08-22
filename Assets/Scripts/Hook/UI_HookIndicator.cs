@@ -1,5 +1,6 @@
 ﻿using System;
 using Core;
+using Signals;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
@@ -24,7 +25,8 @@ namespace Hook
             _isIndicatorOnScreen = new ReactiveProperty<bool>();
             _offScreenIndicator = Instantiate(hookIndicator, hookIndicator.transform.position, Quaternion.identity);
             _offScreenIndicator.color = offScreenColor;
-            
+
+            MessageBroker.Default.Receive<RopeLengthChangedSignal>().Select(t => t.ropeLength).Subscribe(length => RopeLength = length);
             
            var d1 = _isIndicatorOnScreen.Subscribe(onScreen => _offScreenIndicator.enabled = !onScreen);
            var d2 = _isIndicatorOnScreen.Select(onScreen => !onScreen ? Observable.EveryUpdate().AsUnitObservable() : Observable.Never<Unit>()).Switch().Subscribe(_ =>
@@ -56,7 +58,7 @@ namespace Hook
             set => _pos.x = value.x;
         }
 
-
+        
         private void Update()
         {
             hookIndicator.transform.position = _pos;

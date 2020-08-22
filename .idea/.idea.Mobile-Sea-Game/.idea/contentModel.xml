@@ -1102,7 +1102,6 @@
               <e p="Signals" t="Include">
                 <e p="DiverHeldItemChangedSignal.cs" t="Include" />
               </e>
-              <e p="UI_PickupAvailableText.cs" t="Include" />
             </e>
             <e p="HoldableObject.cs" t="Include" />
             <e p="HoldableProvider.cs" t="Include" />
@@ -1126,16 +1125,19 @@
               <e p="HookMonoInstaller.cs" t="Include" />
             </e>
             <e p="Rope" t="Include">
+              <e p="IRopeJoint.cs" t="Include" />
               <e p="PooledRopeJoint.cs" t="Include" />
-              <e p="RopeController.cs" t="Include" />
               <e p="RopeHole.cs" t="Include" />
               <e p="RopeLineRenderer.cs" t="Include" />
               <e p="RopeMonoInstaller.cs" t="Include" />
               <e p="RopeTest.cs" t="Include" />
+              <e p="RopeTest.RopeJoint.cs" t="Include" />
+              <e p="RopeTest.RopeJointFactory.cs" t="Include" />
             </e>
             <e p="RopeLengthController.cs" t="Include" />
             <e p="Signals" t="Include">
               <e p="HookHeldItemChangedSignal.cs" t="Include" />
+              <e p="RopeLengthChangedSignal.cs" t="Include" />
             </e>
             <e p="Tests" t="Include">
               <e p="HookAttachable.cs" t="Include" />
@@ -1253,6 +1255,7 @@
           </e>
           <e p="UI" t="Include">
             <e p="MenuWindow.cs" t="Include" />
+            <e p="UI_PickupAvailableText.cs" t="Include" />
             <e p="VolumeSlider.cs" t="Include" />
           </e>
           <e p="UnderTheSeaInput.cs" t="Include" />
